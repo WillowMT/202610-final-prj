@@ -19,6 +19,8 @@ from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
 from zipfile import ZipFile
 
+from build_report_appendices import verify_self_contained
+
 
 ROOT = Path(__file__).resolve().parent
 NAMES = {"best": "Best", "worst": "Worst", "real1": "Real 1", "real2": "Real 2"}
@@ -287,7 +289,9 @@ def verify_report_tables(runs, report, trace_counts):
     rows = table_named(report, "runs")
     for r, row in zip(runs, rows):
         check(row[0] == str(r["run"]) and row[1] == r["run_id"], f"Runs table: run {r['run']}")
-        check(("StepLog" in row[4]) == (r["run"] >= 9), f"Runs table: evidence link for run {r['run']}")
+        n = r["run"]
+        check(f"Appendix {'C' if n >= 9 else 'B'}.{n - 8 if n >= 9 else n}" in row[4],
+              f"Runs table: missing in-document evidence for run {n}")
 
     equal_rows(report, "results", [[r["run"], NAMES[r["case"]], r["cycles"], q(Decimal(r["cycles"]) / 16, 2),
         r["hits"], r["misses"], r["correct"], r["branches"], r["stalls"]] for r in runs])
@@ -488,6 +492,7 @@ def main():
     trace_counts = verify_traces(runs[8:])
     verify_measurements()
     verify_report_tables(runs, report, trace_counts)
+    verify_self_contained(report)
     verify_template()
     verify_grading()
     verify_links()

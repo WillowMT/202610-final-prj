@@ -6,7 +6,7 @@ Start with **[Final_Report.md](Final_Report.md)**. It combines the current proje
 
 | File or folder | Purpose |
 |---|---|
-| [Final_Report.md](Final_Report.md) | Combined report with 20 embedded evidence figures and an appendix gallery of all 44 run screenshots plus five optimization samples |
+| [Final_Report.md](Final_Report.md) | Self-contained report: 20 evidence figures, 49 full-resolution screenshots, pixel tables, all four instruction traces and all 800 optimization records; no links requiring readers to open repository files |
 | [Grading.md](Grading.md) | Provisional assessment (100/100 under the proposed rubric) with recovered deductions and remaining caveats |
 | [Repository_Comparison.md](Repository_Comparison.md) | Source comparison, corrections and merge decisions |
 | [Appendix_Pixel_Paths.md](Appendix_Pixel_Paths.md) | Reconstructed paths for Runs 1–8; Runs 9–12 have recorded logs in `Traces/` |
@@ -17,6 +17,7 @@ Start with **[Final_Report.md](Final_Report.md)**. It combines the current proje
 | [evidence_manifest.json](evidence_manifest.json) | SHA-256 checksums of the 53 trace and optimization evidence files |
 | [Figures/](Figures/) | Derived crops, checkpoint panel layouts and gallery thumbnails; [manifest](Figures/manifest.json) records source checksums and crop coordinates |
 | [build_report_figures.py](build_report_figures.py) | Rebuild presentation images from the original screenshots, or verify them using `--check`; requires Pillow |
+| [build_report_appendices.py](build_report_appendices.py) | Generate the report's embedded evidence appendices from recorded data; default mode verifies without writing, `--write` rebuilds the marked section |
 | [verify_final_report.py](verify_final_report.py) | Python 3 verifier for the whole package; standard library only |
 | [Sources/Local](Sources/Local/) | Unmodified Local reports, logs, simulator, instructions, workbook, reproduction guide, original verifier and eight screenshots |
 | [Sources/Scarlet](Sources/Scarlet/) | Unmodified Scarlet reports, logs, simulator, instructions, two workbooks and twelve screenshots |
@@ -25,7 +26,8 @@ Start with **[Final_Report.md](Final_Report.md)**. It combines the current proje
 
 - **Twelve recorded experiments**: three per test case (Runs 1–8 final states; Runs 9–12 complete step traces).
 - **Event-level evidence**: Runs 9–12 record every cache event and brightness prediction with positions; all cycle intervals checked against the cost model.
-- **Visible evidence in the report**: Figures 1–4 show pixel memory, Figures 5–16 show setup/pixel-1/final checkpoints, and Figures 17–20 show final metrics. Appendix A previews every original screenshot with full-resolution links.
+- **Visible evidence in the report**: Figures 1–4 show pixel memory, Figures 5–16 show setup/pixel-1/final checkpoints, and Figures 17–20 show final metrics. Appendix A embeds every original screenshot at full resolution, with captions and no outbound links.
+- **Self-contained appendices**: Appendix B contains 128 reconstructed pixel rows; Appendix C contains 64 recorded pixel rows and all 605 instruction steps; Appendix D contains all 800 optimization records and the totals/statistical formulas. Readers need no separate logs, spreadsheets, scripts or JSON files.
 - **Measured optimizations**: branch-free selection, unrolling, pointer loop-testing and their combination; 40 runs per case per program (800 runs), all outputs verified.
 - **Remaining limitations**: prefetching stays a calculation (the simulator has no cache contents); variant results are model measurements with documented cost assumptions; Runs 1–8 keep their reconstructed paths only.
 
@@ -43,7 +45,7 @@ Or from this folder:
 python3 verify_final_report.py
 ```
 
-The package is self-contained and can be moved with its `Sources/`, `Traces/`, `Optimizations/` and `Figures/` folders. The verifier is read-only: it checks source and evidence checksums, re-derives all report tables from `data.json` and the raw records, validates the 800 measured runs, checks the grading arithmetic, and resolves every local link.
+The Markdown source uses image assets from `Sources/`, `Traces/`, `Optimizations/` and `Figures/` during rendering. The exported report is intended to stand alone with those images embedded. The verifier is read-only: it checks source and evidence checksums, re-derives report tables and embedded appendices from the recorded data, validates the 800 measured runs, checks the internal grading arithmetic, and resolves every local link. It also rejects report prose that asks readers to open repository files.
 
 To check that the figures match their original screenshot regions (requires Pillow):
 
@@ -53,7 +55,15 @@ python3 Final_Report_V1/build_report_figures.py --check
 
 For a rebuild, run the same command without `--check`. Pixel and metric figures are unscaled crops. Checkpoint figures place the original four status boxes above the register panel, using only regions from the same capture; no values are retouched. Thumbnails resize full screenshots, with transparent margins rendered on white. The derived files have their own `Figures/manifest.json`; the original evidence manifests continue to cover the original files.
 
-Open `Final_Report.md` in a rendered Markdown view (such as Obsidian Reading view) to see the embedded images. When exporting to PDF, include the images in the export and inspect their size; local links alone will not embed the original full-resolution files into a PDF.
+Open `Final_Report.md` in a rendered Markdown view (such as Obsidian Reading view) to see the images. Export the **whole report, including Appendices A–D**, and ensure that PDF/Word output embeds the images rather than linking to them. References in the report use printed section, appendix and figure numbers, so they remain meaningful without working hyperlinks. This edit prepares the Markdown source; it does not itself create or check a PDF/Word export.
+
+To rebuild the data-derived appendices after updating the recorded evidence:
+
+```bash
+python3 Final_Report_V1/build_report_appendices.py --write
+```
+
+Run the same command without `--write` for a read-only comparison. The full package verifier includes this check. The builder changes only the marked evidence block; narrative edits belong outside that block.
 
 ## Reproduce or extend the report
 
