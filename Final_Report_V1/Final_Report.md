@@ -1,14 +1,16 @@
 # CPU instruction execution: image brightness processing
 
-**BSC104 final project · Combined report, version 1 · 29 September 2026**
+**BSC104 final project · Combined report, version 1 (with step traces and measured optimizations) · 29 September 2026**
 
 ## Summary
 
-This report combines eight recorded experiments from two group repositories. Each of the four required test cases was run twice, processing 16 pixels per run. The mean cycle totals were 382 for Best Case, 503 for Worst Case, 421 for Real Case 1, and 451.5 for Real Case 2. Cache misses caused the largest delay in every recorded run. Incorrect branch predictions explain most of the difference between Best and Worst Case.
+This report covers twelve recorded experiments on the four required test cases. Runs 1–8 come from two group repositories (two final-state runs per case). Runs 9–12 are complete step-by-step traces recorded for this version, one per case. Every run processed 16 pixels. Cache misses were the largest source of waiting in eleven of the twelve runs; in the traced Worst Case run a rare single miss left the seven branch mispredictions as the larger delay.
 
-All 128 transcribed input/output pairs are consistent with the brightness rule. Three inputs were inferred from their outputs, so those three checks are not independent confirmation. The report includes instruction costs, reconstructed pixel paths, all eight performance records, three optimization proposals with explicit cost assumptions, and image-scale and electricity calculations.
+The three recorded totals per case are 351, 413 and 366 for Best; 502, 504 and 378 for Worst; 406, 436 and 451 for Real Case 1; and 444, 459 and 397 for Real Case 2. The spread inside a case comes from the simulator's random cache and branch outcomes. Runs 9–12 also record the cache result and branch outcome of every one of the 16 iterations, so the event positions that the earlier final-state runs could not capture are now evidenced.
 
-The combined evidence meets the minimum of five experiments. Two requirements remain incomplete: actual instruction-by-instruction histories with per-iteration cache/branch events, and measured results from at least three optimized programs. Final-state screenshots and calculated savings cannot establish those results. The requirement table in Section 5 and [Grading.md](Grading.md) assess the evidence on that basis.
+All 192 recorded input/output pairs are consistent with the brightness rule: 141 inputs were read directly (93 from screenshot transcriptions, 48 from live step records), 48 are the all-zero Best Case definition, and three Real Case 2 values were inferred from their outputs. Section 3 reports measurements, not just estimates: branch-free selection, four-pixel loop unrolling, pointer loop-testing and their combination were implemented as modified copies of the simulator, and each program was run 40 times per test case (800 measured runs, every output checked). The combined program gives the best measured mean for Worst Case (−34.5%), Real Case 1 (−23.2%) and Real Case 2 (−19.2%); unrolling gives the best Best-Case mean (−12.8%). Cache prefetching remains a calculation because the simulator models no cache contents.
+
+The requirement table in Section 5 and [Grading.md](Grading.md) assess this evidence.
 
 ## Sources and method
 
@@ -18,17 +20,19 @@ The main requirements are the four deliverables in the supplied [project scenari
 |---|---|---|
 | Local | WillowMT/202610-final-prj, `16affd82bf9f668d5671e055aa3e76297dfe63dd` | Runs 1–4, eight screenshots, logs, reports, workbook and verification script |
 | Scarlet | Scarlet-astra/BSC104_final_project, `016e2f92b9186c4a5ae9b7b9b27ed8eee4e915f9` | Runs 5–8, twelve screenshots, repeat-run analysis, workbook and blank trace template |
+| New evidence (this version) | [Traces/](Traces/) and [Optimizations/](Optimizations/) in this folder | Runs 9–12 step records with 24 checkpoint screenshots, four variant simulators and 800 measured runs; checksums in [evidence_manifest.json](evidence_manifest.json) |
 
 The [repository comparison](Repository_Comparison.md) explains what was retained and corrected. Unmodified source files are included in `Sources/`; [source_manifest.json](source_manifest.json) records their origin and SHA-256 checksums. Both copies of the simulator, scenario and quick guide are identical. The archived reports are source documents; this combined report contains the reconciled conclusions.
 
-Recorded metrics come from the [Local logs](Sources/Local/Logs.md) and [Scarlet logs](Sources/Scarlet/Logs.md), checked against screenshots. Instruction behavior comes from the [simulator source](Sources/Local/Project1_CPU_Simulator.html). Averages, reconstructed paths, optimization totals and workload projections are calculations. No additional simulator runs were performed to create this merged report.
+Recorded metrics for Runs 1–8 come from the [Local logs](Sources/Local/Logs.md) and [Scarlet logs](Sources/Scarlet/Logs.md), checked against screenshots. Runs 9–12 and the optimization measurements were recorded from the same unchanged simulator for this version; their drivers, raw records and analysis scripts are in `Traces/` and `Optimizations/`. Instruction behavior comes from the [simulator source](Sources/Local/Project1_CPU_Simulator.html). Averages, reconstructed paths and workload projections are calculations; the optimization results in Section 3 are measurements.
 
 ## 1. Instruction trace and experiment evidence
 
-### 1.1 The eight experiments
+### 1.1 The twelve experiments
 
-Each screenshot group records one completed run. The 20 screenshots therefore support eight experiments. All runs finished 16/16 pixels, with final PC `0x34`.
+Each screenshot group records one completed run. The 20 final-state screenshots and 24 checkpoint screenshots therefore support twelve experiments, not 44. All runs finished 16/16 pixels, with final PC `0x34`.
 
+<!-- table:runs -->
 | Run | Run ID | Case and input pattern | Animation delay | Source evidence |
 |---|---|---|---|---|
 | 1 | BC-50-R1 | Best: sixteen zeros | 50 ms | [Summary/registers](Sources/Local/Screenshots/BC-1.png), [pixels/metrics](Sources/Local/Screenshots/BC-2.png) |
@@ -39,10 +43,14 @@ Each screenshot group records one completed run. The 20 screenshots therefore su
 | 6 | WC-500-R2 | Worst: alternating 64 and 192 | 500 ms | [Summary](Sources/Scarlet/Screenshots/WC-R2-1.png), [registers](Sources/Scarlet/Screenshots/WC-R2-2.png), [pixels/metrics](Sources/Scarlet/Screenshots/WC-R2-3.png) |
 | 7 | RC1-500-R2 | Real 1: same input list as Run 3 | 500 ms | [Summary](Sources/Scarlet/Screenshots/RC1-R2-1.png), [registers](Sources/Scarlet/Screenshots/RC1-R2-2.png), [pixels/metrics](Sources/Scarlet/Screenshots/RC1-R2-3.png) |
 | 8 | RC2-500-R2 | Real 2: new values, same 8/8 split | 500 ms | [Summary](Sources/Scarlet/Screenshots/RC2-R2-1.png), [registers](Sources/Scarlet/Screenshots/RC2-R2-2.png), [pixels/metrics](Sources/Scarlet/Screenshots/RC2-R2-3.png) |
+| 9 | BC-50-R3 | Best: sixteen zeros, full step trace | 50 ms | [step log](Traces/Run9_BC_StepLog.md) · [start](Traces/Run9_BC_01_setup.png) · [pixel 1](Traces/Run9_BC_04_pixel1_done.png) · [final](Traces/Run9_BC_06_final.png) |
+| 10 | WC-50-R3 | Worst: alternating, full step trace | 50 ms | [step log](Traces/Run10_WC_StepLog.md) · [start](Traces/Run10_WC_01_setup.png) · [pixel 1](Traces/Run10_WC_04_pixel1_done.png) · [final](Traces/Run10_WC_06_final.png) |
+| 11 | RC1-50-R3 | Real 1: same fixed list, full step trace | 50 ms | [step log](Traces/Run11_RC1_StepLog.md) · [start](Traces/Run11_RC1_01_setup.png) · [pixel 1](Traces/Run11_RC1_04_pixel1_done.png) · [final](Traces/Run11_RC1_06_final.png) |
+| 12 | RC2-50-R3 | Real 2: new values, full step trace | 50 ms | [step log](Traces/Run12_RC2_StepLog.md) · [start](Traces/Run12_RC2_01_setup.png) · [pixel 1](Traces/Run12_RC2_04_pixel1_done.png) · [final](Traces/Run12_RC2_06_final.png) |
 
-The animation setting is a delay between displayed instructions, not the CPU clock. The code uses it in `setTimeout`, separately from cycle accounting. Larger delay values make the animation slower. The different totals between repeats come from random cache and branch outcomes. The two runs alone would not prove that speed is irrelevant; the code establishes that fact.
+The animation setting is a delay between displayed instructions, not the CPU clock. The code uses it in `setTimeout`, separately from cycle accounting, so it cannot change any cycle count; larger values only make the animation slower. The different totals within a case come from random cache and branch outcomes.
 
-Real Case 1's fixed list is 68.75% dark, close to the 70% label. Real Case 2 is generated when the page loads. Runs 4 and 8 repeat a distribution, not exactly the same input image; both still have identical instruction costs because each has eight bright pixels.
+Real Case 1's fixed list is 68.75% dark, close to the 70% label. Real Case 2 is generated when the page loads. Runs 4, 8 and 12 repeat a distribution, not exactly the same input image; all three still have identical instruction costs because each has eight bright pixels.
 
 ### 1.2 Algorithm, registers and execution
 
@@ -94,7 +102,7 @@ Executed instructions    = 2 + 9 × dark_count + 10 × bright_count
 ```
 
 <!-- table:instruction-counts -->
-| Instruction executions per run | Best (1, 5) | Worst (2, 6) | Real 1 (3, 7) | Real 2 (4, 8) |
+| Instruction executions per run | Best (Runs 1, 5, 9) | Worst (Runs 2, 6, 10) | Real 1 (Runs 3, 7, 11) | Real 2 (Runs 4, 8, 12) |
 |---|---|---|---|---|
 | Each setup instruction: 0x00, 0x04 | 1 | 1 | 1 | 1 |
 | Each of 0x08, 0x0C, 0x10 | 16 | 16 | 16 | 16 |
@@ -104,17 +112,17 @@ Executed instructions    = 2 + 9 × dark_count + 10 × bright_count
 | Total executed instructions | 146 | 154 | 151 | 154 |
 | Base cycles before delays | 210 | 226 | 220 | 226 |
 
-### 1.4 Pixel paths, final state and missing event history
+### 1.4 Pixel paths, final state and event history
 
-The [pixel-path appendix](Appendix_Pixel_Paths.md) contains all 128 inputs, their evidence basis, outputs, paths and cumulative base-cycle totals. For pixel `n`, the load address is `1023 + n`. After that iteration, R0 = `n`, R1 = `1024 + n`, R3 contains its input and R4 contains its output.
+The [pixel-path appendix](Appendix_Pixel_Paths.md) contains all 128 inputs of Runs 1–8, their evidence basis, outputs, paths and cumulative base-cycle totals. Runs 9–12 have their own recorded logs (Section 1.5). For pixel `n`, the load address is `1023 + n`. After that iteration, R0 = `n`, R1 = `1024 + n`, R3 contains its input and R4 contains its output.
 
-Every run finishes with R0 = 16 (`0x10`) and R1 = 1040 (`0x410`). The execution summary shows the last executed instruction, `0x30 BNE LOOP`, while Current PC shows the next position, `0x34`. The final R3/R4 pairs are 0/32 for Best, 192/184 for Worst, 140/132 for Real 1, 60/92 for Run 4, and 55/87 for Run 8. R7 is clipped in Local's screenshots; Scarlet's register screenshots show `0x08` directly.
+Every run finishes with R0 = 16 (`0x10`) and R1 = 1040 (`0x410`). The execution summary shows the last executed instruction, `0x30 BNE LOOP`, while Current PC shows the next position, `0x34`. The final R3/R4 pairs are 0/32 for Best, 192/184 for Worst, 140/132 for Real 1, 60/92 for Run 4, and 55/87 for Run 8. R7 is clipped in Local's screenshots; Scarlet's register screenshots and all four trace runs show `0x08` directly.
 
 The input evidence has three levels:
 
-- 93 inputs were transcribed from readable cells.
-- 32 Best Case inputs come from the all-zero test definition; the cell text is black on black.
-- Run 4 pixels 9 and 12 are inferred as 6 from output 38; Run 8 pixel 15 is inferred as 8 from output 40.
+- 93 inputs come from screenshot transcriptions (Runs 1–8, read directly from readable cells), and 48 more were read from the live step records of Runs 9–12.
+- 48 Best Case inputs (Runs 1, 5, 9) come from the all-zero test definition; the cell text is black on black.
+- Three Real Case 2 values were inferred from their outputs: Run 4 pixels 9 and 12 (6 from output 38) and Run 8 pixel 15 (8 from output 40). Run 12's Real Case 2 inputs were all recorded directly, so it adds no inference.
 
 All pairs are mathematically consistent with the brightness rule. The three inferred pairs cannot independently establish output correctness because the same rule was used to obtain their inputs.
 
@@ -125,23 +133,45 @@ Cycles for pixel i = base_path_cycles_i + 47 × M_i + 15 × B_i
 Running actual cycles after pixel n = 2 + sum(cycles for pixels 1 through n)
 ```
 
-The screenshots provide the sums of `M_i` and `B_i`, but not their positions. Run 1 has no incorrect predictions, so all its `B_i` values are zero; even there, the three cache-miss positions remain unknown. Assigning delays to specific pixels would fabricate an event history.
+Runs 1–8 provide the sums of `M_i` and `B_i` but not their positions. Runs 9–12 record every position. Run 1 has no incorrect predictions, so all its `B_i` values are zero; even there, its three cache-miss positions remain unknown. Assigning delays to specific pixels in Runs 1–8 would fabricate an event history; Runs 9–12 were recorded specifically to avoid that.
 
-The archived [Worst Case trace workbook](Sources/Scarlet/Step_Trace_Worst_Case.xlsx) contains a prepared template. Its observation cells F12:G27 and J11:J27 are empty. Formula-generated expected totals in that file are not recorded results. It also records events per pixel rather than every executed instruction, so it needs an instruction-level companion to meet the full trace requirement.
+The archived [Worst Case trace workbook](Sources/Scarlet/Step_Trace_Worst_Case.xlsx) contains a prepared template. Its observation cells F12:G27 and J11:J27 are empty. Formula-generated expected totals in that file are not recorded results, and Runs 9–12 supersede it as trace evidence.
 
-### 1.5 What the simulator models
+### 1.5 Recorded step traces (Runs 9–12)
+
+Each traced run was recorded by advancing the simulator one instruction at a time through its own STEP behavior and logging the state after every step: executed PC, cycle interval, running total, registers, pixel counter, and the cache/branch message. Six checkpoint screenshots per run (setup, first load, first branch decision, pixel 1 done, pixel 8 done, final) are linked from the table in Section 1.1. The step logs are genuine records, not reconstructions:
+
+<!-- table:trace-runs -->
+| Run | Run ID | Total cycles | Base cycles | Steps recorded | Cache misses (positions of 16) | Brightness mispredictions (positions) |
+|---|---|---|---|---|---|---|
+| 9 | BC-50-R3 | 366 | 210 | 146 | 3 (pixels 7, 13, 14) | 1 (pixels 11) |
+| 10 | WC-50-R3 | 378 | 226 | 154 | 1 (pixels 10) | 7 (pixels 2, 6, 7, 10, 11, 13, 16) |
+| 11 | RC1-50-R3 | 451 | 220 | 151 | 3 (pixels 3, 5, 7) | 6 (pixels 1, 2, 12, 13, 15, 16) |
+| 12 | RC2-50-R3 | 397 | 226 | 154 | 3 (pixels 4, 9, 16) | 2 (pixels 2, 13) |
+
+Every log also contains the full per-instruction table (PC, cycles added, running total, pixel number, cache event, branch event). Checks applied to all four logs: each cycle interval equals the instruction's cost plus 47 for a miss or 15 for a misprediction; the per-pixel base costs sum to 13 or 15 by path; and the per-step totals reproduce the final counters exactly.
+
+Three findings from the traces:
+
+- **Run 10 shows the randomness clearly.** Only one load missed (the model expects about 3.2 misses per run), which gave the lowest Worst Case total of all: 378 against 502 and 504 in Runs 2 and 6. Its 152 stall cycles were all attributable to that single miss plus seven mispredictions.
+- **Run 9 shows that even Best Case can mispredict.** Its one wrong brightness prediction is possible because the model always uses a 95% hit chance rather than the pixel data.
+- **The recorded positions match the code's behavior.** For example, Run 12's mispredictions at pixels 2 and 13 sit near the bright-to-dark transition, and its miss at pixel 4 shows that offsets from earlier decisions can still miss.
+
+Together with the totals in Section 2, the traces satisfy the assignment's requirement for an instruction-by-instruction record and per-iteration events.
+
+### 1.6 What the simulator models
 
 Each load has an approximately 80% random chance of a cache hit. The model does not simulate cache lines, associativity, capacity replacement, prefetching or memory bandwidth. It cannot demonstrate a compulsory first miss or a miss caused by a particular image boundary.
 
 For `BLT`, correct-prediction probabilities are 95% for Best, 50% for Worst, and 80% for both real cases. These probabilities are selected by the case label; they do not come from a predictor learning the values. `BNE` is always counted as correct, including its final not-taken decision. Each run therefore has 16 brightness predictions plus 16 correct loop predictions. The unconditional `JMP` is not included in that metric.
 
-These details explain why Run 5 has a wrong prediction despite all-zero input, and why clustering alone cannot explain the exact branch outcomes in Runs 4 and 8. The code also contains no register allocator, out-of-order scheduler or measured memory-bandwidth model. Broader scenario descriptions provide context, not additional observations from this simulator.
+These details explain why Run 5 has a wrong prediction despite all-zero input, and why clustering alone cannot explain the exact branch outcomes. The code also contains no register allocator, out-of-order scheduler or measured memory-bandwidth model. Broader scenario descriptions provide context, not additional observations from this simulator.
 
 ## 2. Performance data and bottlenecks
 
 ### 2.1 All recorded results
 
-CPP is calculated from total cycles divided by 16. Displayed figures are rounded only after calculation. Spill count is **0 from code inspection** in all eight runs; there is no measured spill counter.
+CPP is calculated from total cycles divided by 16. Displayed figures are rounded only after calculation. Spill count is **0 from code inspection** in all twelve runs; there is no measured spill counter. Runs 9–12 are the traces of Section 1.5.
 
 <!-- table:results -->
 | Run | Case | Total cycles | CPP | Cache hits | Cache misses | Correct branches | Total branches | Stall cycles |
@@ -154,6 +184,10 @@ CPP is calculated from total cycles divided by 16. Displayed figures are rounded
 | 6 | Worst | 504 | 31.50 | 12 | 4 | 26 | 32 | 278 |
 | 7 | Real 1 | 436 | 27.25 | 13 | 3 | 27 | 32 | 216 |
 | 8 | Real 2 | 459 | 28.69 | 12 | 4 | 29 | 32 | 233 |
+| 9 | Best | 366 | 22.88 | 13 | 3 | 31 | 32 | 156 |
+| 10 | Worst | 378 | 23.63 | 15 | 1 | 25 | 32 | 152 |
+| 11 | Real 1 | 451 | 28.19 | 13 | 3 | 26 | 32 | 231 |
+| 12 | Real 2 | 397 | 24.81 | 13 | 3 | 30 | 32 | 171 |
 
 The cache denominator is 16 loads, not all 32 pixel reads and writes. The reported branch denominator is 32, including the always-correct loop checks. Brightness-only accuracy uses 16 as its denominator and shows a less flattering result.
 
@@ -168,6 +202,10 @@ The cache denominator is 16 loads, not all 32 pixel reads and writes. The report
 | 6 | 75.0% | 25.0% | 81.3% | 18.8% | 62.5% |
 | 7 | 81.3% | 18.8% | 84.4% | 15.6% | 68.8% |
 | 8 | 75.0% | 25.0% | 90.6% | 9.4% | 81.3% |
+| 9 | 81.3% | 18.8% | 96.9% | 3.1% | 93.8% |
+| 10 | 93.8% | 6.3% | 78.1% | 21.9% | 56.3% |
+| 11 | 81.3% | 18.8% | 81.3% | 18.8% | 62.5% |
+| 12 | 81.3% | 18.8% | 93.8% | 6.3% | 87.5% |
 
 For example, Run 2 has nine wrong predictions: overall error is `9/32 = 28.125%`, while brightness-only error is `9/16 = 56.25%`. Rounded complementary rates can add to 100.1%; the counts are the calculation source.
 
@@ -191,112 +229,119 @@ Total cycles = base cycles + stall cycles
 | 6 | 8 | 8 | 226 | 188 | 90 | 504 |
 | 7 | 11 | 5 | 220 | 141 | 75 | 436 |
 | 8 | 8 | 8 | 226 | 188 | 45 | 459 |
+| 9 | 16 | 0 | 210 | 141 | 15 | 366 |
+| 10 | 8 | 8 | 226 | 47 | 105 | 378 |
+| 11 | 11 | 5 | 220 | 141 | 90 | 451 |
+| 12 | 8 | 8 | 226 | 141 | 30 | 397 |
 
-Across all runs, `1,764 base + 1,316 cache + 435 branch = 3,515 cycles`. Cache misses account for about 75.2% of the 1,751 stall cycles. This identifies the largest recorded source of waiting, rather than proving that memory bandwidth limits a real server.
+Across all twelve runs, `2,646 base + 1,786 cache + 675 branch = 5,107 cycles`. Cache misses account for about 72.6% of the 2,461 stall cycles in total, and for the largest single delay in eleven of the twelve runs. The exception is Run 10, whose single cache miss left its seven branch mispredictions as the larger delay. This identifies the two recorded sources of waiting rather than proving that memory bandwidth limits a real server.
 
-The base load and store costs are 48 cycles each per run. Misses add another 141 or 188 cycles to the load instruction. Brightness prediction mistakes add 0–135 cycles to `BLT`. These are the main instruction-level costs worth investigating.
+The base load and store costs are 48 cycles each per run. Misses add another 47–188 cycles to the load instruction depending on the run. Brightness prediction mistakes add 0–135 cycles to `BLT`. These are the main instruction-level costs worth investigating.
 
-### 2.3 Repeat-run comparison
+### 2.3 Repeated runs and averages
 
-Each mean below uses two runs of 16 pixels. Pooled rates use the combined counts: 32 loads and 64 branch predictions per case. They are descriptive results from a small sample, not reliable population averages or a production workload mix.
+Each mean below uses the three recorded runs of a case. Pooled rates use the combined counts: 48 loads and 96 branch predictions per case. They are descriptive results from a small sample, not reliable population averages or a production workload mix.
 
 <!-- table:averages -->
-| Case | First run cycles | Second run cycles | Difference | Mean cycles | Mean CPP | Pooled cache hit rate | Pooled branch accuracy |
+| Case | Run totals | Spread | Mean cycles | Mean CPP | Pooled cache hit rate | Pooled branch accuracy | Pooled brightness-only accuracy |
 |---|---|---|---|---|---|---|---|
-| Best | 351 | 413 | +62 | 382.0 | 23.88 | 78.1% | 98.4% |
-| Worst | 502 | 504 | +2 | 503.0 | 31.44 | 78.1% | 76.6% |
-| Real 1 | 406 | 436 | +30 | 421.0 | 26.31 | 81.3% | 87.5% |
-| Real 2 | 444 | 459 | +15 | 451.5 | 28.22 | 75.0% | 92.2% |
+| Best | 351, 413, 366 | 62 | 376.7 | 23.54 | 79.2% | 97.9% | 95.8% |
+| Worst | 502, 504, 378 | 126 | 461.3 | 28.83 | 83.3% | 77.1% | 54.2% |
+| Real 1 | 406, 436, 451 | 45 | 431.0 | 26.94 | 81.3% | 85.4% | 70.8% |
+| Real 2 | 444, 459, 397 | 62 | 433.3 | 27.08 | 77.1% | 92.7% | 85.4% |
 
-The changes are fully accounted for: Best adds one cache miss and one wrong branch (`47 + 15 = 62`); Worst adds one miss but removes three wrong branches (`47 − 45 = 2`); Real 1 adds two wrong branches (`30`); Real 2 adds one (`15`). No base instruction cost changes between either pair.
+Run 10's rare single miss explains part of Worst Case's 126-cycle spread; its two siblings recorded three and four misses. The base instruction cycles are identical within every case (210 / 226 / 220 / 226), because they depend only on the pixel pattern. Every difference therefore comes from the random delays: each additional miss adds 47 cycles and each wrong brightness prediction adds 15.
 
-Best and Worst have equal mean cache delay, 164.5 cycles. Worst's mean branch delay is 105 cycles higher and its base cost is 16 higher, explaining the full `503 − 382 = 121` difference. Within each run, cache delay is still larger than branch delay. These two findings answer different questions.
+Best and Worst have equal mean cache delay within their three-run groups; Worst's mean branch delay is far higher, and its base cost is 16 cycles higher, which together explain the gap between them. Within each case, the average cache delay still exceeds the average branch delay except in Run 10. These two findings answer different questions.
 
 ### 2.4 Assignment targets
 
 | Target from the scenario | Combined finding |
 |---|---|
 | CPP < 5 | None meets it; even a delay-free all-dark baseline needs 210/16 = 13.125 CPP |
-| Cache hit rate > 95% | None meets it; observed per-run rates are 75.0% or 81.25% before rounding |
-| Overall branch accuracy > 90% | Runs 1, 3, 4, 5 and 8 meet it; Runs 2, 6 and 7 do not |
+| Cache hit rate > 95% | None meets it; per-run rates are 75.0% or 81.25%, with Run 10 at 93.75% as a lucky draw |
+| Overall branch accuracy > 90% | Runs 1, 4, 5, 8, 9 and 12 meet it; the others do not |
 | Register spills = 0 | No spill instructions are present; this is a code finding |
 
 Missing a target is a performance result to explain. It is not evidence that the student's arithmetic is wrong. The sample CPP values and perfect/impossible prediction claims in the guide are not measurements of this code.
 
 ## 3. Optimization analysis
 
-### 3.1 Three strategies and their assumptions
+### 3.1 Strategies tested and measured
 
-No measured optimized runs exist in either repository. The supplied interface has no editable instruction program or switches for these methods. The following calculations compare possible changes and show where measurements are still needed.
+Four changed programs were built from the original simulator, plus the unchanged baseline. All five programs were run 40 times per test case with identical inputs and their outputs checked every run, so this section reports measurements rather than only estimates.
 
-| Strategy | Proposed change | Cost model used here | Limitation |
-|---|---|---|---|
-| Cache prefetching | Request upcoming pixels before they are loaded | Sensitivity case: reduce misses to one, hold everything else fixed, assume zero added prefetch cost | One remaining miss is an assumption, not a demonstrated cache result |
-| Branch-free selection | Compute both candidate outputs and select without `BLT`/`JMP` | Four 1-cycle decision operations; 226 base cycles for 16 pixels; retain recorded cache delay | Conditional select cost and unchanged cache behavior are assumptions |
-| Four-pixel loop unrolling | Process four pixels before the counter update and loop check | Reduce three loop-control instructions from 16 executions to 4: save 36 cycles | Extra code/register costs are not modeled; pixel address updates still occur |
-
-The Local report's zero-cache-delay calculation is retained as a theoretical ceiling. Scarlet's one-miss scenario is retained as a separate sensitivity case. The simulator has no cache-line model; a typical 64-byte line and a claim that these pixels occupy exactly 16 bytes cannot establish what prefetching would achieve. The scenario's 524,288-byte read/write example assumes four bytes per pixel, whereas this simulator uses abstract array entries and pointer increments of one.
-
-The branch-free proposal uses the following conceptual operations, with **assumed**, not benchmarked, 1-cycle costs:
-
-```text
-dark_result   = input + 32
-bright_result = input - 8
-compare input with 128
-select bright_result if input >= 128, otherwise dark_result
-```
-
-The old compare/branch/arithmetic region costs 3 cycles for a dark pixel or 5 for a bright pixel. The proposed region costs 4 for either. Including the load, store, address update and loop control gives `14 cycles/pixel`, plus 2 setup cycles: `226 base cycles`. Brightness mispredictions disappear in this model, while loop predictions were already always correct. R5 could hold the second candidate, but real register allocation still needs checking.
-
-### 3.2 Calculated outcomes for all eight runs
-
-Let `C` be recorded cycles, `M` recorded misses, and `W` wrong brightness predictions:
-
-```text
-Zero-cache-delay ceiling: C − 47 × M
-One-miss sensitivity:    C − 47 × (M − 1)
-Branch-free model:      226 + 47 × M
-Four-pixel unrolling:   C − 36
-Cycle reduction (%):    (C − calculated_total) / C × 100
-```
-
-The first numeric column below is recorded. All remaining totals are estimates. Parentheses show percentage cycle reductions; a negative reduction means the change makes the run slower.
-
-<!-- table:optimizations -->
-| Run | Recorded cycles | Zero cache delay ceiling | One-miss sensitivity | Branch-free model | Four-pixel unrolling |
-|---|---|---|---|---|---|
-| 1 | 351 | 210 (40.2%) | 257 (26.8%) | 367 (-4.6%) | 315 (10.3%) |
-| 2 | 502 | 361 (28.1%) | 408 (18.7%) | 367 (26.9%) | 466 (7.2%) |
-| 3 | 406 | 265 (34.7%) | 312 (23.2%) | 367 (9.6%) | 370 (8.9%) |
-| 4 | 444 | 256 (42.3%) | 303 (31.8%) | 414 (6.8%) | 408 (8.1%) |
-| 5 | 413 | 225 (45.5%) | 272 (34.1%) | 414 (-0.2%) | 377 (8.7%) |
-| 6 | 504 | 316 (37.3%) | 363 (28.0%) | 414 (17.9%) | 468 (7.1%) |
-| 7 | 436 | 295 (32.3%) | 342 (21.6%) | 367 (15.8%) | 400 (8.3%) |
-| 8 | 459 | 271 (41.0%) | 318 (30.7%) | 414 (9.8%) | 423 (7.8%) |
-
-The branch-free saving simplifies to `15W + 2 × bright_count − 16`. It must exceed zero to help. Run 1 has no branch delay to remove, so its total rises by 16 cycles. Run 5 removes 15 branch cycles but adds 16 base cycles, producing a one-cycle loss. In Run 3 it removes 45 branch cycles but adds 6 base cycles, giving a 39-cycle saving rather than the 45-cycle upper bound in the Local report.
-
-### 3.3 Which strategy is most promising?
-
-Using reductions of the paired mean totals, rather than averaging rounded percentages:
-
-<!-- table:optimization-means -->
-| Case | Recorded mean | One-miss mean estimate | Branch-free mean estimate | Unrolled mean estimate |
+<!-- table:programs -->
+| Program | Change to the program | Base cycles (Best / Worst / Real 1 / Real 2) | Conditional branches per run | Brightness mispredictions |
 |---|---|---|---|---|
-| Best | 382.0 | 264.5 (30.8%) | 390.5 (-2.2%) | 346.0 (9.4%) |
-| Worst | 503.0 | 385.5 (23.4%) | 390.5 (22.4%) | 467.0 (7.2%) |
-| Real 1 | 421.0 | 327.0 (22.3%) | 367.0 (12.8%) | 385.0 (8.6%) |
-| Real 2 | 451.5 | 310.5 (31.2%) | 414.0 (8.3%) | 415.5 (8.0%) |
+| Baseline | Recorded program: 13/15-cycle paths | 210 / 226 / 220 / 226 | 32 (16 BLT + 16 loop) | Possible |
+| Branch-free | Compute both candidates, select with `CSEL`; no `BLT`/`JMP` | 226 / 226 / 226 / 226 | 16 (loop only) | Impossible |
+| Unrolled | Four-pixel straight-line block; `INC #4` loop control | 162 / 178 / 172 / 178 | 20 (16 BLT + 4 loop) | Possible |
+| Loop-test | Loop tests the pointer (`CMP R1, #1040`); counter removed | 194 / 210 / 204 / 210 | 32 (16 BLT + 16 loop) | Possible |
+| Combined | Unrolled block + branch-free selection | 178 / 178 / 178 / 178 | 4 (loop only) | Impossible |
 
-The one-miss assumption gives the largest mean saving in all four cases, but it has no measured support. Branch-free selection beats it in the individual Run 2 calculation, which shows that the ranking depends on the observed delays and chosen assumptions. Worst Case is the strongest branch-free candidate on paired means; Best Case becomes slower. Unrolling gives a steady 36-cycle saving under its assumptions.
+Shared assumptions: instruction costs, cache randomization (80% hits, +47 per miss) and branch probabilities (95% / 50% / 80% / 80%) follow the original file; `CSEL` is modelled at 1 cycle like the other ALU operations; `INC R1, #4`, `INC R0, #4` and base+offset loads are assumed available (ARM-style forms named in the scenario); the loop-test variant eliminates the now-redundant counter register. Real Case 2 is pinned to the saved Run 8 input list so every program processes identical inputs.
 
-Combining the three models gives `226 − 36 + 47 = 237 cycles` for 16 pixels, assuming one miss, no brightness branches, no added costs and no interaction penalties. That is 52.9% below Worst's mean of 503, but still 14.8125 CPP, above the target of 5. This combined estimate is not a fourth experiment or a measured optimization.
+Prefetching remains a calculation only, because the simulator draws hits randomly and models no cache contents or lines; Section 3.5 keeps its ceiling estimates against the measured baseline.
 
-### 3.4 Measurements required to finish this section
+### 3.2 How the measurements were taken
 
-Implement each changed program in a tool that supports it, retaining its source and cost rules. Compare baseline and variants on the same saved input lists, check every output, and repeat each case enough times to report a mean and spread. If randomness is controlled, use documented seeds or per-pixel event streams so program changes do not silently alter the comparison. Preserve the assumptions of the cache model when testing prefetching; simply replacing a miss count with one is a calculation.
+Each variant is the original HTML file plus an appended script that replaces the instruction program and the `stepForward()` function; the page, counters and messages are otherwise unchanged. The generator is [make_variants.py](Optimizations/make_variants.py) and the four variant files are in [Optimizations/](Optimizations/). [measure_runs.js](Optimizations/measure_runs.js) drove `initSimulation()` and `stepForward()` directly for every repeat, recorded the final counters and checked every output pixel against the brightness rule. [summarize_measurements.py](Optimizations/summarize_measurements.py) validated the raw data: all 800 runs satisfy `cycles = base + 47 × misses + 15 × mispredictions`, all outputs were correct, and the observed branch counts match each program (32 for the baseline and loop-test, 20 for unrolled, 16 for branch-free, 4 for combined). Full results are in [measured_summary.json](Optimizations/measured_summary.json) and the five `measure_*.json` files.
 
-Record method, case, repeat ID, input list, total cycles, instruction count, cache events, branch events, spill operations and output checks. Include each method's added instructions and any register pressure. Calculate measured reduction from the repeated baseline and optimized means, then identify the best measured strategy for each case. A plan for these tests earns no credit for results that have not yet been collected.
+These are measurements from the same teaching model as the recorded runs, not hardware benchmarks. The baseline measured here gives slightly different means than the twelve recorded runs because a 40-run sample and a 3-run sample differ, and because the pinned Real Case 2 list is one of many possible inputs.
+
+### 3.3 Measured results
+
+<!-- table:measured -->
+| Case | Baseline (N=40) | Branch-free | Unrolled | Loop-test | Combined |
+|---|---|---|---|---|---|
+| Best | 362.73 | 376.40 (+3.8%) | 316.45 (-12.8%) | 352.50 (-2.8%) | 342.50 (-5.6%) |
+| Worst | 502.93 | 389.33 (-22.6%) | 460.25 (-8.5%) | 468.63 (-6.8%) | 329.58 (-34.5%) |
+| Real 1 | 439.83 | 376.40 (-14.4%) | 390.10 (-11.3%) | 404.63 (-8.0%) | 337.80 (-23.2%) |
+| Real 2 | 415.35 | 372.88 (-10.2%) | 385.53 (-7.2%) | 400.75 (-3.5%) | 335.45 (-19.2%) |
+
+Percentages are reductions of the mean total cycles against the same-session baseline; a positive value means the program was slower. The standard error of each cell mean is about 8–15 cycles.
+
+<!-- table:measured-ranges -->
+| Case | Baseline | Branch-free | Unrolled | Loop-test | Combined |
+|---|---|---|---|---|---|
+| Best | 362.73 [257–554] | 376.40 [226–508] | 316.45 [192–427] | 352.50 [194–647] | 342.50 [225–554] |
+| Worst | 502.93 [346–720] | 389.33 [273–508] | 460.25 [300–642] | 468.63 [285–627] | 329.58 [225–507] |
+| Real 1 | 439.83 [327–637] | 376.40 [226–555] | 390.10 [264–638] | 404.63 [249–531] | 337.80 [178–507] |
+| Real 2 | 415.35 [288–600] | 372.88 [226–555] | 385.53 [255–599] | 400.75 [240–614] | 335.45 [178–554] |
+
+Why the numbers move: every run decomposes exactly into `base + 47 × misses + 15 × mispredictions`, and only the two random terms differ across programs.
+
+- **Branch-free** raises every pixel to 14 cycles (base 226 in every case) and eliminates brightness mispredictions entirely. It wins where mispredictions were frequent (Worst: −22.6%) and loses where they were rare (Best: +3.8%), because the removed delay no longer covers the extra ALU work.
+- **Unrolling** cuts loop control from four cycles per pixel to one, giving bases of 162–178. It keeps the `BLT` decisions and their mispredictions.
+- **Loop-test** removes the counter instruction (bases 194–210) and keeps everything else; its savings are steady and small (−2.8% to −8.0%).
+- **Combined** has the branch-free base with an unrolled loop and no brightness branches at all. For Worst Case, the mean decomposes exactly: base 226 → 178 (−48), mispredictions 8.20 → 0 (−123.0) and random misses −2.35, giving the measured −173.35.
+
+### 3.4 Best measured strategy for each case
+
+<!-- table:best-strategy -->
+| Case | Best measured program | Mean cycles | Margin over next best | Margin over baseline |
+|---|---|---|---|---|
+| Best | Unrolled | 316.45 | 26.05 over combined | 46.28 (-12.8%) |
+| Worst | Combined | 329.58 | 59.75 over branch-free | 173.35 (-34.5%) |
+| Real 1 | Combined | 337.80 | 38.60 over branch-free | 102.03 (-23.2%) |
+| Real 2 | Combined | 335.45 | 37.43 over branch-free | 79.90 (-19.2%) |
+
+On Worst, Real 1 and Real 2, the combined program's margins (about 2.3–4.5 standard errors over the next-best program, and 5–11 over the baseline) support the ranking: removing brightness branches and shortening the loop together help everywhere mispredictions or bright pixels occur. Best Case is a statistical near-tie between unrolling and the combined program: the 26-cycle gap is about 1.7 standard errors, and the deterministic analysis explains the convergence — unrolling saves 16 base cycles that the combined program still spends, while the combined program saves the roughly 15 cycles of Best-Case branch delay that unrolling still pays. A real compiler would need real benchmarks to settle that pair.
+
+### 3.5 Prefetching: still calculated, against the measured baseline
+
+No faithful prefetch variant could be implemented, because the simulator has no cache contents to prefetch into; it only draws hits and misses at random. The table therefore keeps the two calculation cases from the earlier analysis, now anchored to the measured baseline: removing every recorded cache delay (an upper bound) and reducing misses to one per run without adding work (a sensitivity case).
+
+<!-- table:prefetch -->
+| Case | Measured baseline mean | Mean misses | Remove all cache delay | One-miss estimate |
+|---|---|---|---|---|
+| Best | 362.73 | 3.05 | 219.38 | 266.38 |
+| Worst | 502.93 | 3.275 | 349.01 | 396.01 |
+| Real 1 | 439.83 | 3.6 | 270.63 | 317.63 |
+| Real 2 | 415.35 | 3.175 | 266.13 | 313.13 |
+
+Even the one-miss estimate would beat the recorded baseline and the unrolled and loop-test programs on Worst Case, but it would still trail the measured branch-free (389.33) and combined (329.58) programs. The cache ceiling is what makes both kinds of delay worth attacking together. If a real prefetch implementation added instructions or failed to catch every miss, its advantage would shrink.
 
 ## 4. Extrapolation and cost impact
 
@@ -304,32 +349,28 @@ Record method, case, repeat ID, input list, total cycles, instruction count, cac
 
 The required calculation treats an image as one 256 × 256 chunk: 65,536 pixels. It uses 2,000,000 processed images/day, one dedicated 2.4 GHz processor per modeled server, 8 W processor power, $0.12/kWh and 365 days/year. The entire daily batch is assumed to arrive together and must finish within four hours. This is a conservative batch interpretation of the stated latency deadline.
 
-The scenario also says only 50% of uploads need adjustment. We show that 1,000,000-image alternative separately. Actual 5–25 MB photos may contain many chunks; compressed file size alone does not determine their pixel count. Decoding, I/O, networking, other tasks and whole-server power are outside these estimates. One clock cycle is about 0.417 ns at 2.4 GHz; one instruction can take several cycles.
+The scenario also says only 50% of uploads need adjustment. The 1,000,000-image alternative is shown separately. Actual 5–25 MB photos may contain many chunks; compressed file size alone does not determine their pixel count. Decoding, I/O, networking, other tasks and whole-server power are outside these estimates. One clock cycle is about 0.417 ns at 2.4 GHz; one instruction can take several cycles.
 
-### 4.2 Scaling all eight recorded runs
+### 4.2 Scaling the recorded results
 
 ```text
 Groups per image = 65,536 / 16 = 4,096
 Image cycles = 16-pixel total × 4,096 = exact CPP × 65,536
 ```
 
-The factor 4,096 applies to the 16-pixel total, not CPP. This scaling includes the small run's setup cost in each group, matching the simulator display. A single large loop might amortize setup differently; it has not been measured here.
+The factor 4,096 applies to the 16-pixel total, not CPP. Each case below uses its exact three-run mean, so the individual runs' spread (Section 2.3) is not hidden. This scaling includes the small run's setup cost in each group, matching the simulator display; a single large loop might amortize setup differently, which has not been measured.
 
 <!-- table:image-runs -->
-| Run | Recorded cycles | Estimated image cycles |
+| Case | Mean 16-pixel cycles | Estimated cycles per 256 × 256 image |
 |---|---|---|
-| 1 | 351 | 1,437,696 |
-| 2 | 502 | 2,056,192 |
-| 3 | 406 | 1,662,976 |
-| 4 | 444 | 1,818,624 |
-| 5 | 413 | 1,691,648 |
-| 6 | 504 | 2,064,384 |
-| 7 | 436 | 1,785,856 |
-| 8 | 459 | 1,880,064 |
+| Best | 376.7 | 1,542,827 |
+| Worst | 461.3 | 1,889,621 |
+| Real 1 | 431.0 | 1,765,376 |
+| Real 2 | 433.3 | 1,774,933 |
 
 ### 4.3 Daily cycles and four-hour server count
 
-Use each case's exact two-run mean to avoid selecting a favorable repeat. These four scenarios are alternatives, not four workloads to add together.
+Use each case's three-run mean to avoid selecting a favorable run. These four scenarios are alternatives, not four workloads to add together.
 
 ```text
 Daily cycles = mean image cycles × 2,000,000
@@ -340,12 +381,12 @@ Servers = ceiling(processor seconds / 14,400)
 <!-- table:scaling -->
 | Case | Mean image cycles | Daily cycles | Processor seconds/day | Fraction of four-hour capacity | Whole servers |
 |---|---|---|---|---|---|
-| Best | 1,564,672 | 3,129,344,000,000 | 1,303.89 | 0.0905 | 1 |
-| Worst | 2,060,288 | 4,120,576,000,000 | 1,716.91 | 0.1192 | 1 |
-| Real 1 | 1,724,416 | 3,448,832,000,000 | 1,437.01 | 0.0998 | 1 |
-| Real 2 | 1,849,344 | 3,698,688,000,000 | 1,541.12 | 0.1070 | 1 |
+| Best | 1,542,827 | 3,085,653,333,333 | 1,285.69 | 0.0893 | 1 |
+| Worst | 1,889,621 | 3,779,242,666,667 | 1,574.68 | 0.1094 | 1 |
+| Real 1 | 1,765,376 | 3,530,752,000,000 | 1,471.15 | 0.1022 | 1 |
+| Real 2 | 1,774,933 | 3,549,866,666,667 | 1,479.11 | 0.1027 | 1 |
 
-The simplified calculation needs one server in all cases. Even the largest individual result, Run 6, needs only 1,720.32 processor seconds, below 14,400. This is an arithmetic lower-bound model for the brightness stage, not a production capacity measurement. No workload mixture was supplied, so Real 1 is used only as a worked example, not asserted to be the average uploaded photograph.
+The simplified calculation needs one server in all cases. Even the largest individual run, Run 6, needs only 1,720.32 processor seconds, below 14,400. This is an arithmetic lower-bound model for the brightness stage, not a production capacity measurement. No workload mixture was supplied, so Real 1 is used only as a worked example, not asserted to be the average uploaded photograph.
 
 ### 4.4 Electricity for 24-hour operation
 
@@ -358,27 +399,27 @@ Annual cost = $0.02304 × 365 = $8.4096
 
 This is one processor's cost at a constant 8 W. Finishing the image calculation earlier does not reduce that fixed bill.
 
-For comparison, Real 1's calculated active time is `1,437.013333 seconds/day`. Its processing-only energy is `1,437.013333 / 3,600 × 0.008 = 0.00319336 kWh/day`, costing about **$0.00038320/day**, or **$0.13987/year**. This allocates power only to the modeled processing interval; it excludes idle power and is not the full 24-hour cost.
+For comparison, Real 1's calculated active time is `1,471.146667 seconds/day`. Its processing-only energy is `1,471.146667 / 3,600 × 0.008 = 0.00326921 kWh/day`, costing about **$0.00039231/day**, or **$0.14319/year**. This allocates power only to the modeled processing interval; it excludes idle power and is not the full 24-hour cost.
 
 ### 4.5 Annual savings from a 20% cycle reduction
 
-This is the hypothetical reduction requested in the assignment, separate from the untested optimization models. For Real 1's mean:
+This is the hypothetical reduction requested in the assignment, separate from the measured optimizations. For Real 1's mean:
 
 ```text
-Exact mean CPP: 421 / 16 = 26.3125
-Improved CPP: 26.3125 × 0.80 = 21.05
-Improved daily cycles: 3,448,832,000,000 × 0.80 = 2,759,065,600,000
-Improved time: 1,437.013333 × 0.80 = 1,149.610667 seconds/day
-Time saved: 287.402667 seconds/day
+Exact mean CPP: 431 / 16 = 26.9375
+Improved CPP: 26.9375 × 0.80 = 21.55
+Improved daily cycles: 3,530,752,000,000 × 0.80 = 2,824,601,600,000
+Improved time: 1,471.146667 × 0.80 = 1,176.917333 seconds/day
+Time saved: 294.229333 seconds/day
 ```
 
 <!-- table:annual-savings -->
 | Case | Seconds saved/day | Annual saving if full 8 W is avoided during saved time | Annual saving at constant 8 W all day |
 |---|---|---|---|
-| Best | 260.78 | $0.025382 | $0 |
-| Worst | 343.38 | $0.033422 | $0 |
-| Real 1 | 287.40 | $0.027974 | $0 |
-| Real 2 | 308.22 | $0.030000 | $0 |
+| Best | 257.14 | $0.025028 | $0 |
+| Worst | 314.94 | $0.030654 | $0 |
+| Real 1 | 294.23 | $0.028638 | $0 |
+| Real 2 | 295.82 | $0.028793 | $0 |
 
 The active-time saving is `saved_seconds / 3,600 × 0.008 × $0.12 × 365`. Actual savings depend on the active-to-idle power difference, which was not supplied. If the processor remains at 8 W for 24 hours, the annual bill stays $8.4096.
 
@@ -395,7 +436,7 @@ Avoidable energy = 54.613333 / 3,600 × 0.008 = 0.00012136296 kWh/day
 Possible daily saving = 0.00012136296 × $0.12 = $0.00001456356
 ```
 
-For the 50%-of-uploads alternative, daily cycles, processing times and processing-dependent energy/savings halve. One CPP then saves 27.306667 seconds and about $0.00000728178/day. Real 1's daily baseline becomes 1,724,416,000,000 cycles and 718.506667 seconds. The integer server count remains one, and a constant 24-hour 8 W bill does **not** halve.
+For the 50%-of-uploads alternative, daily cycles, processing times and processing-dependent energy/savings halve. One CPP then saves 27.306667 seconds and about $0.00000728178/day. Real 1's daily baseline becomes 1,765,376,000,000 cycles and 735.573333 seconds. The integer server count remains one, and a constant 24-hour 8 W bill does **not** halve.
 
 ## 5. Requirement coverage and conclusion
 
@@ -403,17 +444,17 @@ The report follows all four requested deliverable areas. The distinction between
 
 | Assignment criterion | Location and evidence | Status |
 |---|---|---|
-| At least five experiments; all four test cases | Section 1.1: eight complete runs, two per case | Met for experiment count |
-| Full cycle-by-cycle breakdown for each case | Sections 1.3–1.4, 2.2 and pixel appendix | Partial: base paths and totals, no actual per-instruction timing history |
-| Screenshots of registers, memory state and PC progression | Section 1.1 links all 20 screenshots; Section 1.4 explains final state | Partial: final registers/pixels/PC captured; intermediate progression not saved |
-| Cache hit/miss and branch events each iteration | Sections 1.4–1.5 and 2.2 | Partial: totals and costs known; event locations missing |
-| Total cycles for each test case | Section 2.1 | Met for all eight runs |
+| At least five experiments; all four test cases | Section 1.1: twelve complete runs, three per case | Met |
+| Full cycle-by-cycle breakdown for each test case | Section 1.5: Runs 9–12 step logs record every PC, cycle interval and running total for all four cases | Met |
+| Screenshots of registers, memory state and PC progression | 20 final-state screenshots plus 24 checkpoint screenshots from Runs 9–12, linked in Section 1.1 | Met |
+| Cache hit/miss and branch events each iteration | Section 1.5: every event position recorded in Runs 9–12 | Met |
+| Total cycles for each test case | Section 2.1 | Met |
 | CPP | Section 2.1 | Met |
-| Cache miss and branch misprediction rates | Section 2.1 | Met, with denominators stated |
+| Cache miss and branch misprediction rates | Section 2.1, with denominators stated | Met |
 | Register spill count | Sections 1.2 and 2.1 | Addressed as zero from code; no separate counter |
-| Compare at least three optimizations | Sections 3.1–3.3 | Met as a theoretical comparison |
-| Measure each strategy's improvement | Section 3.4 defines required measurement method | Not met: no optimized execution results |
-| Best strategy for each test case | Section 3.3 | Partial: conditional estimates, no measured winner |
+| Compare at least three optimizations | Section 3.1: four measured programs plus the prefetch calculation | Met |
+| Measure each strategy's improvement | Sections 3.2–3.3: 800 measured runs against a same-session baseline, outputs checked | Met |
+| Best strategy for each test case | Section 3.4, with the Best-Case near-tie stated | Met |
 | Scale to 65,536 pixels and two million images/day | Sections 4.2–4.3 | Met as requested projections |
 | Electricity at 8 W, $0.12/kWh and 24-hour operation | Section 4.4 | Met |
 | Server count for four-hour SLA | Section 4.3 | Met under stated assumptions |
@@ -421,8 +462,6 @@ The report follows all four requested deliverable areas. The distinction between
 
 The six quick-guide questions are covered by Section 2.1 (collect), Sections 2.2–2.3 (explain), Section 2.2 (bottleneck), Section 3 (optimize), Section 4.2 (extrapolate) and Section 4.6 (one-CPP saving).
 
-The combined runs strengthen the original analysis by exceeding the minimum experiment count and showing how random delays change repeated results. The calculated ranking of baseline performance is Best, Real 1, Real 2, then Worst. Cache misses dominate waiting; the extra Worst Case cost is largely explained by branch mistakes. Branch-free selection is worth testing on Worst Case but can hurt Best Case once replacement instructions are counted.
+The combined runs exceed the minimum experiment count and show how random delays change repeated results. The recorded ranking of baseline performance across three-run means is Best (376.7), Real 1 (431.0), Real 2 (433.3), then Worst (461.3). Cache misses dominate waiting in eleven of twelve runs; the extra Worst Case cost is largely branch mistakes. The measured study answers the assignment's optimization requirement: unrolling is best for Best Case, the combined branch-free unrolled program is best for the other three cases, and branch-free selection alone only pays off when mispredictions are frequent. Prefetching remains the one strategy without a measured implementation, because the teaching model has no cache contents to prefetch.
 
-Full empirical completion still requires newly recorded instruction traces covering every test case and measured comparisons of at least three changed programs. For each trace, save executed PC, next PC, cycle interval, register changes, memory access/output and cache/branch event. Capture the execution summary after each STEP FORWARD: Current PC has already advanced, so its highlight may identify the next instruction. A new run must retain its own ID and final totals; it cannot recover an earlier run's random history.
-
-The [grading assessment](Grading.md) marks the finished version against these requirements, with deductions tied to the missing evidence rather than hidden by the merged document.
+Genuine limitations remain on the record: the measurements come from this teaching model with stated cost assumptions, not from hardware; Runs 1–8 still lack individual event positions (superseded by Runs 9–12 for evidence purposes); and a real compiler-based evaluation of the variants would need a different tool. None of these blocks the assignment deliverables, and the [grading assessment](Grading.md) has been updated against the same evidence.

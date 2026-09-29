@@ -1,6 +1,6 @@
 # Appendix: all 128 pixel paths
 
-This appendix is part of [Final_Report.md](Final_Report.md). It is reconstructed from the two archived Logs.md files and the unchanged simulator. It is not a saved instruction-event history.
+This appendix is part of [Final_Report.md](Final_Report.md). It covers Runs 1–8; Runs 9–12 have fully recorded step logs in [Traces/](Traces/) instead. It is reconstructed from the two archived Logs.md files and the unchanged simulator. It is not a saved instruction-event history.
 
 Running instruction totals include 2 setup cycles but exclude cache and branch delays. For pixel n, the load address is 1023 + n; after the iteration R0 = n and R1 = 1024 + n. R3 holds the input and R4 the output.
 

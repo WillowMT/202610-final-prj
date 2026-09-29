@@ -2,6 +2,8 @@
 
 This folder contains the BSC104 Project 1 work: analyzing how a CPU executes an image brightness algorithm, using the HTML simulator in this folder. The status below summarizes what is finished and what remains.
 
+> **Update (29 September 2026):** The combined deliverable is now [Final_Report_V1/](Final_Report_V1/README.md). It merges this folder's Runs 1–4 with Runs 5–8 from the group repository, adds four full step traces (Runs 9–12, recorded from the simulator) and a measured optimization study (four program variants, 40 runs per case each). The sections below describe this folder's original four-run stage and are kept as the historical record: item 1 of "What still needs to be done" was satisfied by the imported Runs 5–8, and items 2 and 3 are completed in the combined report.
+
 ## What has been done
 
 ### Recorded experiments (4 runs)

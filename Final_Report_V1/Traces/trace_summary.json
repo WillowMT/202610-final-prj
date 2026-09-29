@@ -1,0 +1,650 @@
+{
+  "best": {
+    "run": 9,
+    "run_id": "BC-50-R3",
+    "case": "best",
+    "cycles": 366,
+    "base_cycles": 210,
+    "hits": 13,
+    "misses": 3,
+    "correct": 31,
+    "wrong": 1,
+    "brightness_correct": 15,
+    "branches": 32,
+    "stalls": 156,
+    "steps": 146,
+    "pixels": [
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 15
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 28
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 41
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 54
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 67
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 80
+      },
+      {
+        "input": 0,
+        "cache": "MISS",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 47,
+        "output": 32,
+        "running": 140
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 153
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 166
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 179
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 13,
+        "delay": 15,
+        "output": 32,
+        "running": 207
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 220
+      },
+      {
+        "input": 0,
+        "cache": "MISS",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 47,
+        "output": 32,
+        "running": 280
+      },
+      {
+        "input": 0,
+        "cache": "MISS",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 47,
+        "output": 32,
+        "running": 340
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 353
+      },
+      {
+        "input": 0,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 32,
+        "running": 366
+      }
+    ],
+    "trace_file": "Run9_BC_trace.json"
+  },
+  "worst": {
+    "run": 10,
+    "run_id": "WC-50-R3",
+    "case": "worst",
+    "cycles": 378,
+    "base_cycles": 226,
+    "hits": 15,
+    "misses": 1,
+    "correct": 25,
+    "wrong": 7,
+    "brightness_correct": 9,
+    "branches": 32,
+    "stalls": 152,
+    "steps": 154,
+    "pixels": [
+      {
+        "input": 64,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 96,
+        "running": 15
+      },
+      {
+        "input": 192,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 15,
+        "delay": 15,
+        "output": 184,
+        "running": 45
+      },
+      {
+        "input": 64,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 96,
+        "running": 58
+      },
+      {
+        "input": 192,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 184,
+        "running": 73
+      },
+      {
+        "input": 64,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 96,
+        "running": 86
+      },
+      {
+        "input": 192,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 15,
+        "delay": 15,
+        "output": 184,
+        "running": 116
+      },
+      {
+        "input": 64,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 13,
+        "delay": 15,
+        "output": 96,
+        "running": 144
+      },
+      {
+        "input": 192,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 184,
+        "running": 159
+      },
+      {
+        "input": 64,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 96,
+        "running": 172
+      },
+      {
+        "input": 192,
+        "cache": "MISS",
+        "branch": "MISPREDICT",
+        "cycles": 15,
+        "delay": 62,
+        "output": 184,
+        "running": 249
+      },
+      {
+        "input": 64,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 13,
+        "delay": 15,
+        "output": 96,
+        "running": 277
+      },
+      {
+        "input": 192,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 184,
+        "running": 292
+      },
+      {
+        "input": 64,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 13,
+        "delay": 15,
+        "output": 96,
+        "running": 320
+      },
+      {
+        "input": 192,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 184,
+        "running": 335
+      },
+      {
+        "input": 64,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 96,
+        "running": 348
+      },
+      {
+        "input": 192,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 15,
+        "delay": 15,
+        "output": 184,
+        "running": 378
+      }
+    ],
+    "trace_file": "Run10_WC_trace.json"
+  },
+  "real1": {
+    "run": 11,
+    "run_id": "RC1-50-R3",
+    "case": "real1",
+    "cycles": 451,
+    "base_cycles": 220,
+    "hits": 13,
+    "misses": 3,
+    "correct": 26,
+    "wrong": 6,
+    "brightness_correct": 10,
+    "branches": 32,
+    "stalls": 231,
+    "steps": 151,
+    "pixels": [
+      {
+        "input": 35,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 13,
+        "delay": 15,
+        "output": 67,
+        "running": 30
+      },
+      {
+        "input": 180,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 15,
+        "delay": 15,
+        "output": 172,
+        "running": 60
+      },
+      {
+        "input": 42,
+        "cache": "MISS",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 47,
+        "output": 74,
+        "running": 120
+      },
+      {
+        "input": 60,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 92,
+        "running": 133
+      },
+      {
+        "input": 210,
+        "cache": "MISS",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 47,
+        "output": 202,
+        "running": 195
+      },
+      {
+        "input": 88,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 120,
+        "running": 208
+      },
+      {
+        "input": 50,
+        "cache": "MISS",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 47,
+        "output": 82,
+        "running": 268
+      },
+      {
+        "input": 115,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 147,
+        "running": 281
+      },
+      {
+        "input": 230,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 222,
+        "running": 296
+      },
+      {
+        "input": 45,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 77,
+        "running": 309
+      },
+      {
+        "input": 72,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 104,
+        "running": 322
+      },
+      {
+        "input": 195,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 15,
+        "delay": 15,
+        "output": 187,
+        "running": 352
+      },
+      {
+        "input": 30,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 13,
+        "delay": 15,
+        "output": 62,
+        "running": 380
+      },
+      {
+        "input": 95,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 127,
+        "running": 393
+      },
+      {
+        "input": 80,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 13,
+        "delay": 15,
+        "output": 112,
+        "running": 421
+      },
+      {
+        "input": 140,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 15,
+        "delay": 15,
+        "output": 132,
+        "running": 451
+      }
+    ],
+    "trace_file": "Run11_RC1_trace.json"
+  },
+  "real2": {
+    "run": 12,
+    "run_id": "RC2-50-R3",
+    "case": "real2",
+    "cycles": 397,
+    "base_cycles": 226,
+    "hits": 13,
+    "misses": 3,
+    "correct": 30,
+    "wrong": 2,
+    "brightness_correct": 14,
+    "branches": 32,
+    "stalls": 171,
+    "steps": 154,
+    "pixels": [
+      {
+        "input": 232,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 224,
+        "running": 17
+      },
+      {
+        "input": 244,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 15,
+        "delay": 15,
+        "output": 236,
+        "running": 47
+      },
+      {
+        "input": 227,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 219,
+        "running": 62
+      },
+      {
+        "input": 247,
+        "cache": "MISS",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 47,
+        "output": 239,
+        "running": 124
+      },
+      {
+        "input": 211,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 203,
+        "running": 139
+      },
+      {
+        "input": 231,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 223,
+        "running": 154
+      },
+      {
+        "input": 254,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 246,
+        "running": 169
+      },
+      {
+        "input": 225,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 15,
+        "delay": 0,
+        "output": 217,
+        "running": 184
+      },
+      {
+        "input": 1,
+        "cache": "MISS",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 47,
+        "output": 33,
+        "running": 244
+      },
+      {
+        "input": 23,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 55,
+        "running": 257
+      },
+      {
+        "input": 16,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 48,
+        "running": 270
+      },
+      {
+        "input": 65,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 97,
+        "running": 283
+      },
+      {
+        "input": 56,
+        "cache": "HIT",
+        "branch": "MISPREDICT",
+        "cycles": 13,
+        "delay": 15,
+        "output": 88,
+        "running": 311
+      },
+      {
+        "input": 94,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 126,
+        "running": 324
+      },
+      {
+        "input": 96,
+        "cache": "HIT",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 0,
+        "output": 128,
+        "running": 337
+      },
+      {
+        "input": 92,
+        "cache": "MISS",
+        "branch": "HIT",
+        "cycles": 13,
+        "delay": 47,
+        "output": 124,
+        "running": 397
+      }
+    ],
+    "trace_file": "Run12_RC2_trace.json"
+  }
+}

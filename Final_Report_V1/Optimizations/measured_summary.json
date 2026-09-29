@@ -1,0 +1,253 @@
+{
+  "programs": {
+    "baseline": "Baseline (recorded program)",
+    "branchfree": "Branch-free selection",
+    "unrolled": "Four-pixel loop unrolling",
+    "looptest": "Pointer loop test (counter removed)",
+    "combined": "Branch-free + unrolling"
+  },
+  "cells": {
+    "baseline": {
+      "best": {
+        "n": 40,
+        "mean": 362.73,
+        "min": 257,
+        "max": 554,
+        "sem": 12.0,
+        "misses_mean": 3.05,
+        "wrong_mean": 0.625,
+        "base": 210
+      },
+      "worst": {
+        "n": 40,
+        "mean": 502.93,
+        "min": 346,
+        "max": 720,
+        "sem": 11.6,
+        "misses_mean": 3.275,
+        "wrong_mean": 8.2,
+        "base": 226
+      },
+      "real1": {
+        "n": 40,
+        "mean": 439.83,
+        "min": 327,
+        "max": 637,
+        "sem": 11.5,
+        "misses_mean": 3.6,
+        "wrong_mean": 3.375,
+        "base": 220
+      },
+      "real2": {
+        "n": 40,
+        "mean": 415.35,
+        "min": 288,
+        "max": 600,
+        "sem": 11.8,
+        "misses_mean": 3.175,
+        "wrong_mean": 2.675,
+        "base": 226
+      }
+    },
+    "branchfree": {
+      "best": {
+        "n": 40,
+        "mean": 376.4,
+        "min": 226,
+        "max": 508,
+        "sem": 10.4,
+        "misses_mean": 3.2,
+        "wrong_mean": 0.0,
+        "base": 226
+      },
+      "worst": {
+        "n": 40,
+        "mean": 389.33,
+        "min": 273,
+        "max": 508,
+        "sem": 8.2,
+        "misses_mean": 3.475,
+        "wrong_mean": 0.0,
+        "base": 226
+      },
+      "real1": {
+        "n": 40,
+        "mean": 376.4,
+        "min": 226,
+        "max": 555,
+        "sem": 12.2,
+        "misses_mean": 3.2,
+        "wrong_mean": 0.0,
+        "base": 226
+      },
+      "real2": {
+        "n": 40,
+        "mean": 372.88,
+        "min": 226,
+        "max": 555,
+        "sem": 12.6,
+        "misses_mean": 3.125,
+        "wrong_mean": 0.0,
+        "base": 226
+      }
+    },
+    "unrolled": {
+      "best": {
+        "n": 40,
+        "mean": 316.45,
+        "min": 192,
+        "max": 427,
+        "sem": 10.1,
+        "misses_mean": 2.975,
+        "wrong_mean": 0.975,
+        "base": 162
+      },
+      "worst": {
+        "n": 40,
+        "mean": 460.25,
+        "min": 300,
+        "max": 642,
+        "sem": 14.0,
+        "misses_mean": 3.5,
+        "wrong_mean": 7.85,
+        "base": 178
+      },
+      "real1": {
+        "n": 40,
+        "mean": 390.1,
+        "min": 264,
+        "max": 638,
+        "sem": 13.8,
+        "misses_mean": 3.675,
+        "wrong_mean": 3.025,
+        "base": 172
+      },
+      "real2": {
+        "n": 40,
+        "mean": 385.53,
+        "min": 255,
+        "max": 599,
+        "sem": 11.8,
+        "misses_mean": 3.45,
+        "wrong_mean": 3.025,
+        "base": 178
+      }
+    },
+    "looptest": {
+      "best": {
+        "n": 40,
+        "mean": 352.5,
+        "min": 194,
+        "max": 647,
+        "sem": 14.1,
+        "misses_mean": 3.125,
+        "wrong_mean": 0.775,
+        "base": 194
+      },
+      "worst": {
+        "n": 40,
+        "mean": 468.63,
+        "min": 285,
+        "max": 627,
+        "sem": 13.6,
+        "misses_mean": 3.125,
+        "wrong_mean": 7.45,
+        "base": 210
+      },
+      "real1": {
+        "n": 40,
+        "mean": 404.63,
+        "min": 249,
+        "max": 531,
+        "sem": 11.2,
+        "misses_mean": 3.375,
+        "wrong_mean": 2.8,
+        "base": 204
+      },
+      "real2": {
+        "n": 40,
+        "mean": 400.75,
+        "min": 240,
+        "max": 614,
+        "sem": 14.7,
+        "misses_mean": 3.125,
+        "wrong_mean": 2.925,
+        "base": 210
+      }
+    },
+    "combined": {
+      "best": {
+        "n": 40,
+        "mean": 342.5,
+        "min": 225,
+        "max": 554,
+        "sem": 11.4,
+        "misses_mean": 3.5,
+        "wrong_mean": 0.0,
+        "base": 178
+      },
+      "worst": {
+        "n": 40,
+        "mean": 329.58,
+        "min": 225,
+        "max": 507,
+        "sem": 10.6,
+        "misses_mean": 3.225,
+        "wrong_mean": 0.0,
+        "base": 178
+      },
+      "real1": {
+        "n": 40,
+        "mean": 337.8,
+        "min": 178,
+        "max": 507,
+        "sem": 11.9,
+        "misses_mean": 3.4,
+        "wrong_mean": 0.0,
+        "base": 178
+      },
+      "real2": {
+        "n": 40,
+        "mean": 335.45,
+        "min": 178,
+        "max": 554,
+        "sem": 11.4,
+        "misses_mean": 3.35,
+        "wrong_mean": 0.0,
+        "base": 178
+      }
+    }
+  },
+  "offsets": {
+    "baseline": {
+      "best": 210,
+      "worst": 226,
+      "real1": 220,
+      "real2": 226
+    },
+    "branchfree": {
+      "best": 226,
+      "worst": 226,
+      "real1": 226,
+      "real2": 226
+    },
+    "unrolled": {
+      "best": 162,
+      "worst": 178,
+      "real1": 172,
+      "real2": 178
+    },
+    "looptest": {
+      "best": 194,
+      "worst": 210,
+      "real1": 204,
+      "real2": 210
+    },
+    "combined": {
+      "best": 178,
+      "worst": 178,
+      "real1": 178,
+      "real2": 178
+    }
+  }
+}
