@@ -1,0 +1,2718 @@
+{
+  "description": "Derived presentation images only. State figures rearrange panels from one screenshot; pixel and metric figures are unscaled crops; thumbnails resize the entire screenshot. No displayed values are replaced or retouched.",
+  "files": [
+    {
+      "path": "Figures/Run9_BC_setup_state.png",
+      "kind": "state",
+      "source": "Traces/Run9_BC_01_setup.png",
+      "source_sha256": "d2885cc7c7094afd2122361e43ee649b083e4d5b638d516328ac63dc813cf1bd",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            632,
+            329,
+            695
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            632,
+            635,
+            695
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            632,
+            943,
+            695
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            632,
+            1248,
+            695
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            725,
+            1265,
+            983
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "98c1567f9ddb5153aceb09f54263531e6156e6ed05ed492c5e8034900132e2a6"
+    },
+    {
+      "path": "Figures/Run9_BC_pixel1_done_state.png",
+      "kind": "state",
+      "source": "Traces/Run9_BC_04_pixel1_done.png",
+      "source_sha256": "fe0d957ccebed683e47c7278e4b15fd8673e6ccf6a6f4259b4710b76c4d02264",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            632,
+            329,
+            695
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            632,
+            635,
+            695
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            632,
+            943,
+            695
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            632,
+            1248,
+            695
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            725,
+            1265,
+            983
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "42c5cc1e6d435cc5948c20424320cafaa1b61c9fcaca0c37daa79a306f70bbf2"
+    },
+    {
+      "path": "Figures/Run9_BC_final_state.png",
+      "kind": "state",
+      "source": "Traces/Run9_BC_06_final.png",
+      "source_sha256": "40cc00a805091ad2a86b06dd795f343827a2cc2d6df0ebe692ff55997399dde7",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            634,
+            329,
+            697
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            634,
+            635,
+            697
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            634,
+            943,
+            697
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            634,
+            1248,
+            697
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            727,
+            1265,
+            985
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "19ee2f3413e268815e64cf11fd24832285890b2d44b85d520787867c771035a8"
+    },
+    {
+      "path": "Figures/Run9_BC_final_pixels.png",
+      "kind": "pixels",
+      "source": "Traces/Run9_BC_06_final.png",
+      "source_sha256": "40cc00a805091ad2a86b06dd795f343827a2cc2d6df0ebe692ff55997399dde7",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            15,
+            1002,
+            633,
+            1271
+          ],
+          "at": [
+            0,
+            0,
+            618,
+            269
+          ]
+        }
+      ],
+      "size": [
+        618,
+        269
+      ],
+      "sha256": "84a59ed46f8c520264ad5a5ad6fb4e990b10548962e5e43eadd9d75770c2a147"
+    },
+    {
+      "path": "Figures/Run9_BC_final_metrics.png",
+      "kind": "metrics",
+      "source": "Traces/Run9_BC_06_final.png",
+      "source_sha256": "40cc00a805091ad2a86b06dd795f343827a2cc2d6df0ebe692ff55997399dde7",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            15,
+            1288,
+            515,
+            1671
+          ],
+          "at": [
+            0,
+            0,
+            500,
+            383
+          ]
+        }
+      ],
+      "size": [
+        500,
+        383
+      ],
+      "sha256": "197e37333d3f9e14dfee60dfb67b545214e8495091fac8d66b1e83328fd2c5e0"
+    },
+    {
+      "path": "Figures/Run10_WC_setup_state.png",
+      "kind": "state",
+      "source": "Traces/Run10_WC_01_setup.png",
+      "source_sha256": "81ab3a051168c1c8477c31eeef811da6888c6be9d0537ca8bd2d59c1fb47072e",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            632,
+            329,
+            695
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            632,
+            635,
+            695
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            632,
+            943,
+            695
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            632,
+            1248,
+            695
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            725,
+            1265,
+            983
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "98c1567f9ddb5153aceb09f54263531e6156e6ed05ed492c5e8034900132e2a6"
+    },
+    {
+      "path": "Figures/Run10_WC_pixel1_done_state.png",
+      "kind": "state",
+      "source": "Traces/Run10_WC_04_pixel1_done.png",
+      "source_sha256": "e18d54f68d9b9bebffbaf42fd49d5a4257fdd1e10e3077f2802692604177c04a",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            632,
+            329,
+            695
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            632,
+            635,
+            695
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            632,
+            943,
+            695
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            632,
+            1248,
+            695
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            725,
+            1265,
+            983
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "49cb40dae8f9407b788d56b1b4849ba2460833adf545c68227fb320abe999194"
+    },
+    {
+      "path": "Figures/Run10_WC_final_state.png",
+      "kind": "state",
+      "source": "Traces/Run10_WC_06_final.png",
+      "source_sha256": "96dd916f351065cabd8699eb484fd0580f5c312d7e0e8014c39b976318f6f77e",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            634,
+            329,
+            697
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            634,
+            635,
+            697
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            634,
+            943,
+            697
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            634,
+            1248,
+            697
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            727,
+            1265,
+            985
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "5f0096c7b594a846af1d185fd64df95b5bf120d64d6b9452033e7bcfccbdf031"
+    },
+    {
+      "path": "Figures/Run10_WC_final_pixels.png",
+      "kind": "pixels",
+      "source": "Traces/Run10_WC_06_final.png",
+      "source_sha256": "96dd916f351065cabd8699eb484fd0580f5c312d7e0e8014c39b976318f6f77e",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            15,
+            1002,
+            633,
+            1271
+          ],
+          "at": [
+            0,
+            0,
+            618,
+            269
+          ]
+        }
+      ],
+      "size": [
+        618,
+        269
+      ],
+      "sha256": "a8a93e2bd136b667c35d1caf73117ca3a8a3e170fde0343cbc0a2d4e93b1518d"
+    },
+    {
+      "path": "Figures/Run10_WC_final_metrics.png",
+      "kind": "metrics",
+      "source": "Traces/Run10_WC_06_final.png",
+      "source_sha256": "96dd916f351065cabd8699eb484fd0580f5c312d7e0e8014c39b976318f6f77e",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            15,
+            1288,
+            515,
+            1671
+          ],
+          "at": [
+            0,
+            0,
+            500,
+            383
+          ]
+        }
+      ],
+      "size": [
+        500,
+        383
+      ],
+      "sha256": "2fc4003deb2084d1b9b829df9e2862b61ebd83ef453935e4c1c00007cf5b4267"
+    },
+    {
+      "path": "Figures/Run11_RC1_setup_state.png",
+      "kind": "state",
+      "source": "Traces/Run11_RC1_01_setup.png",
+      "source_sha256": "0a18b2887e55da87f3d8d986ccffe309aff5e4822e42c55fc4fc1a493f1e4e42",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            632,
+            329,
+            695
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            632,
+            635,
+            695
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            632,
+            943,
+            695
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            632,
+            1248,
+            695
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            725,
+            1265,
+            983
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "98c1567f9ddb5153aceb09f54263531e6156e6ed05ed492c5e8034900132e2a6"
+    },
+    {
+      "path": "Figures/Run11_RC1_pixel1_done_state.png",
+      "kind": "state",
+      "source": "Traces/Run11_RC1_04_pixel1_done.png",
+      "source_sha256": "6af10968593c3991c61e1ceb164988a1f64f0b9cb64cb4a11bf1fde83d948458",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            632,
+            329,
+            695
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            632,
+            635,
+            695
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            632,
+            943,
+            695
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            632,
+            1248,
+            695
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            725,
+            1265,
+            983
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "69d8beca89bd1a8a6e760ec535c4af5168996e3058da525dea83ec2f2a266e1c"
+    },
+    {
+      "path": "Figures/Run11_RC1_final_state.png",
+      "kind": "state",
+      "source": "Traces/Run11_RC1_06_final.png",
+      "source_sha256": "76df07211bb608a5a3308246ddac25e6b4b5ea2a8eee62be1f69799a19023041",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            634,
+            329,
+            697
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            634,
+            635,
+            697
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            634,
+            943,
+            697
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            634,
+            1248,
+            697
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            727,
+            1265,
+            985
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "9d503b36117255e2596b829a79b5c238bddb31f909d28034caa2216c66ff1dae"
+    },
+    {
+      "path": "Figures/Run11_RC1_final_pixels.png",
+      "kind": "pixels",
+      "source": "Traces/Run11_RC1_06_final.png",
+      "source_sha256": "76df07211bb608a5a3308246ddac25e6b4b5ea2a8eee62be1f69799a19023041",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            15,
+            1002,
+            633,
+            1271
+          ],
+          "at": [
+            0,
+            0,
+            618,
+            269
+          ]
+        }
+      ],
+      "size": [
+        618,
+        269
+      ],
+      "sha256": "b2ae782528d0ab3a2ed214b9976780035b063cbc69a17e5de965902497d5d145"
+    },
+    {
+      "path": "Figures/Run11_RC1_final_metrics.png",
+      "kind": "metrics",
+      "source": "Traces/Run11_RC1_06_final.png",
+      "source_sha256": "76df07211bb608a5a3308246ddac25e6b4b5ea2a8eee62be1f69799a19023041",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            15,
+            1288,
+            515,
+            1671
+          ],
+          "at": [
+            0,
+            0,
+            500,
+            383
+          ]
+        }
+      ],
+      "size": [
+        500,
+        383
+      ],
+      "sha256": "35946f587059de805df8b99a3ca30dcb1c531a26be05c24c38949178bbf67e8c"
+    },
+    {
+      "path": "Figures/Run12_RC2_setup_state.png",
+      "kind": "state",
+      "source": "Traces/Run12_RC2_01_setup.png",
+      "source_sha256": "ee0d6c7a5581033b17c1e8924155d2a7417b6ceabcd00fb29aea658650e983e7",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            632,
+            329,
+            695
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            632,
+            635,
+            695
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            632,
+            943,
+            695
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            632,
+            1248,
+            695
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            725,
+            1265,
+            983
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "98c1567f9ddb5153aceb09f54263531e6156e6ed05ed492c5e8034900132e2a6"
+    },
+    {
+      "path": "Figures/Run12_RC2_pixel1_done_state.png",
+      "kind": "state",
+      "source": "Traces/Run12_RC2_04_pixel1_done.png",
+      "source_sha256": "392bc0bee0acf4d0c561728cc2a0b84cd9ec98072860a2130faaa5429033e71a",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            632,
+            329,
+            695
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            632,
+            635,
+            695
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            632,
+            943,
+            695
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            632,
+            1248,
+            695
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            725,
+            1265,
+            983
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "c1b95b8baa009cb9d94fbd2728dab3e0113465cc09e3940bca0b33002ca955cc"
+    },
+    {
+      "path": "Figures/Run12_RC2_final_state.png",
+      "kind": "state",
+      "source": "Traces/Run12_RC2_06_final.png",
+      "source_sha256": "84cccd5604bf4d9fa70df1465ac2841e8018fdaf8d6e0f556ae10e2f1908ed77",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            32,
+            634,
+            329,
+            697
+          ],
+          "at": [
+            0,
+            0,
+            297,
+            63
+          ]
+        },
+        {
+          "box": [
+            339,
+            634,
+            635,
+            697
+          ],
+          "at": [
+            322,
+            0,
+            618,
+            63
+          ]
+        },
+        {
+          "box": [
+            645,
+            634,
+            943,
+            697
+          ],
+          "at": [
+            0,
+            75,
+            298,
+            138
+          ]
+        },
+        {
+          "box": [
+            953,
+            634,
+            1248,
+            697
+          ],
+          "at": [
+            322,
+            75,
+            617,
+            138
+          ]
+        },
+        {
+          "box": [
+            648,
+            727,
+            1265,
+            985
+          ],
+          "at": [
+            0,
+            150,
+            617,
+            408
+          ]
+        }
+      ],
+      "size": [
+        620,
+        408
+      ],
+      "sha256": "c349b8e1eace2c9e36a7746fd243a93844b72a1475753f17948a49dec40eb2f3"
+    },
+    {
+      "path": "Figures/Run12_RC2_final_pixels.png",
+      "kind": "pixels",
+      "source": "Traces/Run12_RC2_06_final.png",
+      "source_sha256": "84cccd5604bf4d9fa70df1465ac2841e8018fdaf8d6e0f556ae10e2f1908ed77",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            15,
+            1002,
+            633,
+            1271
+          ],
+          "at": [
+            0,
+            0,
+            618,
+            269
+          ]
+        }
+      ],
+      "size": [
+        618,
+        269
+      ],
+      "sha256": "bd2b6ea29cbed4cafc051aa5400b8a9084d7bb1660181f94b55a832119ad2372"
+    },
+    {
+      "path": "Figures/Run12_RC2_final_metrics.png",
+      "kind": "metrics",
+      "source": "Traces/Run12_RC2_06_final.png",
+      "source_sha256": "84cccd5604bf4d9fa70df1465ac2841e8018fdaf8d6e0f556ae10e2f1908ed77",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            15,
+            1288,
+            515,
+            1671
+          ],
+          "at": [
+            0,
+            0,
+            500,
+            383
+          ]
+        }
+      ],
+      "size": [
+        500,
+        383
+      ],
+      "sha256": "f6b9e9d556dea998fcc38459ee61d7b5de21b0a3f596574029a0603b4ee4b741"
+    },
+    {
+      "path": "Figures/thumb_BC-1.png",
+      "kind": "thumbnail",
+      "source": "Sources/Local/Screenshots/BC-1.png",
+      "source_sha256": "e53809133a66b6dcd989f4eea9dbb5271216d5ef77081136eaed55d17dec6b44",
+      "source_size": [
+        2542,
+        1958
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2542,
+            1958
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        277
+      ],
+      "sha256": "37471d32f70655f4bdfec1b93c1c6dabbfce91835b35eab5da67cf9a81e58db4"
+    },
+    {
+      "path": "Figures/thumb_BC-2.png",
+      "kind": "thumbnail",
+      "source": "Sources/Local/Screenshots/BC-2.png",
+      "source_sha256": "b595d5a4374f7f6b7d360b00b392586eb2da131a6f352bed3c7531b510df01b9",
+      "source_size": [
+        2542,
+        1958
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2542,
+            1958
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        277
+      ],
+      "sha256": "2791a5151c4bec7f7aab4c06a236b67d643089ec2a210687408cab922df49ba9"
+    },
+    {
+      "path": "Figures/thumb_WC-1.png",
+      "kind": "thumbnail",
+      "source": "Sources/Local/Screenshots/WC-1.png",
+      "source_sha256": "c53f78d3bae4f1647c274ff69ca020f794869a09d093b00247364637eca80c9a",
+      "source_size": [
+        2542,
+        1958
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2542,
+            1958
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        277
+      ],
+      "sha256": "bdf9e95e66f174d414f6350abc781245c5f85a20dc79f50c4fe9eccbce27b423"
+    },
+    {
+      "path": "Figures/thumb_WC-2.png",
+      "kind": "thumbnail",
+      "source": "Sources/Local/Screenshots/WC-2.png",
+      "source_sha256": "df3459a25489599bac894f5964dd8d9defb6564dc08483db638c3bdf38ce4ab0",
+      "source_size": [
+        2542,
+        1958
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2542,
+            1958
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        277
+      ],
+      "sha256": "3972aeece63cdc75e9a02cf6413983236edd35773c29b8239b9990d3d710928d"
+    },
+    {
+      "path": "Figures/thumb_RC1-1.png",
+      "kind": "thumbnail",
+      "source": "Sources/Local/Screenshots/RC1-1.png",
+      "source_sha256": "b7991a6975a0c58e294f7251f12b4a86199cbf34a0a1dbe5fcbaddd55eed7abe",
+      "source_size": [
+        2542,
+        1958
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2542,
+            1958
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        277
+      ],
+      "sha256": "8a0fb1b80aa2a5121a8cd74948845fe53761d8fb5295a9d542f4d9b0fb0f2cab"
+    },
+    {
+      "path": "Figures/thumb_RC1-2.png",
+      "kind": "thumbnail",
+      "source": "Sources/Local/Screenshots/RC1-2.png",
+      "source_sha256": "3927cb2a221008618a5c72c6799bfc8b12e03d7d0b1eab65fe757ba1547ecd4f",
+      "source_size": [
+        2542,
+        1958
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2542,
+            1958
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        277
+      ],
+      "sha256": "db59ee4c968d371a551cc503e8fc1fc6fe0738e42accb011cdc8fff2f60809bf"
+    },
+    {
+      "path": "Figures/thumb_RC2-1.png",
+      "kind": "thumbnail",
+      "source": "Sources/Local/Screenshots/RC2-1.png",
+      "source_sha256": "55a00670b3e5d641c7aa267bfed6d699d040cb2f677f6c36059b80fb0323b962",
+      "source_size": [
+        2542,
+        1958
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2542,
+            1958
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        277
+      ],
+      "sha256": "e02f11746dc023b50c08a0c0b6e3a2e767c17df78c9c5fc6a49400e768bb4d51"
+    },
+    {
+      "path": "Figures/thumb_RC2-2.png",
+      "kind": "thumbnail",
+      "source": "Sources/Local/Screenshots/RC2-2.png",
+      "source_sha256": "f0bad445990cacd0bebe79c508c5c5561f6330fdabb60a4ce79b0ffdb8afd52a",
+      "source_size": [
+        2542,
+        1958
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2542,
+            1958
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        277
+      ],
+      "sha256": "b725e3f0f1acd4a38c3df3295bd841b01fe135d5dce34cba04ab226c2511c1ab"
+    },
+    {
+      "path": "Figures/thumb_BC-R2-1.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/BC-R2-1.png",
+      "source_sha256": "6c58a2378c45cc1e13c1cfc59da1c3f8b75495dcfef3554ebb671f39b4d6a0ce",
+      "source_size": [
+        2816,
+        1582
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2816,
+            1582
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        202
+      ],
+      "sha256": "7165f0963f168c8602ee64b998264a43d036d702d52f79741a223325ecd990b2"
+    },
+    {
+      "path": "Figures/thumb_BC-R2-2.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/BC-R2-2.png",
+      "source_sha256": "0cbca8b4c927826681d30b08dca2547d280b5973c0bcad05f63f9b1ceae00b95",
+      "source_size": [
+        2804,
+        1114
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2804,
+            1114
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        143
+      ],
+      "sha256": "cd25495b5bf2526dd10d5aa99fe3558749d20c1e36cccab8d745151e1f3c05cd"
+    },
+    {
+      "path": "Figures/thumb_BC-R2-3.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/BC-R2-3.png",
+      "source_sha256": "e859eba900a881b425b0db772c90b59b738060adaf51476224d385b069bca232",
+      "source_size": [
+        1118,
+        818
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1118,
+            818
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        263
+      ],
+      "sha256": "0fc9684127a3b535ccd25761637605b28d02129c7dd49006645338696760a187"
+    },
+    {
+      "path": "Figures/thumb_WC-R2-1.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/WC-R2-1.png",
+      "source_sha256": "adaca117a10d144365a7eb27f88c8a5d79ec96c4648d9fbde84e8a8ba3e822ba",
+      "source_size": [
+        2816,
+        1408
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2816,
+            1408
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        180
+      ],
+      "sha256": "7fab18d1539a8d2f4ff0e14422e8130e427714a0112d4d5b1f52935f6a8f330b"
+    },
+    {
+      "path": "Figures/thumb_WC-R2-2.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/WC-R2-2.png",
+      "source_sha256": "fc548c32dd07c12495af9412492b1eb104a60aa35934a6b0b1b8efd5e5030470",
+      "source_size": [
+        2790,
+        550
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2790,
+            550
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        71
+      ],
+      "sha256": "13ebad5d86b07119c804e047a30e3033a5ff38163194685eca1e09692fdf64c1"
+    },
+    {
+      "path": "Figures/thumb_WC-R2-3.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/WC-R2-3.png",
+      "source_sha256": "d52a8d3e0052a87ddde0187ace5f0dce62fe3ca7c3339ffa123d55684eeb52b5",
+      "source_size": [
+        2782,
+        1366
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2782,
+            1366
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        177
+      ],
+      "sha256": "d55c2258f0601e4962463d05e654a5bf4c69216f503dc3f2c1d324d08f0d562e"
+    },
+    {
+      "path": "Figures/thumb_RC1-R2-1.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/RC1-R2-1.png",
+      "source_sha256": "f7a3072b903bcd7b23cf83b25f0061fab544db374ba5c631f17e4ae3e2034c12",
+      "source_size": [
+        2808,
+        1410
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2808,
+            1410
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        181
+      ],
+      "sha256": "35ee6ec00fffd347634033821ada2c9dff74d11023c09de3e68f82486e0fcd9c"
+    },
+    {
+      "path": "Figures/thumb_RC1-R2-2.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/RC1-R2-2.png",
+      "source_sha256": "302431cd1fdc21824aaf5851eb0adcc975b2848dabe125d684fb5e4944316bdb",
+      "source_size": [
+        2768,
+        1094
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2768,
+            1094
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        142
+      ],
+      "sha256": "5fead7a2d826b47b73f7a5f47e411cf721a097dc1db78ee11c1f05e46344f467"
+    },
+    {
+      "path": "Figures/thumb_RC1-R2-3.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/RC1-R2-3.png",
+      "source_sha256": "87a24dfd0965605ceb27df9d3620af3247031d6bab28d68afe9e19d7bb65e955",
+      "source_size": [
+        2786,
+        1346
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2786,
+            1346
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        174
+      ],
+      "sha256": "d64b8c7bc79fbf20af5bbb3189836457e34243a3865b203757674973abf7ee9d"
+    },
+    {
+      "path": "Figures/thumb_RC2-R2-1.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/RC2-R2-1.png",
+      "source_sha256": "29c562359585bd3dd010e74ab6c09c560828e60f31b515a6a1f1688fd8e6f5aa",
+      "source_size": [
+        2800,
+        1406
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2800,
+            1406
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        181
+      ],
+      "sha256": "312342cc145b74d5732e89d4d0768e785a32299457097d7b306d3169cf5d5046"
+    },
+    {
+      "path": "Figures/thumb_RC2-R2-2.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/RC2-R2-2.png",
+      "source_sha256": "47f316b4076f69d74b26d1751f693c64b4eeb5f60df00785febef2ec5dbcc9ff",
+      "source_size": [
+        2786,
+        540
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2786,
+            540
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        70
+      ],
+      "sha256": "4739c3b8cef7d8fd585d3ce7c8bcc8e4d7c719cd94a7a0c09552a14cd4359caf"
+    },
+    {
+      "path": "Figures/thumb_RC2-R2-3.png",
+      "kind": "thumbnail",
+      "source": "Sources/Scarlet/Screenshots/RC2-R2-3.png",
+      "source_sha256": "5960db86e67340f5fe2dfad0ec56cc172a80d37c6ad8b44b3ac477d7fbf54b7a",
+      "source_size": [
+        2792,
+        1356
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            2792,
+            1356
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        175
+      ],
+      "sha256": "2c4803b49d5b8ff874461d22f23cd86c2bcfcb10abd4c0e6df0a4030a257b141"
+    },
+    {
+      "path": "Figures/thumb_Run9_BC_01_setup.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run9_BC_01_setup.png",
+      "source_sha256": "d2885cc7c7094afd2122361e43ee649b083e4d5b638d516328ac63dc813cf1bd",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "97fa469e0ba1e7bf33a7fc4db4bd7804666ea0322c0f078b290c6c2dcd4b05ca"
+    },
+    {
+      "path": "Figures/thumb_Run9_BC_02_first_load.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run9_BC_02_first_load.png",
+      "source_sha256": "cb3d5b0a5d6df3e0dbc585a156afb5e485e03f7fb5129f493204a8bd839cf40e",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "c9576f94521aab4b859c448f0a9747f0b089e14afbce0961f2932b8636bc3ba6"
+    },
+    {
+      "path": "Figures/thumb_Run9_BC_03_first_branch.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run9_BC_03_first_branch.png",
+      "source_sha256": "2c02343d10cbb7a3892508064ce2a48809e189b6f50318bf448f589b1baee581",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "adc25621d36ad3a1827e651b96840178d7291ebaba46d95039df3372dc2135e6"
+    },
+    {
+      "path": "Figures/thumb_Run9_BC_04_pixel1_done.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run9_BC_04_pixel1_done.png",
+      "source_sha256": "fe0d957ccebed683e47c7278e4b15fd8673e6ccf6a6f4259b4710b76c4d02264",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1652
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        465
+      ],
+      "sha256": "65397c92197f2625ee1b9e6f7bdd2e3ba81474ae26d9c28a9a2369fd1fa2bb26"
+    },
+    {
+      "path": "Figures/thumb_Run9_BC_05_pixel8_done.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run9_BC_05_pixel8_done.png",
+      "source_sha256": "14521dc6c4c5c79b887667a6337bcdfcb834a2da01e5178552e0ed967ba2be58",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1652
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        465
+      ],
+      "sha256": "9ff3436f9015527f52ea6ed9790d46b43d5c371b051c0d7d0511eab07d1c4070"
+    },
+    {
+      "path": "Figures/thumb_Run9_BC_06_final.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run9_BC_06_final.png",
+      "source_sha256": "40cc00a805091ad2a86b06dd795f343827a2cc2d6df0ebe692ff55997399dde7",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1687
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        474
+      ],
+      "sha256": "a8a8587ae8e8dba516cf5849b4946e78811be252a5efa2831958a139c5bcccf9"
+    },
+    {
+      "path": "Figures/thumb_Run10_WC_01_setup.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run10_WC_01_setup.png",
+      "source_sha256": "81ab3a051168c1c8477c31eeef811da6888c6be9d0537ca8bd2d59c1fb47072e",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "a641d2234b9be079144723e1d21ab7afea4a51273f233a6ef3de7245f8e52c20"
+    },
+    {
+      "path": "Figures/thumb_Run10_WC_02_first_load.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run10_WC_02_first_load.png",
+      "source_sha256": "4278f823c6954c38b27a3e0ccf4d3d3d475862d75cb62f84d43e24946f141603",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "30fcafea1833a5e9231f810687fff62d3418e78fa0d57d0597c4129a4b62446f"
+    },
+    {
+      "path": "Figures/thumb_Run10_WC_03_first_branch.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run10_WC_03_first_branch.png",
+      "source_sha256": "23e762e13fb462f570d410c9b39e3951271cec051aff4b78a2a91e38aa390084",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "37aaa65e8d7c78fd2efbec27fd769322bc267a0d7c5bf73c45da977c09366fd9"
+    },
+    {
+      "path": "Figures/thumb_Run10_WC_04_pixel1_done.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run10_WC_04_pixel1_done.png",
+      "source_sha256": "e18d54f68d9b9bebffbaf42fd49d5a4257fdd1e10e3077f2802692604177c04a",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1652
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        465
+      ],
+      "sha256": "8393141bc2e843d6ad59c086cfcc2b7303f3cb098cc5efb233c1b98a666f53eb"
+    },
+    {
+      "path": "Figures/thumb_Run10_WC_05_pixel8_done.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run10_WC_05_pixel8_done.png",
+      "source_sha256": "2ebe7c03cacb111e6fabbd107dd7bb6077e6d3e8a6dbb627efe8fd884fa0925b",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1652
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        465
+      ],
+      "sha256": "d94b555e91eaea15060631e5178500a103c36fe974301b3e3c0d9184d102eb43"
+    },
+    {
+      "path": "Figures/thumb_Run10_WC_06_final.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run10_WC_06_final.png",
+      "source_sha256": "96dd916f351065cabd8699eb484fd0580f5c312d7e0e8014c39b976318f6f77e",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1687
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        474
+      ],
+      "sha256": "e742173c565f4d5629fbbbb3b27ed5782a25208247d074128eaa11ed51473f9c"
+    },
+    {
+      "path": "Figures/thumb_Run11_RC1_01_setup.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run11_RC1_01_setup.png",
+      "source_sha256": "0a18b2887e55da87f3d8d986ccffe309aff5e4822e42c55fc4fc1a493f1e4e42",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "397bfa0a6a9e680d3e2d31a316061c9eff94ff2d9908e340b4cf214701e8d94d"
+    },
+    {
+      "path": "Figures/thumb_Run11_RC1_02_first_load.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run11_RC1_02_first_load.png",
+      "source_sha256": "290480d47b1436e37c6d8869520d317d384b61bc2f6bf5bf1c390ea24bea0d37",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "c4611539dbc9ad1d607b1cf3575a6fd1f64dd7aa423d99b1e7627130ec172352"
+    },
+    {
+      "path": "Figures/thumb_Run11_RC1_03_first_branch.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run11_RC1_03_first_branch.png",
+      "source_sha256": "68c2f778c5e9066685220c87068101b281da25ccddcc463db6f49352df8e1f29",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "b34d867b54e0563e1688aa6e1a5b6028cc22919b8bdba944a0f55de8bb4b0bd4"
+    },
+    {
+      "path": "Figures/thumb_Run11_RC1_04_pixel1_done.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run11_RC1_04_pixel1_done.png",
+      "source_sha256": "6af10968593c3991c61e1ceb164988a1f64f0b9cb64cb4a11bf1fde83d948458",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1652
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        465
+      ],
+      "sha256": "c658928d986abb7fab9564a43ee93cbcc1fee15ec6b63894f668781b4eac7323"
+    },
+    {
+      "path": "Figures/thumb_Run11_RC1_05_pixel8_done.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run11_RC1_05_pixel8_done.png",
+      "source_sha256": "19b8597a13698ec25110e7a7e0d133681934c015fb329c20cdb42f70d1ddd200",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1652
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        465
+      ],
+      "sha256": "944b89e802bb39b547eadcfc2e59c9bd3651a52b3be1dd2405d76896b87612be"
+    },
+    {
+      "path": "Figures/thumb_Run11_RC1_06_final.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run11_RC1_06_final.png",
+      "source_sha256": "76df07211bb608a5a3308246ddac25e6b4b5ea2a8eee62be1f69799a19023041",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1687
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        474
+      ],
+      "sha256": "5edccc1054c41f36e9a9a8005b70f5e399c443ee8954655a97a7b03f494a84a3"
+    },
+    {
+      "path": "Figures/thumb_Run12_RC2_01_setup.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run12_RC2_01_setup.png",
+      "source_sha256": "ee0d6c7a5581033b17c1e8924155d2a7417b6ceabcd00fb29aea658650e983e7",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "79cd639a862ad2f9fd42b4cc8b366850f417723448f2fdfec81264382afb9fb1"
+    },
+    {
+      "path": "Figures/thumb_Run12_RC2_02_first_load.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run12_RC2_02_first_load.png",
+      "source_sha256": "c301169d387b0f43adc1ed3e2872967f9a98dc273eaef614eb91259813ef75c2",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "64886d3cb2892e0e9d51f2b206e30db9d3e8c58945d82395178c51e634028024"
+    },
+    {
+      "path": "Figures/thumb_Run12_RC2_03_first_branch.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run12_RC2_03_first_branch.png",
+      "source_sha256": "8e2439604d34d4576e3f79d9727bcfc7731455c18f89e2e1dc2893708dfc22f2",
+      "source_size": [
+        1280,
+        1622
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1622
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        456
+      ],
+      "sha256": "d8e941fa429c954f5f09655c5350312856351c42f9b7a40f44ee9b26aed15a8a"
+    },
+    {
+      "path": "Figures/thumb_Run12_RC2_04_pixel1_done.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run12_RC2_04_pixel1_done.png",
+      "source_sha256": "392bc0bee0acf4d0c561728cc2a0b84cd9ec98072860a2130faaa5429033e71a",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1652
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        465
+      ],
+      "sha256": "3e5a4c276e2c112429bb59e6c0d6b6ff3546c63cacccaf02c6f94b38f39e7cbb"
+    },
+    {
+      "path": "Figures/thumb_Run12_RC2_05_pixel8_done.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run12_RC2_05_pixel8_done.png",
+      "source_sha256": "b10b55e62a04a5d8bf22b438ad75db4e5a3a5ad9e4e3752f65332e9545770bdb",
+      "source_size": [
+        1280,
+        1652
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1652
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        465
+      ],
+      "sha256": "fa3ff8f2086f06d08377c1eaceb43f7823bca22d94b44fe6a08e80589c020963"
+    },
+    {
+      "path": "Figures/thumb_Run12_RC2_06_final.png",
+      "kind": "thumbnail",
+      "source": "Traces/Run12_RC2_06_final.png",
+      "source_sha256": "84cccd5604bf4d9fa70df1465ac2841e8018fdaf8d6e0f556ae10e2f1908ed77",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1687
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        474
+      ],
+      "sha256": "0410f90341fd6698245401308edb3f1531fa8a7fb7bf050982f593d1d00b6a51"
+    },
+    {
+      "path": "Figures/thumb_baseline_final_state.png",
+      "kind": "thumbnail",
+      "source": "Optimizations/baseline_final_state.png",
+      "source_sha256": "6d78ee37d76701e169e0f20435a77fc697d78ddfc8cf5fbb3f024d83afb5f511",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1687
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        474
+      ],
+      "sha256": "ccf7ab1c37ef4ed31917fe26bfc303c1018e0648e5b6ad5ea0056b79dae345a8"
+    },
+    {
+      "path": "Figures/thumb_branchfree_final_state.png",
+      "kind": "thumbnail",
+      "source": "Optimizations/branchfree_final_state.png",
+      "source_sha256": "5b8fbfc661dc25952f48a7b6f1d8a3325afccbb40de93b1c6ae4d5bb3265647f",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1687
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        474
+      ],
+      "sha256": "dd77d2f70a95efd132adb01a3780103f042c3e5abe4a8103d5508bf3be82546c"
+    },
+    {
+      "path": "Figures/thumb_unrolled_final_state.png",
+      "kind": "thumbnail",
+      "source": "Optimizations/unrolled_final_state.png",
+      "source_sha256": "5354035461a782100b130feed9eec47297b69d78211416413828969be6f5ef3b",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1687
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        474
+      ],
+      "sha256": "68dde08348d42da2f75cc74c36bf0a8e233faa1bffada329cf356e2787f0dcc3"
+    },
+    {
+      "path": "Figures/thumb_looptest_final_state.png",
+      "kind": "thumbnail",
+      "source": "Optimizations/looptest_final_state.png",
+      "source_sha256": "32ab28ca9013ffd888f5a4e3107fc8446cf67972584c60df284d8bf5c36b8b45",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1687
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        474
+      ],
+      "sha256": "35fb90c7d4b169557ec349bfb3af4e83a9e78e9eccd0c848201b95bd5534b6ab"
+    },
+    {
+      "path": "Figures/thumb_combined_final_state.png",
+      "kind": "thumbnail",
+      "source": "Optimizations/combined_final_state.png",
+      "source_sha256": "ca5602ab5fec2caf8388fa5a9c39cc6513045129e9d7b24458aba5bdc486513c",
+      "source_size": [
+        1280,
+        1687
+      ],
+      "parts": [
+        {
+          "box": [
+            0,
+            0,
+            1280,
+            1687
+          ],
+          "at": [
+            0,
+            0
+          ]
+        }
+      ],
+      "size": [
+        360,
+        474
+      ],
+      "sha256": "2ee793cd945216a8b59651aa587fa0ed43d1678b9a74e9582722b962e296b475"
+    }
+  ]
+}

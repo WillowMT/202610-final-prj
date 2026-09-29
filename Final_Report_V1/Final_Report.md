@@ -26,6 +26,8 @@ The [repository comparison](Repository_Comparison.md) explains what was retained
 
 Recorded metrics for Runs 1–8 come from the [Local logs](Sources/Local/Logs.md) and [Scarlet logs](Sources/Scarlet/Logs.md), checked against screenshots. Runs 9–12 and the optimization measurements were recorded from the same unchanged simulator for this version; their drivers, raw records and analysis scripts are in `Traces/` and `Optimizations/`. Instruction behavior comes from the [simulator source](Sources/Local/Project1_CPU_Simulator.html). Averages, reconstructed paths and workload projections are calculations; the optimization results in Section 3 are measurements.
 
+**Screenshot evidence is embedded below:** Figures 1–4 show pixel memory, Figures 5–16 show execution checkpoints, and Figures 17–20 show final metrics for all four cases. The [screenshot gallery](#appendix-a-screenshot-gallery) includes all 44 run screenshots and five optimization sample screenshots. Each figure identifies its run and links to its original image. Pixel and metric figures are unscaled crops; checkpoint figures rearrange the four status boxes above the register panel from the **same screenshot**. Values, colors and existing visibility limitations are preserved. These are presentation copies of the existing evidence, not additional experiments; crop coordinates and source checksums are in [Figures/manifest.json](Figures/manifest.json).
+
 ## 1. Instruction trace and experiment evidence
 
 ### 1.1 The twelve experiments
@@ -126,6 +128,26 @@ The input evidence has three levels:
 
 All pairs are mathematically consistent with the brightness rule. The three inferred pairs cannot independently establish output correctness because the same rule was used to obtain their inputs.
 
+#### Visible pixel memory: one completed run per case
+
+The top grid in each figure shows the input pixels; the bottom grid shows the stored outputs. Read each grid left to right, then top to bottom. Dark cells retain the simulator's low-contrast text; the numeric input/output lists are also available in the linked step logs.
+
+![Figure 1: Run 9 Best Case input and output pixel grids.](Figures/Run9_BC_final_pixels.png)
+
+**Figure 1 — Best Case, Run 9.** All sixteen zero inputs produce 32. The input numbers are black on black, so their values come from the case definition rather than a visual reading. [Original screenshot](Traces/Run9_BC_06_final.png) · [Recorded pixel values](Traces/Run9_BC_StepLog.md).
+
+![Figure 2: Run 10 Worst Case input and output pixel grids.](Figures/Run10_WC_final_pixels.png)
+
+**Figure 2 — Worst Case, Run 10.** Alternating inputs 64 and 192 become 96 and 184, respectively. [Original screenshot](Traces/Run10_WC_06_final.png) · [Recorded pixel values](Traces/Run10_WC_StepLog.md).
+
+![Figure 3: Run 11 Real Case 1 input and output pixel grids.](Figures/Run11_RC1_final_pixels.png)
+
+**Figure 3 — Real Case 1, Run 11.** The mixed input takes both arithmetic paths; for example, the first two pixels change from 35 to 67 and from 180 to 172. [Original screenshot](Traces/Run11_RC1_06_final.png) · [Recorded pixel values](Traces/Run11_RC1_StepLog.md).
+
+![Figure 4: Run 12 Real Case 2 input and output pixel grids.](Figures/Run12_RC2_final_pixels.png)
+
+**Figure 4 — Real Case 2, Run 12.** The first eight bright pixels take subtraction and the last eight dark pixels take addition. The first pixel changes from 232 to 224; pixel 9 changes from 1 to 33. [Original screenshot](Traces/Run12_RC2_06_final.png) · [Recorded pixel values](Traces/Run12_RC2_StepLog.md).
+
 For an actual timing history, define `M_i = 1` for a cache miss on pixel i and `B_i = 1` for an incorrect brightness prediction. Then:
 
 ```text
@@ -139,7 +161,7 @@ The archived [Worst Case trace workbook](Sources/Scarlet/Step_Trace_Worst_Case.x
 
 ### 1.5 Recorded step traces (Runs 9–12)
 
-Each traced run was recorded by advancing the simulator one instruction at a time through its own STEP behavior and logging the state after every step: executed PC, cycle interval, running total, registers, pixel counter, and the cache/branch message. Each step log lists six checkpoint screenshots (setup, first load, first branch decision, pixel 1 done, pixel 8 done, final); the table in Section 1.1 links the first, pixel-1 and final ones. The step logs are genuine records, not reconstructions:
+Each traced run was recorded by advancing the simulator one instruction at a time through its own STEP behavior and logging the state after every step: executed PC, cycle interval, running total, registers, pixel counter, and the cache/branch message. Each step log lists six checkpoint screenshots (setup, first load, first branch decision, pixel 1 done, pixel 8 done, final). Setup, pixel-1 and final-state panels are embedded below; all six screenshots appear in the appendix gallery. The step logs are genuine records, not reconstructions:
 
 <!-- table:trace-runs -->
 | Run | Run ID | Total cycles | Base cycles | Steps recorded | Cache misses (positions of 16) | Brightness mispredictions (positions) |
@@ -158,6 +180,66 @@ Three findings from the traces:
 - **The positions show the model's randomness.** Run 12's mispredictions (pixels 2 and 13) and its misses (pixels 4, 9 and 16) are scattered across the image. Nothing about the pixel pattern determines them, because the code draws each outcome at random; the trace simply records where the draws fell.
 
 Together with the totals in Section 2, the traces satisfy the assignment's requirement for an instruction-by-instruction record and per-iteration events.
+
+#### Reading the execution checkpoints
+
+Each figure below combines intact status boxes and the register panel from one recorded screenshot, arranged vertically for readability. **Current PC is the next instruction:** it is `0x08` after setup and after the first loop iteration, then `0x34` when all pixels are complete. Returning to `0x08` is expected loop behavior. The full PC sequence, including intermediate loads and branches, is recorded in the step logs; the appendix also shows the first-load and first-branch screenshots. Any register-panel clipping is inherited from the original capture.
+
+#### Best Case checkpoints — Run 9
+
+![Figure 5: Run 9 after setup, with PC 0x08, R0 zero and R1 0x400.](Figures/Run9_BC_setup_state.png)
+
+**Figure 5 — After setup.** R0 is zero and R1 points to the first pixel (`0x400`); no pixels or branch predictions have been counted. [Original screenshot](Traces/Run9_BC_01_setup.png).
+
+![Figure 6: Run 9 after pixel 1, with R0 0x01, R1 0x401 and output R4 0x20.](Figures/Run9_BC_pixel1_done_state.png)
+
+**Figure 6 — Pixel 1 complete.** R3 = `0x00` becomes R4 = `0x20` (32). The pointer advances to `0x401` and PC returns to `0x08`. [Original screenshot](Traces/Run9_BC_04_pixel1_done.png).
+
+![Figure 7: Run 9 final state, PC 0x34, 16 pixels, 31 of 32 branches correct and 156 stall cycles.](Figures/Run9_BC_final_state.png)
+
+**Figure 7 — Run 9 complete.** R0 = `0x10` and R1 = `0x410`; the counters show 31/32 correct branches and 156 stall cycles. Figure 17 shows the total of 366 cycles. [Original screenshot](Traces/Run9_BC_06_final.png).
+
+#### Worst Case checkpoints — Run 10
+
+![Figure 8: Run 10 after setup, with PC 0x08 and no pixels processed.](Figures/Run10_WC_setup_state.png)
+
+**Figure 8 — After setup.** The Worst Case starts with the same counter and pointer state as Best Case. [Original screenshot](Traces/Run10_WC_01_setup.png).
+
+![Figure 9: Run 10 after pixel 1, showing input R3 0x40 and output R4 0x60.](Figures/Run10_WC_pixel1_done_state.png)
+
+**Figure 9 — Pixel 1 complete.** Input 64 (`0x40`) becomes 96 (`0x60`); both branch predictions so far are correct and no stall cycles have accumulated. [Original screenshot](Traces/Run10_WC_04_pixel1_done.png).
+
+![Figure 10: Run 10 final state, PC 0x34, 16 pixels, 25 of 32 branches correct and 152 stall cycles.](Figures/Run10_WC_final_state.png)
+
+**Figure 10 — Run 10 complete.** The last bright pixel changes from `0xC0` to `0xB8` (192 to 184). Seven wrong predictions leave 25/32 correct; Figure 18 shows the single cache miss and 378-cycle total. [Original screenshot](Traces/Run10_WC_06_final.png).
+
+#### Real Case 1 checkpoints — Run 11
+
+![Figure 11: Run 11 after setup, with PC 0x08, R0 zero and R1 0x400.](Figures/Run11_RC1_setup_state.png)
+
+**Figure 11 — After setup.** The pointer is ready for the first indoor-photo pixel, with all event counters at zero. [Original screenshot](Traces/Run11_RC1_01_setup.png).
+
+![Figure 12: Run 11 after pixel 1, showing R3 0x23, R4 0x43, 1 of 2 branches correct and 15 stalls.](Figures/Run11_RC1_pixel1_done_state.png)
+
+**Figure 12 — Pixel 1 complete.** Input 35 becomes 67 (`0x23` → `0x43`). The 1/2 branch counter and 15 stall cycles show the first brightness misprediction; the recorded load was a hit. [Original screenshot](Traces/Run11_RC1_04_pixel1_done.png) · [Step log](Traces/Run11_RC1_StepLog.md).
+
+![Figure 13: Run 11 final state, PC 0x34, 16 pixels, 26 of 32 branches correct and 231 stalls.](Figures/Run11_RC1_final_state.png)
+
+**Figure 13 — Run 11 complete.** The final input/output registers contain 140 and 132 (`0x8C` → `0x84`). Figure 19 shows the matching 451-cycle total and cache counters. [Original screenshot](Traces/Run11_RC1_06_final.png).
+
+#### Real Case 2 checkpoints — Run 12
+
+![Figure 14: Run 12 after setup, with PC 0x08 and zero processed pixels.](Figures/Run12_RC2_setup_state.png)
+
+**Figure 14 — After setup.** The clustered case starts at pixel address `0x400`, before any pixel load or branch decision. [Original screenshot](Traces/Run12_RC2_01_setup.png).
+
+![Figure 15: Run 12 after pixel 1, showing input R3 0xE8 and output R4 0xE0.](Figures/Run12_RC2_pixel1_done_state.png)
+
+**Figure 15 — Pixel 1 complete.** The first bright input changes from 232 to 224 (`0xE8` → `0xE0`). R0 advances to one, R1 to `0x401`, and PC returns to `0x08`. [Original screenshot](Traces/Run12_RC2_04_pixel1_done.png).
+
+![Figure 16: Run 12 final state, PC 0x34, 16 pixels, 30 of 32 branches correct and 171 stalls.](Figures/Run12_RC2_final_state.png)
+
+**Figure 16 — Run 12 complete.** The last dark input changes from 92 to 124 (`0x5C` → `0x7C`). The final counters show 30/32 correct branches and 171 stalls; Figure 20 shows the 397-cycle total. [Original screenshot](Traces/Run12_RC2_06_final.png).
 
 ### 1.6 What the simulator models
 
@@ -208,6 +290,26 @@ The cache denominator is 16 loads, not all 32 pixel reads and writes. The report
 | 12 | 81.3% | 18.8% | 93.8% | 6.3% | 87.5% |
 
 For example, Run 2 has nine wrong predictions: overall error is `9/32 = 28.125%`, while brightness-only error is `9/16 = 56.25%`. Rounded complementary rates can add to 100.1%; the counts are the calculation source.
+
+#### Final metrics visible in the simulator
+
+The following crops show the final metrics for the same four traced runs pictured above. They are **individual run results**, not the three-run means in Section 2.3 or the 40-run optimization means in Section 3. The estimated full-image value displayed in each screenshot belongs to that individual run.
+
+![Figure 17: Run 9 final metrics showing 366 cycles, 22.88 CPP, 13 cache hits, 3 misses and 31 of 32 correct branches.](Figures/Run9_BC_final_metrics.png)
+
+**Figure 17 — Best Case, Run 9.** 366 cycles; 13 hits and 3 misses; 31/32 correct branches; 156 stall cycles. [Original screenshot](Traces/Run9_BC_06_final.png).
+
+![Figure 18: Run 10 final metrics showing 378 cycles, 23.63 CPP, 15 cache hits, 1 miss and 25 of 32 correct branches.](Figures/Run10_WC_final_metrics.png)
+
+**Figure 18 — Worst Case, Run 10.** 378 cycles; 15 hits and 1 miss; 25/32 correct branches; 152 stall cycles. Its unusually small miss count explains why this run is faster than the other Worst Case runs. [Original screenshot](Traces/Run10_WC_06_final.png).
+
+![Figure 19: Run 11 final metrics showing 451 cycles, 28.19 CPP, 13 cache hits, 3 misses and 26 of 32 correct branches.](Figures/Run11_RC1_final_metrics.png)
+
+**Figure 19 — Real Case 1, Run 11.** 451 cycles; 13 hits and 3 misses; 26/32 correct branches; 231 stall cycles. [Original screenshot](Traces/Run11_RC1_06_final.png).
+
+![Figure 20: Run 12 final metrics showing 397 cycles, 24.81 CPP, 13 cache hits, 3 misses and 30 of 32 correct branches.](Figures/Run12_RC2_final_metrics.png)
+
+**Figure 20 — Real Case 2, Run 12.** 397 cycles; 13 hits and 3 misses; 30/32 correct branches; 171 stall cycles. [Original screenshot](Traces/Run12_RC2_06_final.png).
 
 ### 2.2 Exact reconciliation
 
@@ -289,6 +391,8 @@ Prefetching remains a calculation only, because the simulator draws hits randoml
 Each variant is the original HTML file plus an appended script that replaces the instruction program and the `stepForward()` function; the page, counters and messages are otherwise unchanged. The generator is [make_variants.py](Optimizations/make_variants.py) and the four variant files are in [Optimizations/](Optimizations/). [measure_runs.js](Optimizations/measure_runs.js) drove `initSimulation()` and `stepForward()` directly for every repeat, recorded the final counters and checked every output pixel against the brightness rule. [summarize_measurements.py](Optimizations/summarize_measurements.py) validated the raw data: all 800 runs satisfy `cycles = base + 47 × misses + 15 × mispredictions`, all outputs were correct, and the observed branch counts match each program (32 for the baseline and loop-test, 20 for unrolled, 16 for branch-free, 4 for combined). Full results are in [measured_summary.json](Optimizations/measured_summary.json) and the five `measure_*.json` files.
 
 These are measurements from the same teaching model as the recorded runs, not hardware benchmarks. The baseline measured here gives slightly different means than the twelve recorded runs because a 40-run sample and a 3-run sample differ, and because the pinned Real Case 2 list is one of many possible inputs.
+
+The [optimization screenshot gallery](#a3-optimization-sample-screenshots) shows a captured final state for each of the five programs. Those pictures illustrate individual executions; the raw records linked above, rather than the sample screenshots, support the 40-run means below.
 
 ### 3.3 Measured results
 
@@ -446,7 +550,7 @@ The report follows all four requested deliverable areas. The distinction between
 |---|---|---|
 | At least five experiments; all four test cases | Section 1.1: twelve complete runs, three per case | Met |
 | Full cycle-by-cycle breakdown for each test case | Section 1.5: Runs 9–12 step logs record every PC, cycle interval and running total for all four cases | Met |
-| Screenshots of registers, memory state and PC progression | 20 final-state screenshots plus 24 checkpoint screenshots from Runs 9–12, linked in Section 1.1 | Met |
+| Screenshots of registers, memory state and PC progression | Figures 1–20 embed pixel grids, checkpoint states and metrics; Appendix A shows all 44 run screenshots | Met |
 | Cache hit/miss and branch events each iteration | Section 1.5: every event position recorded in Runs 9–12 | Met |
 | Total cycles for each test case | Section 2.1 | Met |
 | CPP | Section 2.1 | Met |
@@ -465,3 +569,127 @@ The six quick-guide questions are covered by Section 2.1 (collect), Sections 2.2
 The combined runs exceed the minimum experiment count and show how random delays change repeated results. The recorded ranking of baseline performance across three-run means is Best (376.7), Real 1 (431.0), Real 2 (433.3), then Worst (461.3). Cache misses dominate waiting in eleven of twelve runs; the extra Worst Case cost is largely branch mistakes. The measured study answers the assignment's optimization requirement: unrolling is best for Best Case, the combined branch-free unrolled program is best for the other three cases, and branch-free selection alone only pays off when mispredictions are frequent. Prefetching remains the one strategy without a measured implementation, because the teaching model has no cache contents to prefetch.
 
 Genuine limitations remain on the record: the measurements come from this teaching model with stated cost assumptions, not from hardware; Runs 1–8 still lack individual event positions (superseded by Runs 9–12 for evidence purposes); and a real compiler-based evaluation of the variants would need a different tool. None of these blocks the assignment deliverables, and the [grading assessment](Grading.md) has been updated against the same evidence.
+
+## Appendix A: Screenshot gallery
+
+This gallery embeds previews of **all 44 run screenshots**, followed by **five optimization sample screenshots**. Each preview shows the entire original capture, scaled down for navigation. Select the image or its **Original** link to inspect the full-resolution file. The larger crops in Figures 1–20 provide readable evidence within the discussion; gallery previews are an index, not substitutes for reading small values at full resolution.
+
+### A.1 Original final-state evidence — Runs 1–8
+
+#### Run 1 — Best Case, Local
+
+| Summary and registers | Pixels and metrics |
+|---|---|
+| [![Run 1 summary and registers.](Figures/thumb_BC-1.png)](Sources/Local/Screenshots/BC-1.png) | [![Run 1 pixels and metrics.](Figures/thumb_BC-2.png)](Sources/Local/Screenshots/BC-2.png) |
+| [Original BC-1](Sources/Local/Screenshots/BC-1.png) | [Original BC-2](Sources/Local/Screenshots/BC-2.png) |
+
+#### Run 2 — Worst Case, Local
+
+| Summary and registers | Pixels and metrics |
+|---|---|
+| [![Run 2 summary and registers.](Figures/thumb_WC-1.png)](Sources/Local/Screenshots/WC-1.png) | [![Run 2 pixels and metrics.](Figures/thumb_WC-2.png)](Sources/Local/Screenshots/WC-2.png) |
+| [Original WC-1](Sources/Local/Screenshots/WC-1.png) | [Original WC-2](Sources/Local/Screenshots/WC-2.png) |
+
+#### Run 3 — Real Case 1, Local
+
+| Summary and registers | Pixels and metrics |
+|---|---|
+| [![Run 3 summary and registers.](Figures/thumb_RC1-1.png)](Sources/Local/Screenshots/RC1-1.png) | [![Run 3 pixels and metrics.](Figures/thumb_RC1-2.png)](Sources/Local/Screenshots/RC1-2.png) |
+| [Original RC1-1](Sources/Local/Screenshots/RC1-1.png) | [Original RC1-2](Sources/Local/Screenshots/RC1-2.png) |
+
+#### Run 4 — Real Case 2, Local
+
+| Summary and registers | Pixels and metrics |
+|---|---|
+| [![Run 4 summary and registers.](Figures/thumb_RC2-1.png)](Sources/Local/Screenshots/RC2-1.png) | [![Run 4 pixels and metrics.](Figures/thumb_RC2-2.png)](Sources/Local/Screenshots/RC2-2.png) |
+| [Original RC2-1](Sources/Local/Screenshots/RC2-1.png) | [Original RC2-2](Sources/Local/Screenshots/RC2-2.png) |
+
+#### Run 5 — Best Case, Scarlet
+
+| Summary | Registers and pixels | Metrics |
+|---|---|---|
+| [![Run 5 summary.](Figures/thumb_BC-R2-1.png)](Sources/Scarlet/Screenshots/BC-R2-1.png) | [![Run 5 registers and pixels.](Figures/thumb_BC-R2-2.png)](Sources/Scarlet/Screenshots/BC-R2-2.png) | [![Run 5 metrics.](Figures/thumb_BC-R2-3.png)](Sources/Scarlet/Screenshots/BC-R2-3.png) |
+| [Original BC-R2-1](Sources/Scarlet/Screenshots/BC-R2-1.png) | [Original BC-R2-2](Sources/Scarlet/Screenshots/BC-R2-2.png) | [Original BC-R2-3](Sources/Scarlet/Screenshots/BC-R2-3.png) |
+
+#### Run 6 — Worst Case, Scarlet
+
+| Summary | Registers | Pixels and metrics |
+|---|---|---|
+| [![Run 6 summary.](Figures/thumb_WC-R2-1.png)](Sources/Scarlet/Screenshots/WC-R2-1.png) | [![Run 6 registers.](Figures/thumb_WC-R2-2.png)](Sources/Scarlet/Screenshots/WC-R2-2.png) | [![Run 6 pixels and metrics.](Figures/thumb_WC-R2-3.png)](Sources/Scarlet/Screenshots/WC-R2-3.png) |
+| [Original WC-R2-1](Sources/Scarlet/Screenshots/WC-R2-1.png) | [Original WC-R2-2](Sources/Scarlet/Screenshots/WC-R2-2.png) | [Original WC-R2-3](Sources/Scarlet/Screenshots/WC-R2-3.png) |
+
+#### Run 7 — Real Case 1, Scarlet
+
+| Summary | Registers | Pixels and metrics |
+|---|---|---|
+| [![Run 7 summary.](Figures/thumb_RC1-R2-1.png)](Sources/Scarlet/Screenshots/RC1-R2-1.png) | [![Run 7 registers.](Figures/thumb_RC1-R2-2.png)](Sources/Scarlet/Screenshots/RC1-R2-2.png) | [![Run 7 pixels and metrics.](Figures/thumb_RC1-R2-3.png)](Sources/Scarlet/Screenshots/RC1-R2-3.png) |
+| [Original RC1-R2-1](Sources/Scarlet/Screenshots/RC1-R2-1.png) | [Original RC1-R2-2](Sources/Scarlet/Screenshots/RC1-R2-2.png) | [Original RC1-R2-3](Sources/Scarlet/Screenshots/RC1-R2-3.png) |
+
+#### Run 8 — Real Case 2, Scarlet
+
+| Summary | Registers | Pixels and metrics |
+|---|---|---|
+| [![Run 8 summary.](Figures/thumb_RC2-R2-1.png)](Sources/Scarlet/Screenshots/RC2-R2-1.png) | [![Run 8 registers.](Figures/thumb_RC2-R2-2.png)](Sources/Scarlet/Screenshots/RC2-R2-2.png) | [![Run 8 pixels and metrics.](Figures/thumb_RC2-R2-3.png)](Sources/Scarlet/Screenshots/RC2-R2-3.png) |
+| [Original RC2-R2-1](Sources/Scarlet/Screenshots/RC2-R2-1.png) | [Original RC2-R2-2](Sources/Scarlet/Screenshots/RC2-R2-2.png) | [Original RC2-R2-3](Sources/Scarlet/Screenshots/RC2-R2-3.png) |
+
+### A.2 Complete checkpoint sequences — Runs 9–12
+
+Read each sequence left to right across the first row, then the second row. These are the six captured checkpoints of one run, not six separate experiments.
+
+#### Run 9 — Best Case trace
+
+| Setup | First load | First branch |
+|---|---|---|
+| [![Run 9 setup.](Figures/thumb_Run9_BC_01_setup.png)](Traces/Run9_BC_01_setup.png) | [![Run 9 first load.](Figures/thumb_Run9_BC_02_first_load.png)](Traces/Run9_BC_02_first_load.png) | [![Run 9 first branch.](Figures/thumb_Run9_BC_03_first_branch.png)](Traces/Run9_BC_03_first_branch.png) |
+| [Original: setup](Traces/Run9_BC_01_setup.png) | [Original: first load](Traces/Run9_BC_02_first_load.png) | [Original: first branch](Traces/Run9_BC_03_first_branch.png) |
+| **Pixel 1 complete** | **Pixel 8 complete** | **Final state** |
+| [![Run 9 pixel 1 complete.](Figures/thumb_Run9_BC_04_pixel1_done.png)](Traces/Run9_BC_04_pixel1_done.png) | [![Run 9 pixel 8 complete.](Figures/thumb_Run9_BC_05_pixel8_done.png)](Traces/Run9_BC_05_pixel8_done.png) | [![Run 9 final state.](Figures/thumb_Run9_BC_06_final.png)](Traces/Run9_BC_06_final.png) |
+| [Original: pixel 1](Traces/Run9_BC_04_pixel1_done.png) | [Original: pixel 8](Traces/Run9_BC_05_pixel8_done.png) | [Original: final](Traces/Run9_BC_06_final.png) |
+
+#### Run 10 — Worst Case trace
+
+| Setup | First load | First branch |
+|---|---|---|
+| [![Run 10 setup.](Figures/thumb_Run10_WC_01_setup.png)](Traces/Run10_WC_01_setup.png) | [![Run 10 first load.](Figures/thumb_Run10_WC_02_first_load.png)](Traces/Run10_WC_02_first_load.png) | [![Run 10 first branch.](Figures/thumb_Run10_WC_03_first_branch.png)](Traces/Run10_WC_03_first_branch.png) |
+| [Original: setup](Traces/Run10_WC_01_setup.png) | [Original: first load](Traces/Run10_WC_02_first_load.png) | [Original: first branch](Traces/Run10_WC_03_first_branch.png) |
+| **Pixel 1 complete** | **Pixel 8 complete** | **Final state** |
+| [![Run 10 pixel 1 complete.](Figures/thumb_Run10_WC_04_pixel1_done.png)](Traces/Run10_WC_04_pixel1_done.png) | [![Run 10 pixel 8 complete.](Figures/thumb_Run10_WC_05_pixel8_done.png)](Traces/Run10_WC_05_pixel8_done.png) | [![Run 10 final state.](Figures/thumb_Run10_WC_06_final.png)](Traces/Run10_WC_06_final.png) |
+| [Original: pixel 1](Traces/Run10_WC_04_pixel1_done.png) | [Original: pixel 8](Traces/Run10_WC_05_pixel8_done.png) | [Original: final](Traces/Run10_WC_06_final.png) |
+
+#### Run 11 — Real Case 1 trace
+
+| Setup | First load | First branch |
+|---|---|---|
+| [![Run 11 setup.](Figures/thumb_Run11_RC1_01_setup.png)](Traces/Run11_RC1_01_setup.png) | [![Run 11 first load.](Figures/thumb_Run11_RC1_02_first_load.png)](Traces/Run11_RC1_02_first_load.png) | [![Run 11 first branch.](Figures/thumb_Run11_RC1_03_first_branch.png)](Traces/Run11_RC1_03_first_branch.png) |
+| [Original: setup](Traces/Run11_RC1_01_setup.png) | [Original: first load](Traces/Run11_RC1_02_first_load.png) | [Original: first branch](Traces/Run11_RC1_03_first_branch.png) |
+| **Pixel 1 complete** | **Pixel 8 complete** | **Final state** |
+| [![Run 11 pixel 1 complete.](Figures/thumb_Run11_RC1_04_pixel1_done.png)](Traces/Run11_RC1_04_pixel1_done.png) | [![Run 11 pixel 8 complete.](Figures/thumb_Run11_RC1_05_pixel8_done.png)](Traces/Run11_RC1_05_pixel8_done.png) | [![Run 11 final state.](Figures/thumb_Run11_RC1_06_final.png)](Traces/Run11_RC1_06_final.png) |
+| [Original: pixel 1](Traces/Run11_RC1_04_pixel1_done.png) | [Original: pixel 8](Traces/Run11_RC1_05_pixel8_done.png) | [Original: final](Traces/Run11_RC1_06_final.png) |
+
+#### Run 12 — Real Case 2 trace
+
+| Setup | First load | First branch |
+|---|---|---|
+| [![Run 12 setup.](Figures/thumb_Run12_RC2_01_setup.png)](Traces/Run12_RC2_01_setup.png) | [![Run 12 first load.](Figures/thumb_Run12_RC2_02_first_load.png)](Traces/Run12_RC2_02_first_load.png) | [![Run 12 first branch.](Figures/thumb_Run12_RC2_03_first_branch.png)](Traces/Run12_RC2_03_first_branch.png) |
+| [Original: setup](Traces/Run12_RC2_01_setup.png) | [Original: first load](Traces/Run12_RC2_02_first_load.png) | [Original: first branch](Traces/Run12_RC2_03_first_branch.png) |
+| **Pixel 1 complete** | **Pixel 8 complete** | **Final state** |
+| [![Run 12 pixel 1 complete.](Figures/thumb_Run12_RC2_04_pixel1_done.png)](Traces/Run12_RC2_04_pixel1_done.png) | [![Run 12 pixel 8 complete.](Figures/thumb_Run12_RC2_05_pixel8_done.png)](Traces/Run12_RC2_05_pixel8_done.png) | [![Run 12 final state.](Figures/thumb_Run12_RC2_06_final.png)](Traces/Run12_RC2_06_final.png) |
+| [Original: pixel 1](Traces/Run12_RC2_04_pixel1_done.png) | [Original: pixel 8](Traces/Run12_RC2_05_pixel8_done.png) | [Original: final](Traces/Run12_RC2_06_final.png) |
+
+### A.3 Optimization sample screenshots
+
+These five screenshots show individual final states captured for the measurement study. They are separate from Runs 1–12 and **do not display the 40-run means**. Use the measurements in Section 3 and the [raw-data summary](Optimizations/measured_summary.json) for the strategy comparison.
+
+| Baseline | Branch-free |
+|---|---|
+| [![Baseline optimization-study sample final state.](Figures/thumb_baseline_final_state.png)](Optimizations/baseline_final_state.png) | [![Branch-free optimization-study sample final state.](Figures/thumb_branchfree_final_state.png)](Optimizations/branchfree_final_state.png) |
+| [Original: baseline](Optimizations/baseline_final_state.png) | [Original: branch-free](Optimizations/branchfree_final_state.png) |
+
+| Unrolled | Loop-test |
+|---|---|
+| [![Unrolled optimization-study sample final state.](Figures/thumb_unrolled_final_state.png)](Optimizations/unrolled_final_state.png) | [![Loop-test optimization-study sample final state.](Figures/thumb_looptest_final_state.png)](Optimizations/looptest_final_state.png) |
+| [Original: unrolled](Optimizations/unrolled_final_state.png) | [Original: loop-test](Optimizations/looptest_final_state.png) |
+
+[![Combined optimization-study sample final state.](Figures/thumb_combined_final_state.png)](Optimizations/combined_final_state.png)
+
+**Combined program — sample final state.** [Original screenshot](Optimizations/combined_final_state.png).
