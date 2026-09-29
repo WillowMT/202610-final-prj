@@ -1,0 +1,220 @@
+{
+  "snapshot_date": "2026-09-29",
+  "repositories": {
+    "Local": {
+      "url": "https://github.com/WillowMT/202610-final-prj",
+      "commit": "16affd82bf9f668d5671e055aa3e76297dfe63dd"
+    },
+    "Scarlet": {
+      "url": "https://github.com/Scarlet-astra/BSC104_final_project",
+      "commit": "016e2f92b9186c4a5ae9b7b9b27ed8eee4e915f9"
+    }
+  },
+  "files": [
+    {
+      "path": "Sources/Local/Analysis Report.md",
+      "sha256": "c779da920172d19a96f14b310825d6613ceeadfd219df3b3f0ccecc345a4f856",
+      "bytes": 31194
+    },
+    {
+      "path": "Sources/Local/Data Collection Sheet.xlsx",
+      "sha256": "8bdae703572fa62f69f6c326431c68d1c759e4d7217752f6869d8347915086b5",
+      "bytes": 14072
+    },
+    {
+      "path": "Sources/Local/How to Use Project 1 CPU Simulator - Quick Guide.md",
+      "sha256": "ea46984193ec9a2addcebacfd9768749fe449dc8dffe66275047905be7f13cd4",
+      "bytes": 7495
+    },
+    {
+      "path": "Sources/Local/Logs.md",
+      "sha256": "58a799429303ef68f334a46e5a15b7031759c08f90ef0cc023ae5ed9c630bdcc",
+      "bytes": 9750
+    },
+    {
+      "path": "Sources/Local/Next Steps Analysis.md",
+      "sha256": "f0f863bd158db9cc791a1dccde60949100120fa22efe665bc4296f37e0680e11",
+      "bytes": 9836
+    },
+    {
+      "path": "Sources/Local/Project 1 Scenario_ CPU Instruction Execution - Image Brightness Processing.md",
+      "sha256": "3518e0728ba716d000912d339e0f9c694bd0523a22d4601544e6deb6ff653f51",
+      "bytes": 7825
+    },
+    {
+      "path": "Sources/Local/Project1_CPU_Simulator.html",
+      "sha256": "8db8639b27210d77d05f49abb0d177b0c0afc5ee4cf5b383da40789d2c3d8df4",
+      "bytes": 26154
+    },
+    {
+      "path": "Sources/Local/Readme.md",
+      "sha256": "91657e6e6db3671d6d9c254df521120b5099caa34d9c7a4ffd5a6d0af7a9b349",
+      "bytes": 4212
+    },
+    {
+      "path": "Sources/Local/Report_Maker.md",
+      "sha256": "8e4675f089f4c3c85d1dca0e0e20da3af2be589b49727d528f1bc4a158c419aa",
+      "bytes": 6406
+    },
+    {
+      "path": "Sources/Local/Screenshots/BC-1.png",
+      "sha256": "e53809133a66b6dcd989f4eea9dbb5271216d5ef77081136eaed55d17dec6b44",
+      "bytes": 200815
+    },
+    {
+      "path": "Sources/Local/Screenshots/BC-2.png",
+      "sha256": "b595d5a4374f7f6b7d360b00b392586eb2da131a6f352bed3c7531b510df01b9",
+      "bytes": 201964
+    },
+    {
+      "path": "Sources/Local/Screenshots/RC1-1.png",
+      "sha256": "b7991a6975a0c58e294f7251f12b4a86199cbf34a0a1dbe5fcbaddd55eed7abe",
+      "bytes": 205082
+    },
+    {
+      "path": "Sources/Local/Screenshots/RC1-2.png",
+      "sha256": "3927cb2a221008618a5c72c6799bfc8b12e03d7d0b1eab65fe757ba1547ecd4f",
+      "bytes": 204345
+    },
+    {
+      "path": "Sources/Local/Screenshots/RC2-1.png",
+      "sha256": "55a00670b3e5d641c7aa267bfed6d699d040cb2f677f6c36059b80fb0323b962",
+      "bytes": 204183
+    },
+    {
+      "path": "Sources/Local/Screenshots/RC2-2.png",
+      "sha256": "f0bad445990cacd0bebe79c508c5c5561f6330fdabb60a4ce79b0ffdb8afd52a",
+      "bytes": 208891
+    },
+    {
+      "path": "Sources/Local/Screenshots/WC-1.png",
+      "sha256": "c53f78d3bae4f1647c274ff69ca020f794869a09d093b00247364637eca80c9a",
+      "bytes": 204332
+    },
+    {
+      "path": "Sources/Local/Screenshots/WC-2.png",
+      "sha256": "df3459a25489599bac894f5964dd8d9defb6564dc08483db638c3bdf38ce4ab0",
+      "bytes": 205910
+    },
+    {
+      "path": "Sources/Local/data-collection-template.md",
+      "sha256": "995f849c8144fa3b456bfac8f90bae87480036221d138b8bb7587fd259370ff9",
+      "bytes": 2522
+    },
+    {
+      "path": "Sources/Local/verify_logs_report_gaps.py",
+      "sha256": "051b3e8712e6c090277f830953d7bc6af3cee547d4d7844e9df7716d4e7f0f7d",
+      "bytes": 6187
+    },
+    {
+      "path": "Sources/Scarlet/Analysis Report.md",
+      "sha256": "c463869e45859cf27cb2afcbaa51dbcf9b41d6e3d5be441db468e518c1c9e73d",
+      "bytes": 24916
+    },
+    {
+      "path": "Sources/Scarlet/Data Collection Sheet.xlsx",
+      "sha256": "17153c53e1b1be6abe3065c39ee68ef5764151150efceb14ca43530ecfb17195",
+      "bytes": 12479
+    },
+    {
+      "path": "Sources/Scarlet/How to Use Project 1 CPU Simulator - Quick Guide.md",
+      "sha256": "ea46984193ec9a2addcebacfd9768749fe449dc8dffe66275047905be7f13cd4",
+      "bytes": 7495
+    },
+    {
+      "path": "Sources/Scarlet/Logs.md",
+      "sha256": "47e1208cbc954ce7507e149ef08bbda07fc369aeb578b075db1312eda9da6ec3",
+      "bytes": 9424
+    },
+    {
+      "path": "Sources/Scarlet/Next Steps Analysis.md",
+      "sha256": "bc02a939c00a5858856fad69bf0ccffdd76c0287ed334c008773f757507a08b0",
+      "bytes": 6828
+    },
+    {
+      "path": "Sources/Scarlet/Project 1 Scenario_ CPU Instruction Execution - Image Brightness Processing.md",
+      "sha256": "3518e0728ba716d000912d339e0f9c694bd0523a22d4601544e6deb6ff653f51",
+      "bytes": 7825
+    },
+    {
+      "path": "Sources/Scarlet/Project1_CPU_Simulator.html",
+      "sha256": "8db8639b27210d77d05f49abb0d177b0c0afc5ee4cf5b383da40789d2c3d8df4",
+      "bytes": 26154
+    },
+    {
+      "path": "Sources/Scarlet/Readme.md",
+      "sha256": "2b335ed3c1ca6b631526514c85c3cf1e42c9f366d6c45c1648c69d4eb80fcd7e",
+      "bytes": 3168
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/BC-R2-1.png",
+      "sha256": "6c58a2378c45cc1e13c1cfc59da1c3f8b75495dcfef3554ebb671f39b4d6a0ce",
+      "bytes": 402351
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/BC-R2-2.png",
+      "sha256": "0cbca8b4c927826681d30b08dca2547d280b5973c0bcad05f63f9b1ceae00b95",
+      "bytes": 239373
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/BC-R2-3.png",
+      "sha256": "e859eba900a881b425b0db772c90b59b738060adaf51476224d385b069bca232",
+      "bytes": 106565
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/RC1-R2-1.png",
+      "sha256": "f7a3072b903bcd7b23cf83b25f0061fab544db374ba5c631f17e4ae3e2034c12",
+      "bytes": 360927
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/RC1-R2-2.png",
+      "sha256": "302431cd1fdc21824aaf5851eb0adcc975b2848dabe125d684fb5e4944316bdb",
+      "bytes": 264944
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/RC1-R2-3.png",
+      "sha256": "87a24dfd0965605ceb27df9d3620af3247031d6bab28d68afe9e19d7bb65e955",
+      "bytes": 269501
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/RC2-R2-1.png",
+      "sha256": "29c562359585bd3dd010e74ab6c09c560828e60f31b515a6a1f1688fd8e6f5aa",
+      "bytes": 359725
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/RC2-R2-2.png",
+      "sha256": "47f316b4076f69d74b26d1751f693c64b4eeb5f60df00785febef2ec5dbcc9ff",
+      "bytes": 134848
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/RC2-R2-3.png",
+      "sha256": "5960db86e67340f5fe2dfad0ec56cc172a80d37c6ad8b44b3ac477d7fbf54b7a",
+      "bytes": 269106
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/WC-R2-1.png",
+      "sha256": "adaca117a10d144365a7eb27f88c8a5d79ec96c4648d9fbde84e8a8ba3e822ba",
+      "bytes": 359824
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/WC-R2-2.png",
+      "sha256": "fc548c32dd07c12495af9412492b1eb104a60aa35934a6b0b1b8efd5e5030470",
+      "bytes": 135320
+    },
+    {
+      "path": "Sources/Scarlet/Screenshots/WC-R2-3.png",
+      "sha256": "d52a8d3e0052a87ddde0187ace5f0dce62fe3ca7c3339ffa123d55684eeb52b5",
+      "bytes": 269998
+    },
+    {
+      "path": "Sources/Scarlet/Step_Trace_Worst_Case.xlsx",
+      "sha256": "bb71a4151f9ba73c8e891e1ed138e6532df97eb8bd3890eb48e3c286ffd50e2a",
+      "bytes": 9966
+    },
+    {
+      "path": "Sources/Scarlet/data-collection-template.md",
+      "sha256": "1508c4916f963a6d81a2bd6f42abd269d62ea002f386234a419f589730f413ef",
+      "bytes": 1923
+    }
+  ]
+}

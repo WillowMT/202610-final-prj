@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 1: CPU Instruction Execution Simulator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            padding: 15px;
+        }
+        .container { max-width: 1600px; margin: 0 auto; }
+        h1 { text-align: center; color: #00ffff; margin-bottom: 10px; text-shadow: 0 0 10px #00ffff; }
+        .header-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        
+        .control-panel {
+            background: #1a1a1a;
+            border: 2px solid #0088ff;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .control-panel h2 { color: #00ffff; font-size: 1.1em; margin-bottom: 10px; }
+        
+        .test-case-select, .speed-control, button {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            background: #2a2a2a;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            cursor: pointer;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+        button:hover { background: #3a3a3a; border-color: #ffff00; }
+        button:active { background: #00ff00; color: #0a0a0a; }
+        
+        .status-bar {
+            background: #1a3a1a;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 3px;
+            color: #00ff00;
+        }
+        .status-label { color: #ffff00; font-weight: bold; }
+        
+        .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        
+        .panel {
+            background: #1a1a1a;
+            border: 1px solid #00ff00;
+            border-radius: 3px;
+            padding: 12px;
+        }
+        .panel h3 { color: #00ffff; margin-bottom: 8px; font-size: 1em; }
+        .panel pre {
+            background: #0a0a0a;
+            padding: 8px;
+            border-radius: 3px;
+            overflow-x: auto;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+        
+        .register-display, .memory-display {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            padding: 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .reg-item {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 10px;
+            padding: 4px;
+            margin: 2px 0;
+            border-radius: 2px;
+        }
+        .reg-item:hover { background: #1a3a1a; }
+        .reg-name { color: #ffff00; font-weight: bold; }
+        .reg-value { color: #00ffff; }
+        .changed { background: #4a1a1a; border-left: 3px solid #ff0000; }
+        
+        .instruction-window {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            padding: 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .instr-line {
+            padding: 3px;
+            margin: 1px 0;
+            border-radius: 2px;
+            display: flex;
+            gap: 10px;
+        }
+        .instr-line.current { background: #4a4a1a; border-left: 3px solid #ffff00; }
+        .instr-line.executed { color: #666; }
+        .instr-pc { color: #ffff00; width: 30px; font-weight: bold; }
+        .instr-code { flex: 1; color: #00ffff; }
+        .instr-cycles { color: #ff6600; width: 40px; text-align: right; }
+        
+        .metric {
+            background: #1a3a5c;
+            border: 1px solid #0088ff;
+            padding: 10px;
+            border-radius: 3px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .metric-label { color: #00aaff; font-size: 0.85em; }
+        .metric-value { color: #ffff00; font-size: 1.2em; font-weight: bold; margin-top: 5px; }
+        
+        .pixel-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 3px;
+            margin-bottom: 10px;
+        }
+        .pixel {
+            width: 30px;
+            height: 30px;
+            border-radius: 2px;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            color: #000;
+        }
+        
+        .summary-stats {
+            background: #1a3a1a;
+            border: 2px solid #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .stat-box {
+            text-align: center;
+            background: #0a2a0a;
+            padding: 10px;
+            border-radius: 3px;
+        }
+        .stat-label { color: #00ff00; font-size: 0.9em; }
+        .stat-value { color: #ffff00; font-size: 1.4em; font-weight: bold; }
+
+        .full-width { grid-column: 1 / -1; }
+
+        @media (max-width: 1200px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .header-row { grid-template-columns: 1fr; }
+            .summary-stats { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖥️ PROJECT 1: CPU INSTRUCTION SIMULATOR - IMAGE BRIGHTNESS</h1>
+        
+        <div class="status-bar">
+            <span class="status-label">STATUS:</span> <span id="status">Ready to start</span>
+        </div>
+
+        <div class="header-row">
+            <div class="control-panel">
+                <h2>⚙️ CONTROLS</h2>
+                <label style="display: block; color: #ffff00; margin-bottom: 5px;">TEST CASE:</label>
+                <select id="testCase" class="test-case-select">
+                    <option value="best">Best Case: All Dark (0)</option>
+                    <option value="worst">Worst Case: Alternating</option>
+                    <option value="real1" selected>Real Case 1: 70% Dark</option>
+                    <option value="real2">Real Case 2: Clustered</option>
+                </select>
+                <label style="display: block; color: #ffff00; margin-top: 10px; margin-bottom: 5px;">SPEED:</label>
+                <input type="range" id="speed" min="50" max="1000" value="500" class="speed-control" style="cursor: pointer;">
+                <small style="color: #888;">(<span id="speedValue">500</span>ms per step)</small>
+                <br><br>
+                <button onclick="initSimulation()">▶ START SIMULATION</button>
+                <button onclick="stepForward()">↓ STEP FORWARD</button>
+                <button onclick="runFull()">⏩ RUN ALL</button>
+                <button onclick="resetSimulation()">🔄 RESET</button>
+            </div>
+
+            <div class="control-panel">
+                <h2>📊 QUICK METRICS</h2>
+                <div class="metric">
+                    <div class="metric-label">Total Cycles</div>
+                    <div class="metric-value" id="totalCycles">0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Cycles Per Pixel</div>
+                    <div class="metric-value" id="cpp">0.0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Cache Hits / Misses</div>
+                    <div class="metric-value" id="cacheRatio">0/0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-stats">
+            <div class="stat-box">
+                <div class="stat-label">Current PC</div>
+                <div class="stat-value" id="currentPC">0x00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Branch Predictions</div>
+                <div class="stat-value" id="branchHits">0/0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Pipeline Stalls</div>
+                <div class="stat-value" id="stalls">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Pixels Processed</div>
+                <div class="stat-value" id="pixelsProcessed">0/16</div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="panel">
+                <h3>📝 INSTRUCTION SEQUENCE</h3>
+                <div class="instruction-window" id="instructionWindow"></div>
+            </div>
+
+            <div class="panel">
+                <h3>📦 CPU REGISTERS (32-bit)</h3>
+                <div class="register-display" id="registerDisplay"></div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="panel">
+                <h3>🎨 PIXEL DATA</h3>
+                <div style="padding: 10px;">
+                    <div style="color: #ffff00; font-size: 0.9em; margin-bottom: 8px;">Input Pixels</div>
+                    <div class="pixel-grid" id="pixelGrid"></div>
+                    <div style="color: #00aaff; font-size: 0.9em; margin: 8px 0 5px 0;">Output Pixels</div>
+                    <div class="pixel-grid" id="outputPixelGrid"></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>💾 EXECUTION SUMMARY</h3>
+                <div style="padding: 10px; color: #ccc; font-size: 0.9em; line-height: 1.6;">
+                    <div id="executionSummary">Waiting to run simulation...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel full-width">
+            <h3>📊 DETAILED METRICS</h3>
+            <pre id="detailedMetrics">Ready to run simulation. Click "START SIMULATION" to begin.</pre>
+        </div>
+    </div>
+
+    <script>
+        // Simulator State
+        let state = {
+            testCase: 'real1',
+            pc: 0,
+            cycles: 0,
+            pixelIndex: 0,
+            registers: {
+                r0: 0,
+                r1: 0,
+                r2: 128,
+                r3: 0,
+                r4: 0,
+                r5: 0,
+                r6: 32,
+                r7: 8
+            },
+            prevRegisters: {},
+            pixels: [],
+            outputPixels: [],
+            cache: { hits: 0, misses: 0 },
+            branchHits: 0,
+            branchTotal: 0,
+            stalls: 0,
+            events: [],
+            running: false
+        };
+
+        let runTimer = null;
+
+        const testCases = {
+            best: Array(16).fill(0),
+            worst: Array(16).fill(0).map((_, i) => i % 2 === 0 ? 64 : 192),
+            real1: [35, 180, 42, 60, 210, 88, 50, 115, 230, 45, 72, 195, 30, 95, 80, 140],
+            real2: Array.from({length: 16}, (_, i) => i < 8 ? 200 + Math.floor(Math.random() * 55) : Math.floor(Math.random() * 100))
+        };
+
+        const instructions = [
+            { addr: '0x00', code: 'LOAD  R0, #0', cycles: 1 },
+            { addr: '0x04', code: 'LOAD  R1, #1024', cycles: 1 },
+            { addr: '0x08', code: 'LOOP: LOAD  R3, [R1]', cycles: 3 },
+            { addr: '0x0C', code: 'CMP   R3, R2', cycles: 1 },
+            { addr: '0x10', code: 'BLT   DARK', cycles: 1 },
+            { addr: '0x14', code: 'SUB   R4, R3, R7', cycles: 1 },
+            { addr: '0x18', code: 'JMP   STORE', cycles: 2 },
+            { addr: '0x1C', code: 'DARK: ADD  R4, R3, R6', cycles: 1 },
+            { addr: '0x20', code: 'STORE: STORE R4, [R1]', cycles: 3 },
+            { addr: '0x24', code: 'INC   R1, #1', cycles: 1 },
+            { addr: '0x28', code: 'INC   R0, #1', cycles: 1 },
+            { addr: '0x2C', code: 'CMP   R0, #16', cycles: 1 },
+            { addr: '0x30', code: 'BNE   LOOP', cycles: 1 },
+            { addr: '0x34', code: 'HALT', cycles: 1 }
+        ];
+
+        function stopTimer() {
+            if (runTimer) {
+                clearTimeout(runTimer);
+                runTimer = null;
+            }
+        }
+
+        function initSimulation() {
+            stopTimer();
+            const tc = document.getElementById('testCase').value;
+            state = {
+                testCase: tc,
+                pc: 0,
+                cycles: 0,
+                pixelIndex: 0,
+                registers: { r0: 0, r1: 0, r2: 128, r3: 0, r4: 0, r5: 0, r6: 32, r7: 8 },
+                prevRegisters: {},
+                pixels: [...testCases[tc]],
+                outputPixels: Array(16).fill(0),
+                cache: { hits: 0, misses: 0 },
+                branchHits: 0,
+                branchTotal: 0,
+                stalls: 0,
+                events: [],
+                running: true
+            };
+
+            updateDisplay();
+            updateStatus('Simulation initialized. Click STEP or RUN ALL.');
+        }
+
+        function stepForward() {
+            if (!state.running && (state.pc >= instructions.length || state.pc === 13)) {
+                initSimulation();
+            } else if (!state.running) {
+                state.running = true;
+            }
+
+            if (state.pc >= instructions.length || state.pc === 13) {
+                state.running = false;
+                stopTimer();
+                updateStatus('✓ Complete! All 16 pixels processed.');
+                updateDisplay();
+                return false;
+            }
+
+            const instr = instructions[state.pc];
+            let cycles = instr.cycles;
+            let nextPc = state.pc + 1;
+            let summaryMsg = '';
+
+            state.prevRegisters = { ...state.registers };
+
+            if (state.pc === 0) {
+                // LOAD R0, #0
+                state.registers.r0 = 0;
+                summaryMsg = 'Initialized loop counter R0 = 0';
+                nextPc = 1;
+            } else if (state.pc === 1) {
+                // LOAD R1, #1024
+                state.registers.r1 = 1024;
+                summaryMsg = 'Initialized RAM pixel pointer R1 = 1024';
+                nextPc = 2;
+            } else if (state.pc === 2) {
+                // LOOP: LOAD R3, [R1]
+                if (Math.random() > 0.2) {
+                    state.cache.hits++;
+                    summaryMsg = 'Cache HIT: Loaded pixel[' + state.pixelIndex + '] = ' + state.pixels[state.pixelIndex] + ' into R3';
+                } else {
+                    state.cache.misses++;
+                    cycles += 47;
+                    state.stalls += 47;
+                    summaryMsg = 'Cache MISS (+47 cycles stall): Loaded pixel[' + state.pixelIndex + '] = ' + state.pixels[state.pixelIndex] + ' from DRAM';
+                }
+                state.registers.r3 = state.pixels[state.pixelIndex] || 0;
+                nextPc = 3;
+            } else if (state.pc === 3) {
+                // CMP R3, R2
+                summaryMsg = 'Compared pixel R3 (' + state.registers.r3 + ') with threshold R2 (128)';
+                nextPc = 4;
+            } else if (state.pc === 4) {
+                // BLT DARK
+                state.branchTotal++;
+                const isDark = state.registers.r3 < state.registers.r2;
+                const hitProb = state.testCase === 'best' ? 0.95 : (state.testCase === 'worst' ? 0.50 : 0.80);
+                if (Math.random() < hitProb) {
+                    state.branchHits++;
+                    summaryMsg = 'Branch HIT: ';
+                } else {
+                    cycles += 15;
+                    state.stalls += 15;
+                    summaryMsg = 'Branch MISPREDICT (+15 cycles stall): ';
+                }
+                if (isDark) {
+                    summaryMsg += 'Pixel is dark (< 128) -> Jumping to DARK (0x1C)';
+                    nextPc = 7; // index 7 is DARK: ADD
+                } else {
+                    summaryMsg += 'Pixel is bright (>= 128) -> Continuing to SUB (0x14)';
+                    nextPc = 5; // index 5 is SUB
+                }
+            } else if (state.pc === 5) {
+                // SUB R4, R3, R7
+                state.registers.r4 = Math.max(0, state.registers.r3 - state.registers.r7);
+                summaryMsg = 'Bright pixel: Reduced glare (R4 = ' + state.registers.r3 + ' - 8 = ' + state.registers.r4 + ')';
+                nextPc = 6;
+            } else if (state.pc === 6) {
+                // JMP STORE
+                summaryMsg = 'Unconditional Jump to STORE (0x20)';
+                nextPc = 8; // index 8 is STORE
+            } else if (state.pc === 7) {
+                // DARK: ADD R4, R3, R6
+                state.registers.r4 = Math.min(255, state.registers.r3 + state.registers.r6);
+                summaryMsg = 'Dark pixel: Boosted brightness (R4 = ' + state.registers.r3 + ' + 32 = ' + state.registers.r4 + ')';
+                nextPc = 8;
+            } else if (state.pc === 8) {
+                // STORE R4, [R1]
+                state.outputPixels[state.pixelIndex] = state.registers.r4;
+                summaryMsg = 'Stored output pixel[' + state.pixelIndex + '] = ' + state.registers.r4 + ' into memory';
+                nextPc = 9;
+            } else if (state.pc === 9) {
+                // INC R1, #1
+                state.registers.r1++;
+                summaryMsg = 'Incremented memory pointer R1 = ' + state.registers.r1;
+                nextPc = 10;
+            } else if (state.pc === 10) {
+                // INC R0, #1
+                state.registers.r0++;
+                state.pixelIndex++;
+                summaryMsg = 'Incremented pixel counter R0 = ' + state.registers.r0 + ' (' + state.pixelIndex + '/16 completed)';
+                nextPc = 11;
+            } else if (state.pc === 11) {
+                // CMP R0, #16
+                summaryMsg = 'Checked loop condition (R0 == 16)';
+                nextPc = 12;
+            } else if (state.pc === 12) {
+                // BNE LOOP
+                state.branchTotal++;
+                if (state.registers.r0 < 16) {
+                    state.branchHits++;
+                    summaryMsg = 'Loop continuation: R0 < 16 -> Branching back to LOOP (0x08)';
+                    nextPc = 2; // Jump back to LOOP
+                } else {
+                    state.branchHits++;
+                    summaryMsg = 'All 16 pixels completed! Proceeding to HALT (0x34)';
+                    nextPc = 13; // HALT
+                }
+            } else if (state.pc === 13) {
+                // HALT
+                state.running = false;
+                summaryMsg = 'Program halted successfully.';
+                nextPc = 13;
+            }
+
+            state.cycles += cycles;
+            state.pc = nextPc;
+
+            document.getElementById('executionSummary').innerHTML =
+                '<div><strong>Current Instruction:</strong> ' + instr.addr + ' ' + instr.code + '</div>' +
+                '<div style="color: #ffff00; margin-top: 4px;"><strong>Action:</strong> ' + summaryMsg + '</div>' +
+                '<div style="margin-top: 4px;"><strong>Pixels Processed:</strong> ' + state.pixelIndex + '/16</div>';
+
+            updateDisplay();
+
+            if (state.pc === 13 || state.pc >= instructions.length) {
+                state.running = false;
+                stopTimer();
+                updateStatus('✓ Complete! All 16 pixels processed.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function runFull() {
+            if (!state.running && (state.pc >= instructions.length || state.pc === 13)) {
+                initSimulation();
+            } else if (!state.running) {
+                initSimulation();
+            }
+
+            if (runTimer) {
+                stopTimer();
+                updateStatus('Simulation Paused.');
+                return;
+            }
+
+            updateStatus('Running simulation...');
+            executeLoop();
+        }
+
+        function executeLoop() {
+            const cont = stepForward();
+            if (cont && state.running && state.pc !== 13 && state.pc < instructions.length) {
+                const spd = parseInt(document.getElementById('speed').value, 10) || 500;
+                runTimer = setTimeout(executeLoop, spd);
+            } else {
+                stopTimer();
+            }
+        }
+
+        function resetSimulation() {
+            stopTimer();
+            state.running = false;
+            state.pc = 0;
+            state.cycles = 0;
+            state.pixelIndex = 0;
+            state.registers = { r0: 0, r1: 0, r2: 128, r3: 0, r4: 0, r5: 0, r6: 32, r7: 8 };
+            state.prevRegisters = {};
+            state.outputPixels = Array(16).fill(0);
+            state.cache = { hits: 0, misses: 0 };
+            state.branchHits = 0;
+            state.branchTotal = 0;
+            state.stalls = 0;
+            document.getElementById('executionSummary').textContent = 'Waiting to run simulation...';
+            updateDisplay();
+            updateStatus('Reset. Click START to begin.');
+        }
+
+        function updateDisplay() {
+            document.getElementById('currentPC').textContent = instructions[state.pc]?.addr || '0x34';
+            document.getElementById('totalCycles').textContent = state.cycles;
+            document.getElementById('cpp').textContent = state.pixelIndex > 0 ? (state.cycles / state.pixelIndex).toFixed(1) : '0.0';
+            document.getElementById('cacheRatio').textContent = state.cache.hits + '/' + state.cache.misses;
+            document.getElementById('branchHits').textContent = state.branchHits + '/' + state.branchTotal;
+            document.getElementById('stalls').textContent = state.stalls;
+            document.getElementById('pixelsProcessed').textContent = state.pixelIndex + '/16';
+
+            let regHTML = '';
+            for (let [reg, val] of Object.entries(state.registers)) {
+                const isChanged = (state.prevRegisters && state.prevRegisters[reg] !== undefined && state.prevRegisters[reg] !== val);
+                const cls = isChanged ? 'reg-item changed' : 'reg-item';
+                regHTML += '<div class="' + cls + '"><span class="reg-name">' + reg.toUpperCase() + '</span><span class="reg-value">0x' + val.toString(16).padStart(2, '0').toUpperCase() + '</span></div>';
+            }
+            document.getElementById('registerDisplay').innerHTML = regHTML;
+
+            let instrHTML = '';
+            instructions.forEach((instr, idx) => {
+                let className = 'instr-line';
+                if (idx === state.pc) className += ' current';
+                else if (idx < state.pc && state.pc > 2 && idx < 3) className += ' executed';
+                instrHTML += '<div class="' + className + '"><span class="instr-pc">' + instr.addr + '</span><span class="instr-code">' + instr.code + '</span><span class="instr-cycles">' + instr.cycles + 'c</span></div>';
+            });
+            document.getElementById('instructionWindow').innerHTML = instrHTML;
+
+            let pixelHTML = '';
+            state.pixels.forEach((pixel) => {
+                const color = 'rgb(' + pixel + ',' + pixel + ',' + pixel + ')';
+                pixelHTML += '<div class="pixel" style="background:' + color + ';">' + pixel + '</div>';
+            });
+            document.getElementById('pixelGrid').innerHTML = pixelHTML;
+
+            let outHTML = '';
+            state.outputPixels.forEach((pixel) => {
+                if (pixel > 0) {
+                    const color = 'rgb(' + pixel + ',' + pixel + ',' + pixel + ')';
+                    outHTML += '<div class="pixel" style="background:' + color + ';">' + pixel + '</div>';
+                }
+            });
+            document.getElementById('outputPixelGrid').innerHTML = outHTML;
+
+            const hitRate = (state.cache.hits + state.cache.misses) > 0 ? ((state.cache.hits / (state.cache.hits + state.cache.misses)) * 100).toFixed(1) : 'N/A';
+            const branchAcc = state.branchTotal > 0 ? ((state.branchHits / state.branchTotal) * 100).toFixed(1) : 'N/A';
+
+            document.getElementById('detailedMetrics').textContent = 'PERFORMANCE SUMMARY\n' +
+                '═════════════════════════════════════════════\n' +
+                'Test Case: ' + state.testCase + '\n' +
+                'Pixels Processed: ' + state.pixelIndex + '/16\n' +
+                'Total Cycles: ' + state.cycles + '\n' +
+                'Cycles Per Pixel: ' + (state.pixelIndex > 0 ? (state.cycles / state.pixelIndex).toFixed(2) : 'N/A') + '\n' +
+                'Estimated Full Image (256×256): ' + (state.pixelIndex > 0 ? Math.round((state.cycles / state.pixelIndex) * 65536).toLocaleString() : 'N/A') + ' cycles\n\n' +
+                'CACHE PERFORMANCE\n' +
+                '─────────────────────────────────────────────\n' +
+                'Cache Hits: ' + state.cache.hits + '\n' +
+                'Cache Misses: ' + state.cache.misses + '\n' +
+                'Hit Rate: ' + hitRate + '%\n' +
+                'Stall Cycles: ' + state.stalls + '\n\n' +
+                'BRANCH PREDICTION\n' +
+                '─────────────────────────────────────────────\n' +
+                'Correct Predictions: ' + state.branchHits + '\n' +
+                'Total Branches: ' + state.branchTotal + '\n' +
+                'Accuracy: ' + branchAcc + '%';
+        }
+
+        function updateStatus(msg) {
+            document.getElementById('status').textContent = msg;
+        }
+
+        document.getElementById('speed').addEventListener('input', (e) => {
+            document.getElementById('speedValue').textContent = e.target.value;
+        });
+
+        document.getElementById('testCase').addEventListener('change', () => {
+            initSimulation();
+        });
+
+        initSimulation();
+    </script>
+</body>
+</html>
