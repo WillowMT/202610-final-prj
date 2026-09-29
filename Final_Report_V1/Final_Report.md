@@ -139,7 +139,7 @@ The archived [Worst Case trace workbook](Sources/Scarlet/Step_Trace_Worst_Case.x
 
 ### 1.5 Recorded step traces (Runs 9–12)
 
-Each traced run was recorded by advancing the simulator one instruction at a time through its own STEP behavior and logging the state after every step: executed PC, cycle interval, running total, registers, pixel counter, and the cache/branch message. Six checkpoint screenshots per run (setup, first load, first branch decision, pixel 1 done, pixel 8 done, final) are linked from the table in Section 1.1. The step logs are genuine records, not reconstructions:
+Each traced run was recorded by advancing the simulator one instruction at a time through its own STEP behavior and logging the state after every step: executed PC, cycle interval, running total, registers, pixel counter, and the cache/branch message. Each step log lists six checkpoint screenshots (setup, first load, first branch decision, pixel 1 done, pixel 8 done, final); the table in Section 1.1 links the first, pixel-1 and final ones. The step logs are genuine records, not reconstructions:
 
 <!-- table:trace-runs -->
 | Run | Run ID | Total cycles | Base cycles | Steps recorded | Cache misses (positions of 16) | Brightness mispredictions (positions) |
@@ -155,7 +155,7 @@ Three findings from the traces:
 
 - **Run 10 shows the randomness clearly.** Only one load missed (the model expects about 3.2 misses per run), which gave the lowest Worst Case total of all: 378 against 502 and 504 in Runs 2 and 6. Its 152 stall cycles were all attributable to that single miss plus seven mispredictions.
 - **Run 9 shows that even Best Case can mispredict.** Its one wrong brightness prediction is possible because the model always uses a 95% hit chance rather than the pixel data.
-- **The recorded positions match the code's behavior.** For example, Run 12's mispredictions at pixels 2 and 13 sit near the bright-to-dark transition, and its miss at pixel 4 shows that offsets from earlier decisions can still miss.
+- **The positions show the model's randomness.** Run 12's mispredictions (pixels 2 and 13) and its misses (pixels 4, 9 and 16) are scattered across the image. Nothing about the pixel pattern determines them, because the code draws each outcome at random; the trace simply records where the draws fell.
 
 Together with the totals in Section 2, the traces satisfy the assignment's requirement for an instruction-by-instruction record and per-iteration events.
 
@@ -252,7 +252,7 @@ Each mean below uses the three recorded runs of a case. Pooled rates use the com
 
 Run 10's rare single miss explains part of Worst Case's 126-cycle spread; its two siblings recorded three and four misses. The base instruction cycles are identical within every case (210 / 226 / 220 / 226), because they depend only on the pixel pattern. Every difference therefore comes from the random delays: each additional miss adds 47 cycles and each wrong brightness prediction adds 15.
 
-Best and Worst have equal mean cache delay within their three-run groups; Worst's mean branch delay is far higher, and its base cost is 16 cycles higher, which together explain the gap between them. Within each case, the average cache delay still exceeds the average branch delay except in Run 10. These two findings answer different questions.
+In the three-run groups, Best recorded 10 cache misses and Worst 8, so Worst's mean cache delay is about 31 cycles lower; however, its mean branch delay is 100 cycles higher and its base cost is 16 cycles higher, which together explain the 84.7-cycle gap between the two means. In every run except Run 10, the cache delay exceeded the branch delay.
 
 ### 2.4 Assignment targets
 
@@ -260,7 +260,7 @@ Best and Worst have equal mean cache delay within their three-run groups; Worst'
 |---|---|
 | CPP < 5 | None meets it; even a delay-free all-dark baseline needs 210/16 = 13.125 CPP |
 | Cache hit rate > 95% | None meets it; per-run rates are 75.0% or 81.25%, with Run 10 at 93.75% as a lucky draw |
-| Overall branch accuracy > 90% | Runs 1, 4, 5, 8, 9 and 12 meet it; the others do not |
+| Overall branch accuracy > 90% | Runs 1, 3, 4, 5, 8, 9 and 12 meet it; the others do not |
 | Register spills = 0 | No spill instructions are present; this is a code finding |
 
 Missing a target is a performance result to explain. It is not evidence that the student's arithmetic is wrong. The sample CPP values and perfect/impossible prediction claims in the guide are not measurements of this code.
@@ -327,7 +327,7 @@ Why the numbers move: every run decomposes exactly into `base + 47 × misses + 1
 | Real 1 | Combined | 337.80 | 38.60 over branch-free | 102.03 (-23.2%) |
 | Real 2 | Combined | 335.45 | 37.43 over branch-free | 79.90 (-19.2%) |
 
-On Worst, Real 1 and Real 2, the combined program's margins (about 2.3–4.5 standard errors over the next-best program, and 5–11 over the baseline) support the ranking: removing brightness branches and shortening the loop together help everywhere mispredictions or bright pixels occur. Best Case is a statistical near-tie between unrolling and the combined program: the 26-cycle gap is about 1.7 standard errors, and the deterministic analysis explains the convergence — unrolling saves 16 base cycles that the combined program still spends, while the combined program saves the roughly 15 cycles of Best-Case branch delay that unrolling still pays. A real compiler would need real benchmarks to settle that pair.
+On Worst, Real 1 and Real 2, the combined program's margins (about 2.2–4.5 standard errors over the next-best program, and 4.9–11 over the baseline) support the ranking: removing brightness branches and shortening the loop together help everywhere mispredictions or bright pixels occur. Best Case is a statistical near-tie between unrolling and the combined program: the 26-cycle gap is about 1.7 standard errors, and the deterministic analysis explains the convergence — unrolling saves 16 base cycles that the combined program still spends, while the combined program saves the roughly 15 cycles of Best-Case branch delay that unrolling still pays. A real compiler would need real benchmarks to settle that pair.
 
 ### 3.5 Prefetching: still calculated, against the measured baseline
 
