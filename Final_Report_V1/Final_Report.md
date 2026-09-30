@@ -4,17 +4,17 @@
 
 ## Summary
 
-This report covers twelve recorded experiments on the four required test cases. Runs 1–8 come from two group data collections (two final-state runs per case). Runs 9–12 are complete step-by-step traces, one per case. Every run processed 16 pixels. Cache misses were the largest source of waiting in eleven of the twelve runs; in the traced Worst Case run a rare single miss left the seven branch mispredictions as the larger delay.
+Twelve recorded experiments support this report: three runs on each of the four required test cases. Runs 1–8 are final-state runs from two group data collections. Runs 9–12 are full step-by-step traces, one per case. Every run processed 16 pixels. Cache misses were the largest source of waiting in eleven of the twelve runs. The exception is the traced Worst Case run, where one rare miss left its seven branch mispredictions as the larger delay.
 
-The three recorded totals per case are 351, 413 and 366 for Best; 502, 504 and 378 for Worst; 406, 436 and 451 for Real Case 1; and 444, 459 and 397 for Real Case 2. The spread inside a case comes from the simulator's random cache and branch outcomes. Runs 9–12 also record the cache result and branch outcome of every one of the 16 iterations, so the event positions that the earlier final-state runs could not capture are now evidenced.
+The three recorded totals per case are 351, 413 and 366 for Best; 502, 504 and 378 for Worst; 406, 436 and 451 for Real Case 1; and 444, 459 and 397 for Real Case 2. The spread inside a case comes from the simulator's random cache and branch outcomes. Runs 9–12 also record the cache result and branch outcome for each of the 16 iterations, filling in the event positions that the earlier final-state runs could not capture.
 
-All 192 recorded input/output pairs are consistent with the brightness rule: 141 inputs were read directly (93 from screenshot transcriptions, 48 from live step records), 48 are the all-zero Best Case definition, and three Real Case 2 values were inferred from their outputs. Section 3 reports measurements, not just estimates: branch-free selection, four-pixel loop unrolling, pointer loop-testing and their combination were implemented as modified copies of the simulator, and each program was run 40 times per test case (800 measured runs, every output checked). The combined program gives the best measured mean for Worst Case (−34.5%), Real Case 1 (−23.2%) and Real Case 2 (−19.2%); unrolling gives the best Best-Case mean (−12.8%). Cache prefetching remains a calculation because the simulator models no cache contents.
+All 192 recorded input/output pairs are consistent with the brightness rule: 141 inputs were read directly (93 from screenshot transcriptions, 48 from live step records), 48 are the all-zero Best Case definition, and three Real Case 2 values were inferred from their outputs. The optimization results in Section 3 are measurements: branch-free selection, four-pixel loop unrolling, pointer loop-testing and their combination were implemented as modified copies of the simulator, and each program ran 40 times per test case (800 measured runs, every output checked). The combined program gives the best measured mean for Worst Case (−34.5%), Real Case 1 (−23.2%) and Real Case 2 (−19.2%); unrolling gives the best Best-Case mean (−12.8%). Cache prefetching remains a calculation because the simulator models no cache contents.
 
-Section 5 maps the findings to the assignment requirements. All supporting screenshots, pixel tables, full instruction traces and optimization measurements used in this report are included in Appendices A–D.
+Section 5 maps the findings to the assignment requirements. The screenshots, pixel tables, traces and optimization measurements behind these findings are all in Appendices A–D.
 
 ## Sources and method
 
-The supplied course brief, *Project 1: CPU Instruction Execution — Image Brightness Processing*, asks for four deliverables: instruction traces, performance data, optimization analysis, and extrapolation with cost estimates. The accompanying *How to Use Project 1 CPU Simulator — Quick Guide* also asks about the bottleneck and the saving from reducing CPP by one. This report addresses those requirements in Sections 1–5; the course materials are identified in Section 6.
+The course brief for Project 1, *CPU Instruction Execution: Image Brightness Processing*, asks for four deliverables: instruction traces, performance data, optimization analysis, and extrapolation with cost estimates. The accompanying simulator guide, *How to Use Project 1 Simulator*, adds questions about the bottleneck and the saving from reducing CPP by one. This report addresses those requirements in Sections 1–5; Section 6 lists the course materials.
 
 | Source set | Collection | Evidence included in this report |
 |---|---|---|
@@ -26,9 +26,9 @@ Both original collections used identical copies of the supplied simulator and co
 
 Recorded metrics for Runs 1–8 were transcribed from completed simulator runs and checked against the screenshots in Appendix A.1. Runs 9–12 were recorded instruction by instruction using the unchanged baseline simulator. The optimization study used that baseline and four modified programs under the stated cost assumptions. Section 1.3 gives the baseline instruction behavior; Section 3 explains the changed programs and measurement procedure. Averages, reconstructed paths and workload projections are calculations; the optimization results are measurements within this teaching model.
 
-**Screenshot evidence is embedded below:** Figures 1–4 show pixel memory, Figures 5–16 show execution checkpoints, and Figures 17–20 show final metrics for all four cases. Appendix A embeds all 44 run screenshots and five optimization sample screenshots. Pixel and metric figures are unscaled crops; checkpoint figures rearrange the four status boxes above the register panel from the **same screenshot**. Values, colors and existing visibility limitations are preserved. These are presentation copies of the existing evidence, not additional experiments.
+**Where the screenshots sit.** Figures 1–4 show pixel memory, Figures 5–16 show execution checkpoints, and Figures 17–20 show final metrics for all four cases. Appendix A embeds all 44 run screenshots and five optimization sample screenshots. Pixel and metric figures are unscaled crops; checkpoint figures rearrange the four status boxes above the register panel from the **same screenshot**. Values, colors and existing visibility limitations are preserved. The figures are copies of existing captures, prepared for readability.
 
-**Reading the appendices:** Appendix A contains the screenshots; Appendix B contains reconstructed pixel paths for Runs 1–8; Appendix C contains the complete recorded traces and pixel events for Runs 9–12; and Appendix D contains all 800 optimization measurement records, totals and statistical calculations. References to sections, figures and appendices refer to this document.
+**How the appendices are organized.** Appendix A holds every screenshot. Appendix B lists the reconstructed pixel paths for Runs 1–8, and Appendix C prints the recorded traces and pixel events for Runs 9–12. Appendix D contains all 800 optimization measurement records, totals and statistical calculations. References to sections, figures and appendices refer to this document.
 
 ## 1. Instruction trace and experiment evidence
 
@@ -136,19 +136,19 @@ The top grid in each figure shows the input pixels; the bottom grid shows the st
 
 ![Figure 1: Run 9 Best Case input and output pixel grids.](Figures/Run9_BC_final_pixels.png)
 
-**Figure 1 — Best Case, Run 9.** All sixteen zero inputs produce 32. The input numbers are black on black, so their values come from the case definition rather than a visual reading. The pixel table is in Appendix C.1.
+**Figure 1: Best Case, Run 9.** All sixteen zero inputs produce 32. The input numbers are black on black, so their values come from the case definition rather than a visual reading. The pixel table is in Appendix C.1.
 
 ![Figure 2: Run 10 Worst Case input and output pixel grids.](Figures/Run10_WC_final_pixels.png)
 
-**Figure 2 — Worst Case, Run 10.** Alternating inputs 64 and 192 become 96 and 184, respectively. The pixel table is in Appendix C.2.
+**Figure 2: Worst Case, Run 10.** Alternating inputs 64 and 192 become 96 and 184, respectively. The pixel table is in Appendix C.2.
 
 ![Figure 3: Run 11 Real Case 1 input and output pixel grids.](Figures/Run11_RC1_final_pixels.png)
 
-**Figure 3 — Real Case 1, Run 11.** The mixed input takes both arithmetic paths; for example, the first two pixels change from 35 to 67 and from 180 to 172. The pixel table is in Appendix C.3.
+**Figure 3: Real Case 1, Run 11.** The mixed input takes both arithmetic paths; for example, the first two pixels change from 35 to 67 and from 180 to 172. The pixel table is in Appendix C.3.
 
 ![Figure 4: Run 12 Real Case 2 input and output pixel grids.](Figures/Run12_RC2_final_pixels.png)
 
-**Figure 4 — Real Case 2, Run 12.** The first eight bright pixels take subtraction and the last eight dark pixels take addition. The first pixel changes from 232 to 224; pixel 9 changes from 1 to 33. The pixel table is in Appendix C.4.
+**Figure 4: Real Case 2, Run 12.** The first eight bright pixels take subtraction and the last eight dark pixels take addition. The first pixel changes from 232 to 224; pixel 9 changes from 1 to 33. The pixel table is in Appendix C.4.
 
 For an actual timing history, define `M_i = 1` for a cache miss on pixel i and `B_i = 1` for an incorrect brightness prediction. Then:
 
@@ -163,7 +163,7 @@ Only observed events are included in the recorded timing histories. Expected val
 
 ### 1.5 Recorded step traces (Runs 9–12)
 
-Each traced run was recorded by advancing the simulator one instruction at a time through its own STEP behavior and recording the state after every step: executed PC, cycle interval, running total, registers, pixel counter, and the cache/branch message. Appendix C prints every executed PC, next PC, cycle increment, running total and cache/branch event. Each run also has six checkpoint screenshots in Appendix A.2: setup, first load, first branch decision, pixel 1 done, pixel 8 done, and final. Setup, pixel-1 and final-state panels are embedded below. The traces are genuine records, not reconstructions:
+Each traced run was recorded by advancing the simulator one instruction at a time through its own STEP behavior and recording the state after every step: executed PC, cycle interval, running total, registers, pixel counter, and the cache/branch message. Appendix C prints every executed PC, next PC, cycle increment, running total and cache/branch event. Each run also has six checkpoint screenshots in Appendix A.2: setup, first load, first branch decision, pixel 1 done, pixel 8 done, and final. Setup, pixel-1 and final-state panels are embedded below. The traces come straight from the simulator's stepping; no values were reconstructed:
 
 <!-- table:trace-runs -->
 | Run | Run ID | Total cycles | Base cycles | Steps recorded | Cache misses (positions of 16) | Brightness mispredictions (positions) |
@@ -175,11 +175,11 @@ Each traced run was recorded by advancing the simulator one instruction at a tim
 
 The per-pixel tables and full per-instruction tables are in Appendix C. Checks applied to all four traces: each cycle increment equals the instruction's cost plus 47 for a miss or 15 for a misprediction; the per-pixel base costs sum to 13 or 15 by path; and the per-step totals reproduce the final counters exactly.
 
-Three findings from the traces:
+Three points stand out from the traces:
 
-- **Run 10 shows the randomness clearly.** Only one load missed (the model expects about 3.2 misses per run), which gave the lowest Worst Case total of all: 378 against 502 and 504 in Runs 2 and 6. Its 152 stall cycles were all attributable to that single miss plus seven mispredictions.
-- **Run 9 shows that even Best Case can mispredict.** Its one wrong brightness prediction is possible because the model always uses a 95% hit chance rather than the pixel data.
-- **The positions show the model's randomness.** Run 12's mispredictions (pixels 2 and 13) and its misses (pixels 4, 9 and 16) are scattered across the image. Nothing about the pixel pattern determines them, because the code draws each outcome at random; the trace simply records where the draws fell.
+- Run 10 drew only one cache miss where the model expects about 3.2, giving the lowest Worst Case total of all: 378 against 502 and 504 in Runs 2 and 6. That single miss plus seven mispredictions account for all 152 of its stall cycles.
+- Even Best Case can mispredict, as Run 9 does once. The model draws a 95% hit chance rather than reading the pixel pattern, so a wrong prediction can land anywhere.
+- Event positions carry no pattern. Run 12's mispredictions (pixels 2 and 13) and its misses (pixels 4, 9 and 16) are scattered, because each outcome is drawn at random; the trace just records where the draws landed.
 
 Together with the totals in Section 2, the traces satisfy the assignment's requirement for an instruction-by-instruction record and per-iteration events.
 
@@ -187,61 +187,61 @@ Together with the totals in Section 2, the traces satisfy the assignment's requi
 
 Each figure below combines intact status boxes and the register panel from one recorded screenshot, arranged vertically for readability. **Current PC is the next instruction:** it is `0x08` after setup and after the first loop iteration, then `0x34` when all pixels are complete. Returning to `0x08` is expected loop behavior. The full PC sequence, including intermediate loads and branches, is printed in Appendix C; Appendix A.2 also shows the first-load and first-branch screenshots. Any register-panel clipping is inherited from the original capture.
 
-#### Best Case checkpoints — Run 9
+#### Best Case checkpoints (Run 9)
 
 ![Figure 5: Run 9 after setup, with PC 0x08, R0 zero and R1 0x400.](Figures/Run9_BC_setup_state.png)
 
-**Figure 5 — Run 9 after setup.** R0 is zero and R1 points to the first pixel (`0x400`); no pixels or branch predictions have been counted.
+**Figure 5: Run 9 after setup.** R0 is zero and R1 points to the first pixel (`0x400`); no pixels or branch predictions have been counted.
 
 ![Figure 6: Run 9 after pixel 1, with R0 0x01, R1 0x401 and output R4 0x20.](Figures/Run9_BC_pixel1_done_state.png)
 
-**Figure 6 — Run 9, pixel 1 complete.** R3 = `0x00` becomes R4 = `0x20` (32). The pointer advances to `0x401` and PC returns to `0x08`.
+**Figure 6: Run 9, pixel 1 complete.** R3 = `0x00` becomes R4 = `0x20` (32). The pointer advances to `0x401` and PC returns to `0x08`.
 
 ![Figure 7: Run 9 final state, PC 0x34, 16 pixels, 31 of 32 branches correct and 156 stall cycles.](Figures/Run9_BC_final_state.png)
 
-**Figure 7 — Run 9 complete.** R0 = `0x10` and R1 = `0x410`; the counters show 31/32 correct branches and 156 stall cycles. Figure 17 shows the total of 366 cycles.
+**Figure 7: Run 9 complete.** R0 = `0x10` and R1 = `0x410`; the counters show 31/32 correct branches and 156 stall cycles. Figure 17 shows the total of 366 cycles.
 
-#### Worst Case checkpoints — Run 10
+#### Worst Case checkpoints (Run 10)
 
 ![Figure 8: Run 10 after setup, with PC 0x08 and no pixels processed.](Figures/Run10_WC_setup_state.png)
 
-**Figure 8 — Run 10 after setup.** The Worst Case starts with the same counter and pointer state as Best Case.
+**Figure 8: Run 10 after setup.** The Worst Case starts with the same counter and pointer state as Best Case.
 
 ![Figure 9: Run 10 after pixel 1, showing input R3 0x40 and output R4 0x60.](Figures/Run10_WC_pixel1_done_state.png)
 
-**Figure 9 — Run 10, pixel 1 complete.** Input 64 (`0x40`) becomes 96 (`0x60`); both branch predictions so far are correct and no stall cycles have accumulated.
+**Figure 9: Run 10, pixel 1 complete.** Input 64 (`0x40`) becomes 96 (`0x60`); both branch predictions so far are correct and no stall cycles have accumulated.
 
 ![Figure 10: Run 10 final state, PC 0x34, 16 pixels, 25 of 32 branches correct and 152 stall cycles.](Figures/Run10_WC_final_state.png)
 
-**Figure 10 — Run 10 complete.** The last bright pixel changes from `0xC0` to `0xB8` (192 to 184). Seven wrong predictions leave 25/32 correct; Figure 18 shows the single cache miss and 378-cycle total.
+**Figure 10: Run 10 complete.** The last bright pixel changes from `0xC0` to `0xB8` (192 to 184). Seven wrong predictions leave 25/32 correct; Figure 18 shows the single cache miss and 378-cycle total.
 
-#### Real Case 1 checkpoints — Run 11
+#### Real Case 1 checkpoints (Run 11)
 
 ![Figure 11: Run 11 after setup, with PC 0x08, R0 zero and R1 0x400.](Figures/Run11_RC1_setup_state.png)
 
-**Figure 11 — Run 11 after setup.** The pointer is ready for the first indoor-photo pixel, with all event counters at zero.
+**Figure 11: Run 11 after setup.** The pointer is ready for the first indoor-photo pixel, with all event counters at zero.
 
 ![Figure 12: Run 11 after pixel 1, showing R3 0x23, R4 0x43, 1 of 2 branches correct and 15 stalls.](Figures/Run11_RC1_pixel1_done_state.png)
 
-**Figure 12 — Run 11, pixel 1 complete.** Input 35 becomes 67 (`0x23` → `0x43`). The 1/2 branch counter and 15 stall cycles show the first brightness misprediction; the recorded load was a hit (Appendix C.3).
+**Figure 12: Run 11, pixel 1 complete.** Input 35 becomes 67 (`0x23` → `0x43`). The 1/2 branch counter and 15 stall cycles show the first brightness misprediction; the recorded load was a hit (Appendix C.3).
 
 ![Figure 13: Run 11 final state, PC 0x34, 16 pixels, 26 of 32 branches correct and 231 stalls.](Figures/Run11_RC1_final_state.png)
 
-**Figure 13 — Run 11 complete.** The final input/output registers contain 140 and 132 (`0x8C` → `0x84`). Figure 19 shows the matching 451-cycle total and cache counters.
+**Figure 13: Run 11 complete.** The final input/output registers contain 140 and 132 (`0x8C` → `0x84`). Figure 19 shows the matching 451-cycle total and cache counters.
 
-#### Real Case 2 checkpoints — Run 12
+#### Real Case 2 checkpoints (Run 12)
 
 ![Figure 14: Run 12 after setup, with PC 0x08 and zero processed pixels.](Figures/Run12_RC2_setup_state.png)
 
-**Figure 14 — Run 12 after setup.** The clustered case starts at pixel address `0x400`, before any pixel load or branch decision.
+**Figure 14: Run 12 after setup.** The clustered case starts at pixel address `0x400`, before any pixel load or branch decision.
 
 ![Figure 15: Run 12 after pixel 1, showing input R3 0xE8 and output R4 0xE0.](Figures/Run12_RC2_pixel1_done_state.png)
 
-**Figure 15 — Run 12, pixel 1 complete.** The first bright input changes from 232 to 224 (`0xE8` → `0xE0`). R0 advances to one, R1 to `0x401`, and PC returns to `0x08`.
+**Figure 15: Run 12, pixel 1 complete.** The first bright input changes from 232 to 224 (`0xE8` → `0xE0`). R0 advances to one, R1 to `0x401`, and PC returns to `0x08`.
 
 ![Figure 16: Run 12 final state, PC 0x34, 16 pixels, 30 of 32 branches correct and 171 stalls.](Figures/Run12_RC2_final_state.png)
 
-**Figure 16 — Run 12 complete.** The last dark input changes from 92 to 124 (`0x5C` → `0x7C`). The final counters show 30/32 correct branches and 171 stalls; Figure 20 shows the 397-cycle total.
+**Figure 16: Run 12 complete.** The last dark input changes from 92 to 124 (`0x5C` → `0x7C`). The final counters show 30/32 correct branches and 171 stalls; Figure 20 shows the 397-cycle total.
 
 ### 1.6 What the simulator models
 
@@ -299,19 +299,19 @@ The following crops show the final metrics for the same four traced runs picture
 
 ![Figure 17: Run 9 final metrics showing 366 cycles, 22.88 CPP, 13 cache hits, 3 misses and 31 of 32 correct branches.](Figures/Run9_BC_final_metrics.png)
 
-**Figure 17 — Best Case, Run 9.** 366 cycles; 13 hits and 3 misses; 31/32 correct branches; 156 stall cycles.
+**Figure 17: Best Case, Run 9.** 366 cycles; 13 hits and 3 misses; 31/32 correct branches; 156 stall cycles.
 
 ![Figure 18: Run 10 final metrics showing 378 cycles, 23.63 CPP, 15 cache hits, 1 miss and 25 of 32 correct branches.](Figures/Run10_WC_final_metrics.png)
 
-**Figure 18 — Worst Case, Run 10.** 378 cycles; 15 hits and 1 miss; 25/32 correct branches; 152 stall cycles. Its unusually small miss count explains why this run is faster than the other Worst Case runs.
+**Figure 18: Worst Case, Run 10.** 378 cycles; 15 hits and 1 miss; 25/32 correct branches; 152 stall cycles. Its unusually small miss count explains why this run is faster than the other Worst Case runs.
 
 ![Figure 19: Run 11 final metrics showing 451 cycles, 28.19 CPP, 13 cache hits, 3 misses and 26 of 32 correct branches.](Figures/Run11_RC1_final_metrics.png)
 
-**Figure 19 — Real Case 1, Run 11.** 451 cycles; 13 hits and 3 misses; 26/32 correct branches; 231 stall cycles.
+**Figure 19: Real Case 1, Run 11.** 451 cycles; 13 hits and 3 misses; 26/32 correct branches; 231 stall cycles.
 
 ![Figure 20: Run 12 final metrics showing 397 cycles, 24.81 CPP, 13 cache hits, 3 misses and 30 of 32 correct branches.](Figures/Run12_RC2_final_metrics.png)
 
-**Figure 20 — Real Case 2, Run 12.** 397 cycles; 13 hits and 3 misses; 30/32 correct branches; 171 stall cycles.
+**Figure 20: Real Case 2, Run 12.** 397 cycles; 13 hits and 3 misses; 30/32 correct branches; 171 stall cycles.
 
 ### 2.2 Exact reconciliation
 
@@ -356,7 +356,7 @@ Each mean below uses the three recorded runs of a case. Pooled rates use the com
 
 Run 10's rare single miss explains part of Worst Case's 126-cycle spread; its two siblings recorded three and four misses. The base instruction cycles are identical within every case (210 / 226 / 220 / 226), because they depend only on the pixel pattern. Every difference therefore comes from the random delays: each additional miss adds 47 cycles and each wrong brightness prediction adds 15.
 
-In the three-run groups, Best recorded 10 cache misses and Worst 8, so Worst's mean cache delay is about 31 cycles lower; however, its mean branch delay is 100 cycles higher and its base cost is 16 cycles higher, which together explain the 84.7-cycle gap between the two means. In every run except Run 10, the cache delay exceeded the branch delay.
+Within the three-run groups, Best recorded 10 cache misses and Worst 8, putting Worst's mean cache delay about 31 cycles lower. Its mean branch delay was 100 cycles higher, though, and its base cost 16 cycles higher; those two differences explain the 84.7-cycle gap between the means. In every run except Run 10, cache delay exceeded branch delay.
 
 ### 2.4 Assignment targets
 
@@ -367,13 +367,13 @@ In the three-run groups, Best recorded 10 cache misses and Worst 8, so Worst's m
 | Overall branch accuracy > 90% | Runs 1, 3, 4, 5, 8, 9 and 12 meet it; the others do not |
 | Register spills = 0 | No spill instructions are present; this is a code finding |
 
-Missing a target is a performance result to explain. It is not evidence that the student's arithmetic is wrong. The sample CPP values and perfect/impossible prediction claims in the guide are not measurements of this code.
+Falling short of a target is itself a result to explain; the arithmetic behind these numbers is checked in Section 2.2 and Appendix D. The guide's sample CPP figures, and its claims of perfect or zero prediction accuracy, are not measurements of this code.
 
 ## 3. Optimization analysis
 
 ### 3.1 Strategies tested and measured
 
-Four changed programs were built from the original simulator, plus the unchanged baseline. All five programs were run 40 times per test case with identical inputs and their outputs checked every run, so this section reports measurements rather than only estimates.
+Four changed programs were built from the original simulator, plus the unchanged baseline. All five programs ran 40 times per test case with identical inputs, and their outputs were checked every run. The section reports measured results.
 
 <!-- table:programs -->
 | Program | Change to the program | Base cycles (Best / Worst / Real 1 / Real 2) | Conditional branches per run | Brightness mispredictions |
@@ -435,7 +435,7 @@ Why the numbers move: every run decomposes exactly into `base + 47 × misses + 1
 | Real 1 | Combined | 337.80 | 38.60 over branch-free | 102.03 (-23.2%) |
 | Real 2 | Combined | 335.45 | 37.43 over branch-free | 79.90 (-19.2%) |
 
-On Worst, Real 1 and Real 2, the combined program's margins (about 2.2–4.5 standard errors over the next-best program, and 4.9–11 over the baseline) support the ranking: removing brightness branches and shortening the loop together help everywhere mispredictions or bright pixels occur. Best Case is a statistical near-tie between unrolling and the combined program: the 26-cycle gap is about 1.7 standard errors, and the deterministic analysis explains the convergence — unrolling saves 16 base cycles that the combined program still spends, while the combined program saves the roughly 15 cycles of Best-Case branch delay that unrolling still pays. A real compiler would need real benchmarks to settle that pair.
+On Worst, Real 1 and Real 2, the combined program's margins (about 2.2–4.5 standard errors over the next-best program, and 4.9–11 over the baseline) support the ranking: removing brightness branches and shortening the loop together help everywhere mispredictions or bright pixels occur. Best Case is a statistical near-tie between unrolling and the combined program: the 26-cycle gap is about 1.7 standard errors, and a deterministic argument explains the convergence: unrolling saves 16 base cycles that the combined program still spends, while the combined program avoids the roughly 15 cycles of Best-Case branch delay that unrolling still pays. A real compiler would need real benchmarks to settle that pair.
 
 ### 3.5 Prefetching: still calculated, against the measured baseline
 
@@ -494,7 +494,7 @@ Servers = ceiling(processor seconds / 14,400)
 | Real 1 | 1,765,376 | 3,530,752,000,000 | 1,471.15 | 0.1022 | 1 |
 | Real 2 | 1,774,933 | 3,549,866,666,667 | 1,479.11 | 0.1027 | 1 |
 
-The simplified calculation needs one server in all cases. Even the largest individual run, Run 6, needs only 1,720.32 processor seconds, below 14,400. This is an arithmetic lower-bound model for the brightness stage, not a production capacity measurement. No workload mixture was supplied, so Real 1 is used only as a worked example, not asserted to be the average uploaded photograph.
+The simplified calculation needs one server in all cases. Even the largest individual run, Run 6, needs only 1,720.32 processor seconds, below 14,400. This is an arithmetic lower-bound model for the brightness stage, not a production capacity measurement. No workload mixture was supplied, so Real 1 serves as a worked example only; it is not claimed to be the average uploaded photograph.
 
 ### 4.4 Electricity for 24-hour operation
 
@@ -548,7 +548,7 @@ For the 50%-of-uploads alternative, daily cycles, processing times and processin
 
 ## 5. Requirement coverage and conclusion
 
-The report follows all four requested deliverable areas. The distinction between a topic being discussed and its required measurements being complete is recorded below.
+The table below tracks each assignment requirement and the evidence that answers it.
 
 | Assignment criterion | Location and evidence | Status |
 |---|---|---|
@@ -572,14 +572,14 @@ The six quick-guide questions are covered by Section 2.1 (collect), Sections 2.2
 
 The combined runs exceed the minimum experiment count and show how random delays change repeated results. The recorded ranking of baseline performance across three-run means is Best (376.7), Real 1 (431.0), Real 2 (433.3), then Worst (461.3). Cache misses dominate waiting in eleven of twelve runs; the extra Worst Case cost is largely branch mistakes. The measured study answers the assignment's optimization requirement: unrolling is best for Best Case, the combined branch-free unrolled program is best for the other three cases, and branch-free selection alone only pays off when mispredictions are frequent. Prefetching remains the one strategy without a measured implementation, because the teaching model has no cache contents to prefetch.
 
-Genuine limitations remain on the record: the measurements come from this teaching model with stated cost assumptions, not from hardware; Runs 1–8 still lack individual event positions; and a real compiler-based evaluation of the variants would need a different tool. Appendix C supplies the complete recorded traces for all four test cases, while Appendix D supplies the individual optimization measurements behind the reported means.
+Some limits stay on the record. All measurements come from the teaching model and its stated cost assumptions, not from hardware, and Runs 1–8 still lack individual event positions. Testing the variants with a real compiler would need different tools. None of that blocks the deliverables: Appendix C holds the complete traces for all four test cases, and Appendix D the individual measurements behind the reported means.
 
 ## 6. Course materials and evidence sources
 
-1. **BSC104 course brief:** *Project 1: CPU Instruction Execution — Image Brightness Processing*. Source of the brightness algorithm, required test cases, performance targets, and workload/power assumptions.
-2. **BSC104 simulator usage guide:** *How to Use Project 1 CPU Simulator — Quick Guide*. Source of the observation workflow and the supporting one-CPP cost question.
-3. **Supplied Project 1 CPU Instruction Simulator.** Source of the instruction behavior and measured counters. Its relevant rules and limitations are stated in Sections 1.2–1.6; assumptions for the modified programs are stated in Section 3.1.
-4. **Group experimental observations.** Runs 1–4 are the Local collection; Runs 5–8 are the Scarlet collection. Runs 9–12 and the 800-run optimization study were recorded for this report. The evidence and numerical records needed to inspect the findings appear in Appendices A–D.
+1. **BSC104 course brief:** *CPU Instruction Execution: Image Brightness Processing*. Defines the brightness algorithm, the required test cases, the performance targets, and the workload and power assumptions.
+2. **BSC104 simulator guide:** *How to Use Project 1 Simulator*. Describes the observation workflow and the one-CPP cost question.
+3. **Supplied Project 1 CPU Instruction Simulator.** Determines the instruction behavior and measured counters. Sections 1.2–1.6 state its rules and limits; Section 3.1 states the assumptions behind the modified programs.
+4. **Group experimental observations.** Runs 1–4 are the Local collection; Runs 5–8 are the Scarlet collection. Runs 9–12 and the 800-run optimization study were recorded for this report. Appendices A–D contain the evidence and numerical records needed to check the findings.
 
 <!-- generated-evidence:start -->
 
@@ -587,235 +587,235 @@ Genuine limitations remain on the record: the measurements come from this teachi
 
 The following 49 figures embed the full-resolution captures: 20 final-state screenshots for Runs 1–8, 24 checkpoints for Runs 9–12, and five optimization samples. Images are displayed individually at document width. Figures 1–20 in the main discussion give larger views of selected panels. Dark pixel cells and clipped register entries retain the original capture's limitations; the numeric pixel records are printed in Appendices B and C.
 
-### A.1 Original final-state evidence — Runs 1–8
+### A.1 Original final-state evidence: Runs 1–8
 
-#### Run 1 — Best Case, BC-50-R1
+#### Run 1: Best Case, BC-50-R1
 
-![Figure A1 — Run 1: final-state capture 1.](Sources/Local/Screenshots/BC-1.png)
+![Figure A1: Run 1, final-state capture 1.](Sources/Local/Screenshots/BC-1.png)
 
-**Figure A1 — Run 1: final-state capture 1.** BC-50-R1.
+**Figure A1: Run 1, final-state capture 1.** BC-50-R1.
 
-![Figure A2 — Run 1: final-state capture 2.](Sources/Local/Screenshots/BC-2.png)
+![Figure A2: Run 1, final-state capture 2.](Sources/Local/Screenshots/BC-2.png)
 
-**Figure A2 — Run 1: final-state capture 2.** BC-50-R1.
+**Figure A2: Run 1, final-state capture 2.** BC-50-R1.
 
-#### Run 2 — Worst Case, WC-50-R1
+#### Run 2: Worst Case, WC-50-R1
 
-![Figure A3 — Run 2: final-state capture 1.](Sources/Local/Screenshots/WC-1.png)
+![Figure A3: Run 2, final-state capture 1.](Sources/Local/Screenshots/WC-1.png)
 
-**Figure A3 — Run 2: final-state capture 1.** WC-50-R1.
+**Figure A3: Run 2, final-state capture 1.** WC-50-R1.
 
-![Figure A4 — Run 2: final-state capture 2.](Sources/Local/Screenshots/WC-2.png)
+![Figure A4: Run 2, final-state capture 2.](Sources/Local/Screenshots/WC-2.png)
 
-**Figure A4 — Run 2: final-state capture 2.** WC-50-R1.
+**Figure A4: Run 2, final-state capture 2.** WC-50-R1.
 
-#### Run 3 — Real Case 1, RC1-50-R1
+#### Run 3: Real Case 1, RC1-50-R1
 
-![Figure A5 — Run 3: final-state capture 1.](Sources/Local/Screenshots/RC1-1.png)
+![Figure A5: Run 3, final-state capture 1.](Sources/Local/Screenshots/RC1-1.png)
 
-**Figure A5 — Run 3: final-state capture 1.** RC1-50-R1.
+**Figure A5: Run 3, final-state capture 1.** RC1-50-R1.
 
-![Figure A6 — Run 3: final-state capture 2.](Sources/Local/Screenshots/RC1-2.png)
+![Figure A6: Run 3, final-state capture 2.](Sources/Local/Screenshots/RC1-2.png)
 
-**Figure A6 — Run 3: final-state capture 2.** RC1-50-R1.
+**Figure A6: Run 3, final-state capture 2.** RC1-50-R1.
 
-#### Run 4 — Real Case 2, RC2-50-R1
+#### Run 4: Real Case 2, RC2-50-R1
 
-![Figure A7 — Run 4: final-state capture 1.](Sources/Local/Screenshots/RC2-1.png)
+![Figure A7: Run 4, final-state capture 1.](Sources/Local/Screenshots/RC2-1.png)
 
-**Figure A7 — Run 4: final-state capture 1.** RC2-50-R1.
+**Figure A7: Run 4, final-state capture 1.** RC2-50-R1.
 
-![Figure A8 — Run 4: final-state capture 2.](Sources/Local/Screenshots/RC2-2.png)
+![Figure A8: Run 4, final-state capture 2.](Sources/Local/Screenshots/RC2-2.png)
 
-**Figure A8 — Run 4: final-state capture 2.** RC2-50-R1.
+**Figure A8: Run 4, final-state capture 2.** RC2-50-R1.
 
-#### Run 5 — Best Case, BC-500-R2
+#### Run 5: Best Case, BC-500-R2
 
-![Figure A9 — Run 5: final-state capture 1.](Sources/Scarlet/Screenshots/BC-R2-1.png)
+![Figure A9: Run 5, final-state capture 1.](Sources/Scarlet/Screenshots/BC-R2-1.png)
 
-**Figure A9 — Run 5: final-state capture 1.** BC-500-R2.
+**Figure A9: Run 5, final-state capture 1.** BC-500-R2.
 
-![Figure A10 — Run 5: final-state capture 2.](Sources/Scarlet/Screenshots/BC-R2-2.png)
+![Figure A10: Run 5, final-state capture 2.](Sources/Scarlet/Screenshots/BC-R2-2.png)
 
-**Figure A10 — Run 5: final-state capture 2.** BC-500-R2.
+**Figure A10: Run 5, final-state capture 2.** BC-500-R2.
 
-![Figure A11 — Run 5: final-state capture 3.](Sources/Scarlet/Screenshots/BC-R2-3.png)
+![Figure A11: Run 5, final-state capture 3.](Sources/Scarlet/Screenshots/BC-R2-3.png)
 
-**Figure A11 — Run 5: final-state capture 3.** BC-500-R2.
+**Figure A11: Run 5, final-state capture 3.** BC-500-R2.
 
-#### Run 6 — Worst Case, WC-500-R2
+#### Run 6: Worst Case, WC-500-R2
 
-![Figure A12 — Run 6: final-state capture 1.](Sources/Scarlet/Screenshots/WC-R2-1.png)
+![Figure A12: Run 6, final-state capture 1.](Sources/Scarlet/Screenshots/WC-R2-1.png)
 
-**Figure A12 — Run 6: final-state capture 1.** WC-500-R2.
+**Figure A12: Run 6, final-state capture 1.** WC-500-R2.
 
-![Figure A13 — Run 6: final-state capture 2.](Sources/Scarlet/Screenshots/WC-R2-2.png)
+![Figure A13: Run 6, final-state capture 2.](Sources/Scarlet/Screenshots/WC-R2-2.png)
 
-**Figure A13 — Run 6: final-state capture 2.** WC-500-R2.
+**Figure A13: Run 6, final-state capture 2.** WC-500-R2.
 
-![Figure A14 — Run 6: final-state capture 3.](Sources/Scarlet/Screenshots/WC-R2-3.png)
+![Figure A14: Run 6, final-state capture 3.](Sources/Scarlet/Screenshots/WC-R2-3.png)
 
-**Figure A14 — Run 6: final-state capture 3.** WC-500-R2.
+**Figure A14: Run 6, final-state capture 3.** WC-500-R2.
 
-#### Run 7 — Real Case 1, RC1-500-R2
+#### Run 7: Real Case 1, RC1-500-R2
 
-![Figure A15 — Run 7: final-state capture 1.](Sources/Scarlet/Screenshots/RC1-R2-1.png)
+![Figure A15: Run 7, final-state capture 1.](Sources/Scarlet/Screenshots/RC1-R2-1.png)
 
-**Figure A15 — Run 7: final-state capture 1.** RC1-500-R2.
+**Figure A15: Run 7, final-state capture 1.** RC1-500-R2.
 
-![Figure A16 — Run 7: final-state capture 2.](Sources/Scarlet/Screenshots/RC1-R2-2.png)
+![Figure A16: Run 7, final-state capture 2.](Sources/Scarlet/Screenshots/RC1-R2-2.png)
 
-**Figure A16 — Run 7: final-state capture 2.** RC1-500-R2.
+**Figure A16: Run 7, final-state capture 2.** RC1-500-R2.
 
-![Figure A17 — Run 7: final-state capture 3.](Sources/Scarlet/Screenshots/RC1-R2-3.png)
+![Figure A17: Run 7, final-state capture 3.](Sources/Scarlet/Screenshots/RC1-R2-3.png)
 
-**Figure A17 — Run 7: final-state capture 3.** RC1-500-R2.
+**Figure A17: Run 7, final-state capture 3.** RC1-500-R2.
 
-#### Run 8 — Real Case 2, RC2-500-R2
+#### Run 8: Real Case 2, RC2-500-R2
 
-![Figure A18 — Run 8: final-state capture 1.](Sources/Scarlet/Screenshots/RC2-R2-1.png)
+![Figure A18: Run 8, final-state capture 1.](Sources/Scarlet/Screenshots/RC2-R2-1.png)
 
-**Figure A18 — Run 8: final-state capture 1.** RC2-500-R2.
+**Figure A18: Run 8, final-state capture 1.** RC2-500-R2.
 
-![Figure A19 — Run 8: final-state capture 2.](Sources/Scarlet/Screenshots/RC2-R2-2.png)
+![Figure A19: Run 8, final-state capture 2.](Sources/Scarlet/Screenshots/RC2-R2-2.png)
 
-**Figure A19 — Run 8: final-state capture 2.** RC2-500-R2.
+**Figure A19: Run 8, final-state capture 2.** RC2-500-R2.
 
-![Figure A20 — Run 8: final-state capture 3.](Sources/Scarlet/Screenshots/RC2-R2-3.png)
+![Figure A20: Run 8, final-state capture 3.](Sources/Scarlet/Screenshots/RC2-R2-3.png)
 
-**Figure A20 — Run 8: final-state capture 3.** RC2-500-R2.
+**Figure A20: Run 8, final-state capture 3.** RC2-500-R2.
 
-### A.2 Complete checkpoint sequences — Runs 9–12
+### A.2 Complete checkpoint sequences: Runs 9–12
 
 Each six-image sequence belongs to one experiment. The setup capture follows the two initialization instructions; the next PC is 0x08. The corresponding full instruction sequences are in Appendix C.
 
-#### Run 9 — Best Case, BC-50-R3
+#### Run 9: Best Case, BC-50-R3
 
-![Figure A21 — Run 9: after setup.](Traces/Run9_BC_01_setup.png)
+![Figure A21: Run 9, after setup.](Traces/Run9_BC_01_setup.png)
 
-**Figure A21 — Run 9: after setup.** BC-50-R3.
+**Figure A21: Run 9, after setup.** BC-50-R3.
 
-![Figure A22 — Run 9: first load.](Traces/Run9_BC_02_first_load.png)
+![Figure A22: Run 9, first load.](Traces/Run9_BC_02_first_load.png)
 
-**Figure A22 — Run 9: first load.** BC-50-R3.
+**Figure A22: Run 9, first load.** BC-50-R3.
 
-![Figure A23 — Run 9: first branch.](Traces/Run9_BC_03_first_branch.png)
+![Figure A23: Run 9, first branch.](Traces/Run9_BC_03_first_branch.png)
 
-**Figure A23 — Run 9: first branch.** BC-50-R3.
+**Figure A23: Run 9, first branch.** BC-50-R3.
 
-![Figure A24 — Run 9: pixel 1 complete.](Traces/Run9_BC_04_pixel1_done.png)
+![Figure A24: Run 9, pixel 1 complete.](Traces/Run9_BC_04_pixel1_done.png)
 
-**Figure A24 — Run 9: pixel 1 complete.** BC-50-R3.
+**Figure A24: Run 9, pixel 1 complete.** BC-50-R3.
 
-![Figure A25 — Run 9: pixel 8 complete.](Traces/Run9_BC_05_pixel8_done.png)
+![Figure A25: Run 9, pixel 8 complete.](Traces/Run9_BC_05_pixel8_done.png)
 
-**Figure A25 — Run 9: pixel 8 complete.** BC-50-R3.
+**Figure A25: Run 9, pixel 8 complete.** BC-50-R3.
 
-![Figure A26 — Run 9: final state.](Traces/Run9_BC_06_final.png)
+![Figure A26: Run 9, final state.](Traces/Run9_BC_06_final.png)
 
-**Figure A26 — Run 9: final state.** BC-50-R3.
+**Figure A26: Run 9, final state.** BC-50-R3.
 
-#### Run 10 — Worst Case, WC-50-R3
+#### Run 10: Worst Case, WC-50-R3
 
-![Figure A27 — Run 10: after setup.](Traces/Run10_WC_01_setup.png)
+![Figure A27: Run 10, after setup.](Traces/Run10_WC_01_setup.png)
 
-**Figure A27 — Run 10: after setup.** WC-50-R3.
+**Figure A27: Run 10, after setup.** WC-50-R3.
 
-![Figure A28 — Run 10: first load.](Traces/Run10_WC_02_first_load.png)
+![Figure A28: Run 10, first load.](Traces/Run10_WC_02_first_load.png)
 
-**Figure A28 — Run 10: first load.** WC-50-R3.
+**Figure A28: Run 10, first load.** WC-50-R3.
 
-![Figure A29 — Run 10: first branch.](Traces/Run10_WC_03_first_branch.png)
+![Figure A29: Run 10, first branch.](Traces/Run10_WC_03_first_branch.png)
 
-**Figure A29 — Run 10: first branch.** WC-50-R3.
+**Figure A29: Run 10, first branch.** WC-50-R3.
 
-![Figure A30 — Run 10: pixel 1 complete.](Traces/Run10_WC_04_pixel1_done.png)
+![Figure A30: Run 10, pixel 1 complete.](Traces/Run10_WC_04_pixel1_done.png)
 
-**Figure A30 — Run 10: pixel 1 complete.** WC-50-R3.
+**Figure A30: Run 10, pixel 1 complete.** WC-50-R3.
 
-![Figure A31 — Run 10: pixel 8 complete.](Traces/Run10_WC_05_pixel8_done.png)
+![Figure A31: Run 10, pixel 8 complete.](Traces/Run10_WC_05_pixel8_done.png)
 
-**Figure A31 — Run 10: pixel 8 complete.** WC-50-R3.
+**Figure A31: Run 10, pixel 8 complete.** WC-50-R3.
 
-![Figure A32 — Run 10: final state.](Traces/Run10_WC_06_final.png)
+![Figure A32: Run 10, final state.](Traces/Run10_WC_06_final.png)
 
-**Figure A32 — Run 10: final state.** WC-50-R3.
+**Figure A32: Run 10, final state.** WC-50-R3.
 
-#### Run 11 — Real Case 1, RC1-50-R3
+#### Run 11: Real Case 1, RC1-50-R3
 
-![Figure A33 — Run 11: after setup.](Traces/Run11_RC1_01_setup.png)
+![Figure A33: Run 11, after setup.](Traces/Run11_RC1_01_setup.png)
 
-**Figure A33 — Run 11: after setup.** RC1-50-R3.
+**Figure A33: Run 11, after setup.** RC1-50-R3.
 
-![Figure A34 — Run 11: first load.](Traces/Run11_RC1_02_first_load.png)
+![Figure A34: Run 11, first load.](Traces/Run11_RC1_02_first_load.png)
 
-**Figure A34 — Run 11: first load.** RC1-50-R3.
+**Figure A34: Run 11, first load.** RC1-50-R3.
 
-![Figure A35 — Run 11: first branch.](Traces/Run11_RC1_03_first_branch.png)
+![Figure A35: Run 11, first branch.](Traces/Run11_RC1_03_first_branch.png)
 
-**Figure A35 — Run 11: first branch.** RC1-50-R3.
+**Figure A35: Run 11, first branch.** RC1-50-R3.
 
-![Figure A36 — Run 11: pixel 1 complete.](Traces/Run11_RC1_04_pixel1_done.png)
+![Figure A36: Run 11, pixel 1 complete.](Traces/Run11_RC1_04_pixel1_done.png)
 
-**Figure A36 — Run 11: pixel 1 complete.** RC1-50-R3.
+**Figure A36: Run 11, pixel 1 complete.** RC1-50-R3.
 
-![Figure A37 — Run 11: pixel 8 complete.](Traces/Run11_RC1_05_pixel8_done.png)
+![Figure A37: Run 11, pixel 8 complete.](Traces/Run11_RC1_05_pixel8_done.png)
 
-**Figure A37 — Run 11: pixel 8 complete.** RC1-50-R3.
+**Figure A37: Run 11, pixel 8 complete.** RC1-50-R3.
 
-![Figure A38 — Run 11: final state.](Traces/Run11_RC1_06_final.png)
+![Figure A38: Run 11, final state.](Traces/Run11_RC1_06_final.png)
 
-**Figure A38 — Run 11: final state.** RC1-50-R3.
+**Figure A38: Run 11, final state.** RC1-50-R3.
 
-#### Run 12 — Real Case 2, RC2-50-R3
+#### Run 12: Real Case 2, RC2-50-R3
 
-![Figure A39 — Run 12: after setup.](Traces/Run12_RC2_01_setup.png)
+![Figure A39: Run 12, after setup.](Traces/Run12_RC2_01_setup.png)
 
-**Figure A39 — Run 12: after setup.** RC2-50-R3.
+**Figure A39: Run 12, after setup.** RC2-50-R3.
 
-![Figure A40 — Run 12: first load.](Traces/Run12_RC2_02_first_load.png)
+![Figure A40: Run 12, first load.](Traces/Run12_RC2_02_first_load.png)
 
-**Figure A40 — Run 12: first load.** RC2-50-R3.
+**Figure A40: Run 12, first load.** RC2-50-R3.
 
-![Figure A41 — Run 12: first branch.](Traces/Run12_RC2_03_first_branch.png)
+![Figure A41: Run 12, first branch.](Traces/Run12_RC2_03_first_branch.png)
 
-**Figure A41 — Run 12: first branch.** RC2-50-R3.
+**Figure A41: Run 12, first branch.** RC2-50-R3.
 
-![Figure A42 — Run 12: pixel 1 complete.](Traces/Run12_RC2_04_pixel1_done.png)
+![Figure A42: Run 12, pixel 1 complete.](Traces/Run12_RC2_04_pixel1_done.png)
 
-**Figure A42 — Run 12: pixel 1 complete.** RC2-50-R3.
+**Figure A42: Run 12, pixel 1 complete.** RC2-50-R3.
 
-![Figure A43 — Run 12: pixel 8 complete.](Traces/Run12_RC2_05_pixel8_done.png)
+![Figure A43: Run 12, pixel 8 complete.](Traces/Run12_RC2_05_pixel8_done.png)
 
-**Figure A43 — Run 12: pixel 8 complete.** RC2-50-R3.
+**Figure A43: Run 12, pixel 8 complete.** RC2-50-R3.
 
-![Figure A44 — Run 12: final state.](Traces/Run12_RC2_06_final.png)
+![Figure A44: Run 12, final state.](Traces/Run12_RC2_06_final.png)
 
-**Figure A44 — Run 12: final state.** RC2-50-R3.
+**Figure A44: Run 12, final state.** RC2-50-R3.
 
 ### A.3 Optimization sample screenshots
 
 These five images show individual executions from the optimization study, separate from Runs 1–12. Their displayed values are not the 40-run means. Appendix D contains the measurements used to calculate those means.
 
-![Figure A45 — Baseline: sample final state.](Optimizations/baseline_final_state.png)
+![Figure A45: Baseline sample final state.](Optimizations/baseline_final_state.png)
 
-**Figure A45 — Baseline: sample final state.** Individual execution, not an average.
+**Figure A45: Baseline sample final state.** One individual execution; the averages are in Appendix D.
 
-![Figure A46 — Branch-free: sample final state.](Optimizations/branchfree_final_state.png)
+![Figure A46: Branch-free sample final state.](Optimizations/branchfree_final_state.png)
 
-**Figure A46 — Branch-free: sample final state.** Individual execution, not an average.
+**Figure A46: Branch-free sample final state.** One individual execution; the averages are in Appendix D.
 
-![Figure A47 — Unrolled: sample final state.](Optimizations/unrolled_final_state.png)
+![Figure A47: Unrolled sample final state.](Optimizations/unrolled_final_state.png)
 
-**Figure A47 — Unrolled: sample final state.** Individual execution, not an average.
+**Figure A47: Unrolled sample final state.** One individual execution; the averages are in Appendix D.
 
-![Figure A48 — Loop-test: sample final state.](Optimizations/looptest_final_state.png)
+![Figure A48: Loop-test sample final state.](Optimizations/looptest_final_state.png)
 
-**Figure A48 — Loop-test: sample final state.** Individual execution, not an average.
+**Figure A48: Loop-test sample final state.** One individual execution; the averages are in Appendix D.
 
-![Figure A49 — Combined: sample final state.](Optimizations/combined_final_state.png)
+![Figure A49: Combined sample final state.](Optimizations/combined_final_state.png)
 
-**Figure A49 — Combined: sample final state.** Individual execution, not an average.
+**Figure A49: Combined sample final state.** One individual execution; the averages are in Appendix D.
 
 ## Appendix B: Reconstructed pixel paths for Runs 1–8
 
@@ -825,7 +825,7 @@ These tables contain all 128 input/output pairs for Runs 1–8. They reconstruct
 
 **Paths:** Dark = 08 → 0C → 10 → 1C → 20 → 24 → 28 → 2C → 30 (13 cycles); Bright = 08 → 0C → 10 → 14 → 18 → 20 → 24 → 28 → 2C → 30 (15 cycles). Addresses are hexadecimal. Both return to 08 after pixels 1–15 and finish at 34 after pixel 16. For pixel n, the load address is 1023 + n; after the iteration R0 = n, R1 = 1024 + n, R3 contains the input, and R4 contains the output.
 
-### B.1 Run 1 — BC-50-R1
+### B.1 Run 1: BC-50-R1
 
 <!-- table:pixel-paths-1 -->
 | Pixel | Input | Basis | Output | Path | Base cycles | Running base |
@@ -849,7 +849,7 @@ These tables contain all 128 input/output pairs for Runs 1–8. They reconstruct
 
 Reconciliation: `210 + 3 × 47 + 0 × 15 = 351 cycles`. Cache-miss positions were not saved. No brightness prediction was wrong.
 
-### B.2 Run 2 — WC-50-R1
+### B.2 Run 2: WC-50-R1
 
 <!-- table:pixel-paths-2 -->
 | Pixel | Input | Basis | Output | Path | Base cycles | Running base |
@@ -873,7 +873,7 @@ Reconciliation: `210 + 3 × 47 + 0 × 15 = 351 cycles`. Cache-miss positions wer
 
 Reconciliation: `226 + 3 × 47 + 9 × 15 = 502 cycles`. Cache-miss and wrong-prediction positions were not saved.
 
-### B.3 Run 3 — RC1-50-R1
+### B.3 Run 3: RC1-50-R1
 
 <!-- table:pixel-paths-3 -->
 | Pixel | Input | Basis | Output | Path | Base cycles | Running base |
@@ -897,7 +897,7 @@ Reconciliation: `226 + 3 × 47 + 9 × 15 = 502 cycles`. Cache-miss and wrong-pre
 
 Reconciliation: `220 + 3 × 47 + 3 × 15 = 406 cycles`. Cache-miss and wrong-prediction positions were not saved.
 
-### B.4 Run 4 — RC2-50-R1
+### B.4 Run 4: RC2-50-R1
 
 <!-- table:pixel-paths-4 -->
 | Pixel | Input | Basis | Output | Path | Base cycles | Running base |
@@ -921,7 +921,7 @@ Reconciliation: `220 + 3 × 47 + 3 × 15 = 406 cycles`. Cache-miss and wrong-pre
 
 Reconciliation: `226 + 4 × 47 + 2 × 15 = 444 cycles`. Cache-miss and wrong-prediction positions were not saved.
 
-### B.5 Run 5 — BC-500-R2
+### B.5 Run 5: BC-500-R2
 
 <!-- table:pixel-paths-5 -->
 | Pixel | Input | Basis | Output | Path | Base cycles | Running base |
@@ -945,7 +945,7 @@ Reconciliation: `226 + 4 × 47 + 2 × 15 = 444 cycles`. Cache-miss and wrong-pre
 
 Reconciliation: `210 + 4 × 47 + 1 × 15 = 413 cycles`. Cache-miss and wrong-prediction positions were not saved.
 
-### B.6 Run 6 — WC-500-R2
+### B.6 Run 6: WC-500-R2
 
 <!-- table:pixel-paths-6 -->
 | Pixel | Input | Basis | Output | Path | Base cycles | Running base |
@@ -969,7 +969,7 @@ Reconciliation: `210 + 4 × 47 + 1 × 15 = 413 cycles`. Cache-miss and wrong-pre
 
 Reconciliation: `226 + 4 × 47 + 6 × 15 = 504 cycles`. Cache-miss and wrong-prediction positions were not saved.
 
-### B.7 Run 7 — RC1-500-R2
+### B.7 Run 7: RC1-500-R2
 
 <!-- table:pixel-paths-7 -->
 | Pixel | Input | Basis | Output | Path | Base cycles | Running base |
@@ -993,7 +993,7 @@ Reconciliation: `226 + 4 × 47 + 6 × 15 = 504 cycles`. Cache-miss and wrong-pre
 
 Reconciliation: `220 + 3 × 47 + 5 × 15 = 436 cycles`. Cache-miss and wrong-prediction positions were not saved.
 
-### B.8 Run 8 — RC2-500-R2
+### B.8 Run 8: RC2-500-R2
 
 <!-- table:pixel-paths-8 -->
 | Pixel | Input | Basis | Output | Path | Base cycles | Running base |
@@ -1023,7 +1023,7 @@ This appendix prints all 605 executed instruction steps and all 64 pixel iterati
 
 **How to read the tables:** the pixel table gives input, output, the load's cache outcome, the brightness branch's prediction outcome, base cycles, delay cycles and the running total after the loop check. Instruction tables give the executed PC and next PC, cycles added, running total and event. Addresses are hexadecimal; Section 1.3 maps every PC to its instruction. A step with running total T and increment d occupies counted cycles T − d + 1 through T. A dash means no cache or prediction event at that instruction. BNE is always counted as correctly predicted, including its final not-taken decision. HALT is the final next-PC position and is not charged a step or cycle.
 
-### C.1 Run 9 — BC-50-R3
+### C.1 Run 9: BC-50-R3
 
 **Best Case:** 146 steps, 366 cycles, 13 cache hits, 3 misses, 31/32 correct branches, and 156 stall cycles. Checkpoint images appear in Appendix A.2.
 
@@ -1047,177 +1047,177 @@ This appendix prints all 605 executed instruction steps and all 64 pixel iterati
 | 15 | 0 | 32 | HIT | Correct | 13 | 0 | 353 |
 | 16 | 0 | 32 | HIT | Correct | 13 | 0 | 366 |
 
-#### Run 9 — recorded steps 1–40
+#### Run 9: recorded steps 1–40
 
 <!-- table:trace-steps-9-1 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 1 | 0x00 | 0x04 | 1 | 1 | — |
-| 2 | 0x04 | 0x08 | 1 | 2 | — |
+| 1 | 0x00 | 0x04 | 1 | 1 | - |
+| 2 | 0x04 | 0x08 | 1 | 2 | - |
 | 3 | 0x08 | 0x0C | 3 | 5 | Cache hit |
-| 4 | 0x0C | 0x10 | 1 | 6 | — |
+| 4 | 0x0C | 0x10 | 1 | 6 | - |
 | 5 | 0x10 | 0x1C | 1 | 7 | BLT correct |
-| 6 | 0x1C | 0x20 | 1 | 8 | — |
-| 7 | 0x20 | 0x24 | 3 | 11 | — |
-| 8 | 0x24 | 0x28 | 1 | 12 | — |
-| 9 | 0x28 | 0x2C | 1 | 13 | — |
-| 10 | 0x2C | 0x30 | 1 | 14 | — |
+| 6 | 0x1C | 0x20 | 1 | 8 | - |
+| 7 | 0x20 | 0x24 | 3 | 11 | - |
+| 8 | 0x24 | 0x28 | 1 | 12 | - |
+| 9 | 0x28 | 0x2C | 1 | 13 | - |
+| 10 | 0x2C | 0x30 | 1 | 14 | - |
 | 11 | 0x30 | 0x08 | 1 | 15 | BNE correct |
 | 12 | 0x08 | 0x0C | 3 | 18 | Cache hit |
-| 13 | 0x0C | 0x10 | 1 | 19 | — |
+| 13 | 0x0C | 0x10 | 1 | 19 | - |
 | 14 | 0x10 | 0x1C | 1 | 20 | BLT correct |
-| 15 | 0x1C | 0x20 | 1 | 21 | — |
-| 16 | 0x20 | 0x24 | 3 | 24 | — |
-| 17 | 0x24 | 0x28 | 1 | 25 | — |
-| 18 | 0x28 | 0x2C | 1 | 26 | — |
-| 19 | 0x2C | 0x30 | 1 | 27 | — |
+| 15 | 0x1C | 0x20 | 1 | 21 | - |
+| 16 | 0x20 | 0x24 | 3 | 24 | - |
+| 17 | 0x24 | 0x28 | 1 | 25 | - |
+| 18 | 0x28 | 0x2C | 1 | 26 | - |
+| 19 | 0x2C | 0x30 | 1 | 27 | - |
 | 20 | 0x30 | 0x08 | 1 | 28 | BNE correct |
 | 21 | 0x08 | 0x0C | 3 | 31 | Cache hit |
-| 22 | 0x0C | 0x10 | 1 | 32 | — |
+| 22 | 0x0C | 0x10 | 1 | 32 | - |
 | 23 | 0x10 | 0x1C | 1 | 33 | BLT correct |
-| 24 | 0x1C | 0x20 | 1 | 34 | — |
-| 25 | 0x20 | 0x24 | 3 | 37 | — |
-| 26 | 0x24 | 0x28 | 1 | 38 | — |
-| 27 | 0x28 | 0x2C | 1 | 39 | — |
-| 28 | 0x2C | 0x30 | 1 | 40 | — |
+| 24 | 0x1C | 0x20 | 1 | 34 | - |
+| 25 | 0x20 | 0x24 | 3 | 37 | - |
+| 26 | 0x24 | 0x28 | 1 | 38 | - |
+| 27 | 0x28 | 0x2C | 1 | 39 | - |
+| 28 | 0x2C | 0x30 | 1 | 40 | - |
 | 29 | 0x30 | 0x08 | 1 | 41 | BNE correct |
 | 30 | 0x08 | 0x0C | 3 | 44 | Cache hit |
-| 31 | 0x0C | 0x10 | 1 | 45 | — |
+| 31 | 0x0C | 0x10 | 1 | 45 | - |
 | 32 | 0x10 | 0x1C | 1 | 46 | BLT correct |
-| 33 | 0x1C | 0x20 | 1 | 47 | — |
-| 34 | 0x20 | 0x24 | 3 | 50 | — |
-| 35 | 0x24 | 0x28 | 1 | 51 | — |
-| 36 | 0x28 | 0x2C | 1 | 52 | — |
-| 37 | 0x2C | 0x30 | 1 | 53 | — |
+| 33 | 0x1C | 0x20 | 1 | 47 | - |
+| 34 | 0x20 | 0x24 | 3 | 50 | - |
+| 35 | 0x24 | 0x28 | 1 | 51 | - |
+| 36 | 0x28 | 0x2C | 1 | 52 | - |
+| 37 | 0x2C | 0x30 | 1 | 53 | - |
 | 38 | 0x30 | 0x08 | 1 | 54 | BNE correct |
 | 39 | 0x08 | 0x0C | 3 | 57 | Cache hit |
-| 40 | 0x0C | 0x10 | 1 | 58 | — |
+| 40 | 0x0C | 0x10 | 1 | 58 | - |
 
-#### Run 9 — recorded steps 41–80
+#### Run 9: recorded steps 41–80
 
 <!-- table:trace-steps-9-41 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
 | 41 | 0x10 | 0x1C | 1 | 59 | BLT correct |
-| 42 | 0x1C | 0x20 | 1 | 60 | — |
-| 43 | 0x20 | 0x24 | 3 | 63 | — |
-| 44 | 0x24 | 0x28 | 1 | 64 | — |
-| 45 | 0x28 | 0x2C | 1 | 65 | — |
-| 46 | 0x2C | 0x30 | 1 | 66 | — |
+| 42 | 0x1C | 0x20 | 1 | 60 | - |
+| 43 | 0x20 | 0x24 | 3 | 63 | - |
+| 44 | 0x24 | 0x28 | 1 | 64 | - |
+| 45 | 0x28 | 0x2C | 1 | 65 | - |
+| 46 | 0x2C | 0x30 | 1 | 66 | - |
 | 47 | 0x30 | 0x08 | 1 | 67 | BNE correct |
 | 48 | 0x08 | 0x0C | 3 | 70 | Cache hit |
-| 49 | 0x0C | 0x10 | 1 | 71 | — |
+| 49 | 0x0C | 0x10 | 1 | 71 | - |
 | 50 | 0x10 | 0x1C | 1 | 72 | BLT correct |
-| 51 | 0x1C | 0x20 | 1 | 73 | — |
-| 52 | 0x20 | 0x24 | 3 | 76 | — |
-| 53 | 0x24 | 0x28 | 1 | 77 | — |
-| 54 | 0x28 | 0x2C | 1 | 78 | — |
-| 55 | 0x2C | 0x30 | 1 | 79 | — |
+| 51 | 0x1C | 0x20 | 1 | 73 | - |
+| 52 | 0x20 | 0x24 | 3 | 76 | - |
+| 53 | 0x24 | 0x28 | 1 | 77 | - |
+| 54 | 0x28 | 0x2C | 1 | 78 | - |
+| 55 | 0x2C | 0x30 | 1 | 79 | - |
 | 56 | 0x30 | 0x08 | 1 | 80 | BNE correct |
 | 57 | 0x08 | 0x0C | 50 | 130 | Cache miss |
-| 58 | 0x0C | 0x10 | 1 | 131 | — |
+| 58 | 0x0C | 0x10 | 1 | 131 | - |
 | 59 | 0x10 | 0x1C | 1 | 132 | BLT correct |
-| 60 | 0x1C | 0x20 | 1 | 133 | — |
-| 61 | 0x20 | 0x24 | 3 | 136 | — |
-| 62 | 0x24 | 0x28 | 1 | 137 | — |
-| 63 | 0x28 | 0x2C | 1 | 138 | — |
-| 64 | 0x2C | 0x30 | 1 | 139 | — |
+| 60 | 0x1C | 0x20 | 1 | 133 | - |
+| 61 | 0x20 | 0x24 | 3 | 136 | - |
+| 62 | 0x24 | 0x28 | 1 | 137 | - |
+| 63 | 0x28 | 0x2C | 1 | 138 | - |
+| 64 | 0x2C | 0x30 | 1 | 139 | - |
 | 65 | 0x30 | 0x08 | 1 | 140 | BNE correct |
 | 66 | 0x08 | 0x0C | 3 | 143 | Cache hit |
-| 67 | 0x0C | 0x10 | 1 | 144 | — |
+| 67 | 0x0C | 0x10 | 1 | 144 | - |
 | 68 | 0x10 | 0x1C | 1 | 145 | BLT correct |
-| 69 | 0x1C | 0x20 | 1 | 146 | — |
-| 70 | 0x20 | 0x24 | 3 | 149 | — |
-| 71 | 0x24 | 0x28 | 1 | 150 | — |
-| 72 | 0x28 | 0x2C | 1 | 151 | — |
-| 73 | 0x2C | 0x30 | 1 | 152 | — |
+| 69 | 0x1C | 0x20 | 1 | 146 | - |
+| 70 | 0x20 | 0x24 | 3 | 149 | - |
+| 71 | 0x24 | 0x28 | 1 | 150 | - |
+| 72 | 0x28 | 0x2C | 1 | 151 | - |
+| 73 | 0x2C | 0x30 | 1 | 152 | - |
 | 74 | 0x30 | 0x08 | 1 | 153 | BNE correct |
 | 75 | 0x08 | 0x0C | 3 | 156 | Cache hit |
-| 76 | 0x0C | 0x10 | 1 | 157 | — |
+| 76 | 0x0C | 0x10 | 1 | 157 | - |
 | 77 | 0x10 | 0x1C | 1 | 158 | BLT correct |
-| 78 | 0x1C | 0x20 | 1 | 159 | — |
-| 79 | 0x20 | 0x24 | 3 | 162 | — |
-| 80 | 0x24 | 0x28 | 1 | 163 | — |
+| 78 | 0x1C | 0x20 | 1 | 159 | - |
+| 79 | 0x20 | 0x24 | 3 | 162 | - |
+| 80 | 0x24 | 0x28 | 1 | 163 | - |
 
-#### Run 9 — recorded steps 81–120
+#### Run 9: recorded steps 81–120
 
 <!-- table:trace-steps-9-81 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 81 | 0x28 | 0x2C | 1 | 164 | — |
-| 82 | 0x2C | 0x30 | 1 | 165 | — |
+| 81 | 0x28 | 0x2C | 1 | 164 | - |
+| 82 | 0x2C | 0x30 | 1 | 165 | - |
 | 83 | 0x30 | 0x08 | 1 | 166 | BNE correct |
 | 84 | 0x08 | 0x0C | 3 | 169 | Cache hit |
-| 85 | 0x0C | 0x10 | 1 | 170 | — |
+| 85 | 0x0C | 0x10 | 1 | 170 | - |
 | 86 | 0x10 | 0x1C | 1 | 171 | BLT correct |
-| 87 | 0x1C | 0x20 | 1 | 172 | — |
-| 88 | 0x20 | 0x24 | 3 | 175 | — |
-| 89 | 0x24 | 0x28 | 1 | 176 | — |
-| 90 | 0x28 | 0x2C | 1 | 177 | — |
-| 91 | 0x2C | 0x30 | 1 | 178 | — |
+| 87 | 0x1C | 0x20 | 1 | 172 | - |
+| 88 | 0x20 | 0x24 | 3 | 175 | - |
+| 89 | 0x24 | 0x28 | 1 | 176 | - |
+| 90 | 0x28 | 0x2C | 1 | 177 | - |
+| 91 | 0x2C | 0x30 | 1 | 178 | - |
 | 92 | 0x30 | 0x08 | 1 | 179 | BNE correct |
 | 93 | 0x08 | 0x0C | 3 | 182 | Cache hit |
-| 94 | 0x0C | 0x10 | 1 | 183 | — |
+| 94 | 0x0C | 0x10 | 1 | 183 | - |
 | 95 | 0x10 | 0x1C | 16 | 199 | BLT wrong |
-| 96 | 0x1C | 0x20 | 1 | 200 | — |
-| 97 | 0x20 | 0x24 | 3 | 203 | — |
-| 98 | 0x24 | 0x28 | 1 | 204 | — |
-| 99 | 0x28 | 0x2C | 1 | 205 | — |
-| 100 | 0x2C | 0x30 | 1 | 206 | — |
+| 96 | 0x1C | 0x20 | 1 | 200 | - |
+| 97 | 0x20 | 0x24 | 3 | 203 | - |
+| 98 | 0x24 | 0x28 | 1 | 204 | - |
+| 99 | 0x28 | 0x2C | 1 | 205 | - |
+| 100 | 0x2C | 0x30 | 1 | 206 | - |
 | 101 | 0x30 | 0x08 | 1 | 207 | BNE correct |
 | 102 | 0x08 | 0x0C | 3 | 210 | Cache hit |
-| 103 | 0x0C | 0x10 | 1 | 211 | — |
+| 103 | 0x0C | 0x10 | 1 | 211 | - |
 | 104 | 0x10 | 0x1C | 1 | 212 | BLT correct |
-| 105 | 0x1C | 0x20 | 1 | 213 | — |
-| 106 | 0x20 | 0x24 | 3 | 216 | — |
-| 107 | 0x24 | 0x28 | 1 | 217 | — |
-| 108 | 0x28 | 0x2C | 1 | 218 | — |
-| 109 | 0x2C | 0x30 | 1 | 219 | — |
+| 105 | 0x1C | 0x20 | 1 | 213 | - |
+| 106 | 0x20 | 0x24 | 3 | 216 | - |
+| 107 | 0x24 | 0x28 | 1 | 217 | - |
+| 108 | 0x28 | 0x2C | 1 | 218 | - |
+| 109 | 0x2C | 0x30 | 1 | 219 | - |
 | 110 | 0x30 | 0x08 | 1 | 220 | BNE correct |
 | 111 | 0x08 | 0x0C | 50 | 270 | Cache miss |
-| 112 | 0x0C | 0x10 | 1 | 271 | — |
+| 112 | 0x0C | 0x10 | 1 | 271 | - |
 | 113 | 0x10 | 0x1C | 1 | 272 | BLT correct |
-| 114 | 0x1C | 0x20 | 1 | 273 | — |
-| 115 | 0x20 | 0x24 | 3 | 276 | — |
-| 116 | 0x24 | 0x28 | 1 | 277 | — |
-| 117 | 0x28 | 0x2C | 1 | 278 | — |
-| 118 | 0x2C | 0x30 | 1 | 279 | — |
+| 114 | 0x1C | 0x20 | 1 | 273 | - |
+| 115 | 0x20 | 0x24 | 3 | 276 | - |
+| 116 | 0x24 | 0x28 | 1 | 277 | - |
+| 117 | 0x28 | 0x2C | 1 | 278 | - |
+| 118 | 0x2C | 0x30 | 1 | 279 | - |
 | 119 | 0x30 | 0x08 | 1 | 280 | BNE correct |
 | 120 | 0x08 | 0x0C | 50 | 330 | Cache miss |
 
-#### Run 9 — recorded steps 121–146
+#### Run 9: recorded steps 121–146
 
 <!-- table:trace-steps-9-121 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 121 | 0x0C | 0x10 | 1 | 331 | — |
+| 121 | 0x0C | 0x10 | 1 | 331 | - |
 | 122 | 0x10 | 0x1C | 1 | 332 | BLT correct |
-| 123 | 0x1C | 0x20 | 1 | 333 | — |
-| 124 | 0x20 | 0x24 | 3 | 336 | — |
-| 125 | 0x24 | 0x28 | 1 | 337 | — |
-| 126 | 0x28 | 0x2C | 1 | 338 | — |
-| 127 | 0x2C | 0x30 | 1 | 339 | — |
+| 123 | 0x1C | 0x20 | 1 | 333 | - |
+| 124 | 0x20 | 0x24 | 3 | 336 | - |
+| 125 | 0x24 | 0x28 | 1 | 337 | - |
+| 126 | 0x28 | 0x2C | 1 | 338 | - |
+| 127 | 0x2C | 0x30 | 1 | 339 | - |
 | 128 | 0x30 | 0x08 | 1 | 340 | BNE correct |
 | 129 | 0x08 | 0x0C | 3 | 343 | Cache hit |
-| 130 | 0x0C | 0x10 | 1 | 344 | — |
+| 130 | 0x0C | 0x10 | 1 | 344 | - |
 | 131 | 0x10 | 0x1C | 1 | 345 | BLT correct |
-| 132 | 0x1C | 0x20 | 1 | 346 | — |
-| 133 | 0x20 | 0x24 | 3 | 349 | — |
-| 134 | 0x24 | 0x28 | 1 | 350 | — |
-| 135 | 0x28 | 0x2C | 1 | 351 | — |
-| 136 | 0x2C | 0x30 | 1 | 352 | — |
+| 132 | 0x1C | 0x20 | 1 | 346 | - |
+| 133 | 0x20 | 0x24 | 3 | 349 | - |
+| 134 | 0x24 | 0x28 | 1 | 350 | - |
+| 135 | 0x28 | 0x2C | 1 | 351 | - |
+| 136 | 0x2C | 0x30 | 1 | 352 | - |
 | 137 | 0x30 | 0x08 | 1 | 353 | BNE correct |
 | 138 | 0x08 | 0x0C | 3 | 356 | Cache hit |
-| 139 | 0x0C | 0x10 | 1 | 357 | — |
+| 139 | 0x0C | 0x10 | 1 | 357 | - |
 | 140 | 0x10 | 0x1C | 1 | 358 | BLT correct |
-| 141 | 0x1C | 0x20 | 1 | 359 | — |
-| 142 | 0x20 | 0x24 | 3 | 362 | — |
-| 143 | 0x24 | 0x28 | 1 | 363 | — |
-| 144 | 0x28 | 0x2C | 1 | 364 | — |
-| 145 | 0x2C | 0x30 | 1 | 365 | — |
+| 141 | 0x1C | 0x20 | 1 | 359 | - |
+| 142 | 0x20 | 0x24 | 3 | 362 | - |
+| 143 | 0x24 | 0x28 | 1 | 363 | - |
+| 144 | 0x28 | 0x2C | 1 | 364 | - |
+| 145 | 0x2C | 0x30 | 1 | 365 | - |
 | 146 | 0x30 | 0x34 | 1 | 366 | BNE correct |
 
-### C.2 Run 10 — WC-50-R3
+### C.2 Run 10: WC-50-R3
 
 **Worst Case:** 154 steps, 378 cycles, 15 cache hits, 1 misses, 25/32 correct branches, and 152 stall cycles. Checkpoint images appear in Appendix A.2.
 
@@ -1241,185 +1241,185 @@ This appendix prints all 605 executed instruction steps and all 64 pixel iterati
 | 15 | 64 | 96 | HIT | Correct | 13 | 0 | 348 |
 | 16 | 192 | 184 | HIT | Wrong | 15 | 15 | 378 |
 
-#### Run 10 — recorded steps 1–40
+#### Run 10: recorded steps 1–40
 
 <!-- table:trace-steps-10-1 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 1 | 0x00 | 0x04 | 1 | 1 | — |
-| 2 | 0x04 | 0x08 | 1 | 2 | — |
+| 1 | 0x00 | 0x04 | 1 | 1 | - |
+| 2 | 0x04 | 0x08 | 1 | 2 | - |
 | 3 | 0x08 | 0x0C | 3 | 5 | Cache hit |
-| 4 | 0x0C | 0x10 | 1 | 6 | — |
+| 4 | 0x0C | 0x10 | 1 | 6 | - |
 | 5 | 0x10 | 0x1C | 1 | 7 | BLT correct |
-| 6 | 0x1C | 0x20 | 1 | 8 | — |
-| 7 | 0x20 | 0x24 | 3 | 11 | — |
-| 8 | 0x24 | 0x28 | 1 | 12 | — |
-| 9 | 0x28 | 0x2C | 1 | 13 | — |
-| 10 | 0x2C | 0x30 | 1 | 14 | — |
+| 6 | 0x1C | 0x20 | 1 | 8 | - |
+| 7 | 0x20 | 0x24 | 3 | 11 | - |
+| 8 | 0x24 | 0x28 | 1 | 12 | - |
+| 9 | 0x28 | 0x2C | 1 | 13 | - |
+| 10 | 0x2C | 0x30 | 1 | 14 | - |
 | 11 | 0x30 | 0x08 | 1 | 15 | BNE correct |
 | 12 | 0x08 | 0x0C | 3 | 18 | Cache hit |
-| 13 | 0x0C | 0x10 | 1 | 19 | — |
+| 13 | 0x0C | 0x10 | 1 | 19 | - |
 | 14 | 0x10 | 0x14 | 16 | 35 | BLT wrong |
-| 15 | 0x14 | 0x18 | 1 | 36 | — |
-| 16 | 0x18 | 0x20 | 2 | 38 | — |
-| 17 | 0x20 | 0x24 | 3 | 41 | — |
-| 18 | 0x24 | 0x28 | 1 | 42 | — |
-| 19 | 0x28 | 0x2C | 1 | 43 | — |
-| 20 | 0x2C | 0x30 | 1 | 44 | — |
+| 15 | 0x14 | 0x18 | 1 | 36 | - |
+| 16 | 0x18 | 0x20 | 2 | 38 | - |
+| 17 | 0x20 | 0x24 | 3 | 41 | - |
+| 18 | 0x24 | 0x28 | 1 | 42 | - |
+| 19 | 0x28 | 0x2C | 1 | 43 | - |
+| 20 | 0x2C | 0x30 | 1 | 44 | - |
 | 21 | 0x30 | 0x08 | 1 | 45 | BNE correct |
 | 22 | 0x08 | 0x0C | 3 | 48 | Cache hit |
-| 23 | 0x0C | 0x10 | 1 | 49 | — |
+| 23 | 0x0C | 0x10 | 1 | 49 | - |
 | 24 | 0x10 | 0x1C | 1 | 50 | BLT correct |
-| 25 | 0x1C | 0x20 | 1 | 51 | — |
-| 26 | 0x20 | 0x24 | 3 | 54 | — |
-| 27 | 0x24 | 0x28 | 1 | 55 | — |
-| 28 | 0x28 | 0x2C | 1 | 56 | — |
-| 29 | 0x2C | 0x30 | 1 | 57 | — |
+| 25 | 0x1C | 0x20 | 1 | 51 | - |
+| 26 | 0x20 | 0x24 | 3 | 54 | - |
+| 27 | 0x24 | 0x28 | 1 | 55 | - |
+| 28 | 0x28 | 0x2C | 1 | 56 | - |
+| 29 | 0x2C | 0x30 | 1 | 57 | - |
 | 30 | 0x30 | 0x08 | 1 | 58 | BNE correct |
 | 31 | 0x08 | 0x0C | 3 | 61 | Cache hit |
-| 32 | 0x0C | 0x10 | 1 | 62 | — |
+| 32 | 0x0C | 0x10 | 1 | 62 | - |
 | 33 | 0x10 | 0x14 | 1 | 63 | BLT correct |
-| 34 | 0x14 | 0x18 | 1 | 64 | — |
-| 35 | 0x18 | 0x20 | 2 | 66 | — |
-| 36 | 0x20 | 0x24 | 3 | 69 | — |
-| 37 | 0x24 | 0x28 | 1 | 70 | — |
-| 38 | 0x28 | 0x2C | 1 | 71 | — |
-| 39 | 0x2C | 0x30 | 1 | 72 | — |
+| 34 | 0x14 | 0x18 | 1 | 64 | - |
+| 35 | 0x18 | 0x20 | 2 | 66 | - |
+| 36 | 0x20 | 0x24 | 3 | 69 | - |
+| 37 | 0x24 | 0x28 | 1 | 70 | - |
+| 38 | 0x28 | 0x2C | 1 | 71 | - |
+| 39 | 0x2C | 0x30 | 1 | 72 | - |
 | 40 | 0x30 | 0x08 | 1 | 73 | BNE correct |
 
-#### Run 10 — recorded steps 41–80
+#### Run 10: recorded steps 41–80
 
 <!-- table:trace-steps-10-41 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
 | 41 | 0x08 | 0x0C | 3 | 76 | Cache hit |
-| 42 | 0x0C | 0x10 | 1 | 77 | — |
+| 42 | 0x0C | 0x10 | 1 | 77 | - |
 | 43 | 0x10 | 0x1C | 1 | 78 | BLT correct |
-| 44 | 0x1C | 0x20 | 1 | 79 | — |
-| 45 | 0x20 | 0x24 | 3 | 82 | — |
-| 46 | 0x24 | 0x28 | 1 | 83 | — |
-| 47 | 0x28 | 0x2C | 1 | 84 | — |
-| 48 | 0x2C | 0x30 | 1 | 85 | — |
+| 44 | 0x1C | 0x20 | 1 | 79 | - |
+| 45 | 0x20 | 0x24 | 3 | 82 | - |
+| 46 | 0x24 | 0x28 | 1 | 83 | - |
+| 47 | 0x28 | 0x2C | 1 | 84 | - |
+| 48 | 0x2C | 0x30 | 1 | 85 | - |
 | 49 | 0x30 | 0x08 | 1 | 86 | BNE correct |
 | 50 | 0x08 | 0x0C | 3 | 89 | Cache hit |
-| 51 | 0x0C | 0x10 | 1 | 90 | — |
+| 51 | 0x0C | 0x10 | 1 | 90 | - |
 | 52 | 0x10 | 0x14 | 16 | 106 | BLT wrong |
-| 53 | 0x14 | 0x18 | 1 | 107 | — |
-| 54 | 0x18 | 0x20 | 2 | 109 | — |
-| 55 | 0x20 | 0x24 | 3 | 112 | — |
-| 56 | 0x24 | 0x28 | 1 | 113 | — |
-| 57 | 0x28 | 0x2C | 1 | 114 | — |
-| 58 | 0x2C | 0x30 | 1 | 115 | — |
+| 53 | 0x14 | 0x18 | 1 | 107 | - |
+| 54 | 0x18 | 0x20 | 2 | 109 | - |
+| 55 | 0x20 | 0x24 | 3 | 112 | - |
+| 56 | 0x24 | 0x28 | 1 | 113 | - |
+| 57 | 0x28 | 0x2C | 1 | 114 | - |
+| 58 | 0x2C | 0x30 | 1 | 115 | - |
 | 59 | 0x30 | 0x08 | 1 | 116 | BNE correct |
 | 60 | 0x08 | 0x0C | 3 | 119 | Cache hit |
-| 61 | 0x0C | 0x10 | 1 | 120 | — |
+| 61 | 0x0C | 0x10 | 1 | 120 | - |
 | 62 | 0x10 | 0x1C | 16 | 136 | BLT wrong |
-| 63 | 0x1C | 0x20 | 1 | 137 | — |
-| 64 | 0x20 | 0x24 | 3 | 140 | — |
-| 65 | 0x24 | 0x28 | 1 | 141 | — |
-| 66 | 0x28 | 0x2C | 1 | 142 | — |
-| 67 | 0x2C | 0x30 | 1 | 143 | — |
+| 63 | 0x1C | 0x20 | 1 | 137 | - |
+| 64 | 0x20 | 0x24 | 3 | 140 | - |
+| 65 | 0x24 | 0x28 | 1 | 141 | - |
+| 66 | 0x28 | 0x2C | 1 | 142 | - |
+| 67 | 0x2C | 0x30 | 1 | 143 | - |
 | 68 | 0x30 | 0x08 | 1 | 144 | BNE correct |
 | 69 | 0x08 | 0x0C | 3 | 147 | Cache hit |
-| 70 | 0x0C | 0x10 | 1 | 148 | — |
+| 70 | 0x0C | 0x10 | 1 | 148 | - |
 | 71 | 0x10 | 0x14 | 1 | 149 | BLT correct |
-| 72 | 0x14 | 0x18 | 1 | 150 | — |
-| 73 | 0x18 | 0x20 | 2 | 152 | — |
-| 74 | 0x20 | 0x24 | 3 | 155 | — |
-| 75 | 0x24 | 0x28 | 1 | 156 | — |
-| 76 | 0x28 | 0x2C | 1 | 157 | — |
-| 77 | 0x2C | 0x30 | 1 | 158 | — |
+| 72 | 0x14 | 0x18 | 1 | 150 | - |
+| 73 | 0x18 | 0x20 | 2 | 152 | - |
+| 74 | 0x20 | 0x24 | 3 | 155 | - |
+| 75 | 0x24 | 0x28 | 1 | 156 | - |
+| 76 | 0x28 | 0x2C | 1 | 157 | - |
+| 77 | 0x2C | 0x30 | 1 | 158 | - |
 | 78 | 0x30 | 0x08 | 1 | 159 | BNE correct |
 | 79 | 0x08 | 0x0C | 3 | 162 | Cache hit |
-| 80 | 0x0C | 0x10 | 1 | 163 | — |
+| 80 | 0x0C | 0x10 | 1 | 163 | - |
 
-#### Run 10 — recorded steps 81–120
+#### Run 10: recorded steps 81–120
 
 <!-- table:trace-steps-10-81 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
 | 81 | 0x10 | 0x1C | 1 | 164 | BLT correct |
-| 82 | 0x1C | 0x20 | 1 | 165 | — |
-| 83 | 0x20 | 0x24 | 3 | 168 | — |
-| 84 | 0x24 | 0x28 | 1 | 169 | — |
-| 85 | 0x28 | 0x2C | 1 | 170 | — |
-| 86 | 0x2C | 0x30 | 1 | 171 | — |
+| 82 | 0x1C | 0x20 | 1 | 165 | - |
+| 83 | 0x20 | 0x24 | 3 | 168 | - |
+| 84 | 0x24 | 0x28 | 1 | 169 | - |
+| 85 | 0x28 | 0x2C | 1 | 170 | - |
+| 86 | 0x2C | 0x30 | 1 | 171 | - |
 | 87 | 0x30 | 0x08 | 1 | 172 | BNE correct |
 | 88 | 0x08 | 0x0C | 50 | 222 | Cache miss |
-| 89 | 0x0C | 0x10 | 1 | 223 | — |
+| 89 | 0x0C | 0x10 | 1 | 223 | - |
 | 90 | 0x10 | 0x14 | 16 | 239 | BLT wrong |
-| 91 | 0x14 | 0x18 | 1 | 240 | — |
-| 92 | 0x18 | 0x20 | 2 | 242 | — |
-| 93 | 0x20 | 0x24 | 3 | 245 | — |
-| 94 | 0x24 | 0x28 | 1 | 246 | — |
-| 95 | 0x28 | 0x2C | 1 | 247 | — |
-| 96 | 0x2C | 0x30 | 1 | 248 | — |
+| 91 | 0x14 | 0x18 | 1 | 240 | - |
+| 92 | 0x18 | 0x20 | 2 | 242 | - |
+| 93 | 0x20 | 0x24 | 3 | 245 | - |
+| 94 | 0x24 | 0x28 | 1 | 246 | - |
+| 95 | 0x28 | 0x2C | 1 | 247 | - |
+| 96 | 0x2C | 0x30 | 1 | 248 | - |
 | 97 | 0x30 | 0x08 | 1 | 249 | BNE correct |
 | 98 | 0x08 | 0x0C | 3 | 252 | Cache hit |
-| 99 | 0x0C | 0x10 | 1 | 253 | — |
+| 99 | 0x0C | 0x10 | 1 | 253 | - |
 | 100 | 0x10 | 0x1C | 16 | 269 | BLT wrong |
-| 101 | 0x1C | 0x20 | 1 | 270 | — |
-| 102 | 0x20 | 0x24 | 3 | 273 | — |
-| 103 | 0x24 | 0x28 | 1 | 274 | — |
-| 104 | 0x28 | 0x2C | 1 | 275 | — |
-| 105 | 0x2C | 0x30 | 1 | 276 | — |
+| 101 | 0x1C | 0x20 | 1 | 270 | - |
+| 102 | 0x20 | 0x24 | 3 | 273 | - |
+| 103 | 0x24 | 0x28 | 1 | 274 | - |
+| 104 | 0x28 | 0x2C | 1 | 275 | - |
+| 105 | 0x2C | 0x30 | 1 | 276 | - |
 | 106 | 0x30 | 0x08 | 1 | 277 | BNE correct |
 | 107 | 0x08 | 0x0C | 3 | 280 | Cache hit |
-| 108 | 0x0C | 0x10 | 1 | 281 | — |
+| 108 | 0x0C | 0x10 | 1 | 281 | - |
 | 109 | 0x10 | 0x14 | 1 | 282 | BLT correct |
-| 110 | 0x14 | 0x18 | 1 | 283 | — |
-| 111 | 0x18 | 0x20 | 2 | 285 | — |
-| 112 | 0x20 | 0x24 | 3 | 288 | — |
-| 113 | 0x24 | 0x28 | 1 | 289 | — |
-| 114 | 0x28 | 0x2C | 1 | 290 | — |
-| 115 | 0x2C | 0x30 | 1 | 291 | — |
+| 110 | 0x14 | 0x18 | 1 | 283 | - |
+| 111 | 0x18 | 0x20 | 2 | 285 | - |
+| 112 | 0x20 | 0x24 | 3 | 288 | - |
+| 113 | 0x24 | 0x28 | 1 | 289 | - |
+| 114 | 0x28 | 0x2C | 1 | 290 | - |
+| 115 | 0x2C | 0x30 | 1 | 291 | - |
 | 116 | 0x30 | 0x08 | 1 | 292 | BNE correct |
 | 117 | 0x08 | 0x0C | 3 | 295 | Cache hit |
-| 118 | 0x0C | 0x10 | 1 | 296 | — |
+| 118 | 0x0C | 0x10 | 1 | 296 | - |
 | 119 | 0x10 | 0x1C | 16 | 312 | BLT wrong |
-| 120 | 0x1C | 0x20 | 1 | 313 | — |
+| 120 | 0x1C | 0x20 | 1 | 313 | - |
 
-#### Run 10 — recorded steps 121–154
+#### Run 10: recorded steps 121–154
 
 <!-- table:trace-steps-10-121 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 121 | 0x20 | 0x24 | 3 | 316 | — |
-| 122 | 0x24 | 0x28 | 1 | 317 | — |
-| 123 | 0x28 | 0x2C | 1 | 318 | — |
-| 124 | 0x2C | 0x30 | 1 | 319 | — |
+| 121 | 0x20 | 0x24 | 3 | 316 | - |
+| 122 | 0x24 | 0x28 | 1 | 317 | - |
+| 123 | 0x28 | 0x2C | 1 | 318 | - |
+| 124 | 0x2C | 0x30 | 1 | 319 | - |
 | 125 | 0x30 | 0x08 | 1 | 320 | BNE correct |
 | 126 | 0x08 | 0x0C | 3 | 323 | Cache hit |
-| 127 | 0x0C | 0x10 | 1 | 324 | — |
+| 127 | 0x0C | 0x10 | 1 | 324 | - |
 | 128 | 0x10 | 0x14 | 1 | 325 | BLT correct |
-| 129 | 0x14 | 0x18 | 1 | 326 | — |
-| 130 | 0x18 | 0x20 | 2 | 328 | — |
-| 131 | 0x20 | 0x24 | 3 | 331 | — |
-| 132 | 0x24 | 0x28 | 1 | 332 | — |
-| 133 | 0x28 | 0x2C | 1 | 333 | — |
-| 134 | 0x2C | 0x30 | 1 | 334 | — |
+| 129 | 0x14 | 0x18 | 1 | 326 | - |
+| 130 | 0x18 | 0x20 | 2 | 328 | - |
+| 131 | 0x20 | 0x24 | 3 | 331 | - |
+| 132 | 0x24 | 0x28 | 1 | 332 | - |
+| 133 | 0x28 | 0x2C | 1 | 333 | - |
+| 134 | 0x2C | 0x30 | 1 | 334 | - |
 | 135 | 0x30 | 0x08 | 1 | 335 | BNE correct |
 | 136 | 0x08 | 0x0C | 3 | 338 | Cache hit |
-| 137 | 0x0C | 0x10 | 1 | 339 | — |
+| 137 | 0x0C | 0x10 | 1 | 339 | - |
 | 138 | 0x10 | 0x1C | 1 | 340 | BLT correct |
-| 139 | 0x1C | 0x20 | 1 | 341 | — |
-| 140 | 0x20 | 0x24 | 3 | 344 | — |
-| 141 | 0x24 | 0x28 | 1 | 345 | — |
-| 142 | 0x28 | 0x2C | 1 | 346 | — |
-| 143 | 0x2C | 0x30 | 1 | 347 | — |
+| 139 | 0x1C | 0x20 | 1 | 341 | - |
+| 140 | 0x20 | 0x24 | 3 | 344 | - |
+| 141 | 0x24 | 0x28 | 1 | 345 | - |
+| 142 | 0x28 | 0x2C | 1 | 346 | - |
+| 143 | 0x2C | 0x30 | 1 | 347 | - |
 | 144 | 0x30 | 0x08 | 1 | 348 | BNE correct |
 | 145 | 0x08 | 0x0C | 3 | 351 | Cache hit |
-| 146 | 0x0C | 0x10 | 1 | 352 | — |
+| 146 | 0x0C | 0x10 | 1 | 352 | - |
 | 147 | 0x10 | 0x14 | 16 | 368 | BLT wrong |
-| 148 | 0x14 | 0x18 | 1 | 369 | — |
-| 149 | 0x18 | 0x20 | 2 | 371 | — |
-| 150 | 0x20 | 0x24 | 3 | 374 | — |
-| 151 | 0x24 | 0x28 | 1 | 375 | — |
-| 152 | 0x28 | 0x2C | 1 | 376 | — |
-| 153 | 0x2C | 0x30 | 1 | 377 | — |
+| 148 | 0x14 | 0x18 | 1 | 369 | - |
+| 149 | 0x18 | 0x20 | 2 | 371 | - |
+| 150 | 0x20 | 0x24 | 3 | 374 | - |
+| 151 | 0x24 | 0x28 | 1 | 375 | - |
+| 152 | 0x28 | 0x2C | 1 | 376 | - |
+| 153 | 0x2C | 0x30 | 1 | 377 | - |
 | 154 | 0x30 | 0x34 | 1 | 378 | BNE correct |
 
-### C.3 Run 11 — RC1-50-R3
+### C.3 Run 11: RC1-50-R3
 
 **Real Case 1:** 151 steps, 451 cycles, 13 cache hits, 3 misses, 26/32 correct branches, and 231 stall cycles. Checkpoint images appear in Appendix A.2.
 
@@ -1443,182 +1443,182 @@ This appendix prints all 605 executed instruction steps and all 64 pixel iterati
 | 15 | 80 | 112 | HIT | Wrong | 13 | 15 | 421 |
 | 16 | 140 | 132 | HIT | Wrong | 15 | 15 | 451 |
 
-#### Run 11 — recorded steps 1–40
+#### Run 11: recorded steps 1–40
 
 <!-- table:trace-steps-11-1 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 1 | 0x00 | 0x04 | 1 | 1 | — |
-| 2 | 0x04 | 0x08 | 1 | 2 | — |
+| 1 | 0x00 | 0x04 | 1 | 1 | - |
+| 2 | 0x04 | 0x08 | 1 | 2 | - |
 | 3 | 0x08 | 0x0C | 3 | 5 | Cache hit |
-| 4 | 0x0C | 0x10 | 1 | 6 | — |
+| 4 | 0x0C | 0x10 | 1 | 6 | - |
 | 5 | 0x10 | 0x1C | 16 | 22 | BLT wrong |
-| 6 | 0x1C | 0x20 | 1 | 23 | — |
-| 7 | 0x20 | 0x24 | 3 | 26 | — |
-| 8 | 0x24 | 0x28 | 1 | 27 | — |
-| 9 | 0x28 | 0x2C | 1 | 28 | — |
-| 10 | 0x2C | 0x30 | 1 | 29 | — |
+| 6 | 0x1C | 0x20 | 1 | 23 | - |
+| 7 | 0x20 | 0x24 | 3 | 26 | - |
+| 8 | 0x24 | 0x28 | 1 | 27 | - |
+| 9 | 0x28 | 0x2C | 1 | 28 | - |
+| 10 | 0x2C | 0x30 | 1 | 29 | - |
 | 11 | 0x30 | 0x08 | 1 | 30 | BNE correct |
 | 12 | 0x08 | 0x0C | 3 | 33 | Cache hit |
-| 13 | 0x0C | 0x10 | 1 | 34 | — |
+| 13 | 0x0C | 0x10 | 1 | 34 | - |
 | 14 | 0x10 | 0x14 | 16 | 50 | BLT wrong |
-| 15 | 0x14 | 0x18 | 1 | 51 | — |
-| 16 | 0x18 | 0x20 | 2 | 53 | — |
-| 17 | 0x20 | 0x24 | 3 | 56 | — |
-| 18 | 0x24 | 0x28 | 1 | 57 | — |
-| 19 | 0x28 | 0x2C | 1 | 58 | — |
-| 20 | 0x2C | 0x30 | 1 | 59 | — |
+| 15 | 0x14 | 0x18 | 1 | 51 | - |
+| 16 | 0x18 | 0x20 | 2 | 53 | - |
+| 17 | 0x20 | 0x24 | 3 | 56 | - |
+| 18 | 0x24 | 0x28 | 1 | 57 | - |
+| 19 | 0x28 | 0x2C | 1 | 58 | - |
+| 20 | 0x2C | 0x30 | 1 | 59 | - |
 | 21 | 0x30 | 0x08 | 1 | 60 | BNE correct |
 | 22 | 0x08 | 0x0C | 50 | 110 | Cache miss |
-| 23 | 0x0C | 0x10 | 1 | 111 | — |
+| 23 | 0x0C | 0x10 | 1 | 111 | - |
 | 24 | 0x10 | 0x1C | 1 | 112 | BLT correct |
-| 25 | 0x1C | 0x20 | 1 | 113 | — |
-| 26 | 0x20 | 0x24 | 3 | 116 | — |
-| 27 | 0x24 | 0x28 | 1 | 117 | — |
-| 28 | 0x28 | 0x2C | 1 | 118 | — |
-| 29 | 0x2C | 0x30 | 1 | 119 | — |
+| 25 | 0x1C | 0x20 | 1 | 113 | - |
+| 26 | 0x20 | 0x24 | 3 | 116 | - |
+| 27 | 0x24 | 0x28 | 1 | 117 | - |
+| 28 | 0x28 | 0x2C | 1 | 118 | - |
+| 29 | 0x2C | 0x30 | 1 | 119 | - |
 | 30 | 0x30 | 0x08 | 1 | 120 | BNE correct |
 | 31 | 0x08 | 0x0C | 3 | 123 | Cache hit |
-| 32 | 0x0C | 0x10 | 1 | 124 | — |
+| 32 | 0x0C | 0x10 | 1 | 124 | - |
 | 33 | 0x10 | 0x1C | 1 | 125 | BLT correct |
-| 34 | 0x1C | 0x20 | 1 | 126 | — |
-| 35 | 0x20 | 0x24 | 3 | 129 | — |
-| 36 | 0x24 | 0x28 | 1 | 130 | — |
-| 37 | 0x28 | 0x2C | 1 | 131 | — |
-| 38 | 0x2C | 0x30 | 1 | 132 | — |
+| 34 | 0x1C | 0x20 | 1 | 126 | - |
+| 35 | 0x20 | 0x24 | 3 | 129 | - |
+| 36 | 0x24 | 0x28 | 1 | 130 | - |
+| 37 | 0x28 | 0x2C | 1 | 131 | - |
+| 38 | 0x2C | 0x30 | 1 | 132 | - |
 | 39 | 0x30 | 0x08 | 1 | 133 | BNE correct |
 | 40 | 0x08 | 0x0C | 50 | 183 | Cache miss |
 
-#### Run 11 — recorded steps 41–80
+#### Run 11: recorded steps 41–80
 
 <!-- table:trace-steps-11-41 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 41 | 0x0C | 0x10 | 1 | 184 | — |
+| 41 | 0x0C | 0x10 | 1 | 184 | - |
 | 42 | 0x10 | 0x14 | 1 | 185 | BLT correct |
-| 43 | 0x14 | 0x18 | 1 | 186 | — |
-| 44 | 0x18 | 0x20 | 2 | 188 | — |
-| 45 | 0x20 | 0x24 | 3 | 191 | — |
-| 46 | 0x24 | 0x28 | 1 | 192 | — |
-| 47 | 0x28 | 0x2C | 1 | 193 | — |
-| 48 | 0x2C | 0x30 | 1 | 194 | — |
+| 43 | 0x14 | 0x18 | 1 | 186 | - |
+| 44 | 0x18 | 0x20 | 2 | 188 | - |
+| 45 | 0x20 | 0x24 | 3 | 191 | - |
+| 46 | 0x24 | 0x28 | 1 | 192 | - |
+| 47 | 0x28 | 0x2C | 1 | 193 | - |
+| 48 | 0x2C | 0x30 | 1 | 194 | - |
 | 49 | 0x30 | 0x08 | 1 | 195 | BNE correct |
 | 50 | 0x08 | 0x0C | 3 | 198 | Cache hit |
-| 51 | 0x0C | 0x10 | 1 | 199 | — |
+| 51 | 0x0C | 0x10 | 1 | 199 | - |
 | 52 | 0x10 | 0x1C | 1 | 200 | BLT correct |
-| 53 | 0x1C | 0x20 | 1 | 201 | — |
-| 54 | 0x20 | 0x24 | 3 | 204 | — |
-| 55 | 0x24 | 0x28 | 1 | 205 | — |
-| 56 | 0x28 | 0x2C | 1 | 206 | — |
-| 57 | 0x2C | 0x30 | 1 | 207 | — |
+| 53 | 0x1C | 0x20 | 1 | 201 | - |
+| 54 | 0x20 | 0x24 | 3 | 204 | - |
+| 55 | 0x24 | 0x28 | 1 | 205 | - |
+| 56 | 0x28 | 0x2C | 1 | 206 | - |
+| 57 | 0x2C | 0x30 | 1 | 207 | - |
 | 58 | 0x30 | 0x08 | 1 | 208 | BNE correct |
 | 59 | 0x08 | 0x0C | 50 | 258 | Cache miss |
-| 60 | 0x0C | 0x10 | 1 | 259 | — |
+| 60 | 0x0C | 0x10 | 1 | 259 | - |
 | 61 | 0x10 | 0x1C | 1 | 260 | BLT correct |
-| 62 | 0x1C | 0x20 | 1 | 261 | — |
-| 63 | 0x20 | 0x24 | 3 | 264 | — |
-| 64 | 0x24 | 0x28 | 1 | 265 | — |
-| 65 | 0x28 | 0x2C | 1 | 266 | — |
-| 66 | 0x2C | 0x30 | 1 | 267 | — |
+| 62 | 0x1C | 0x20 | 1 | 261 | - |
+| 63 | 0x20 | 0x24 | 3 | 264 | - |
+| 64 | 0x24 | 0x28 | 1 | 265 | - |
+| 65 | 0x28 | 0x2C | 1 | 266 | - |
+| 66 | 0x2C | 0x30 | 1 | 267 | - |
 | 67 | 0x30 | 0x08 | 1 | 268 | BNE correct |
 | 68 | 0x08 | 0x0C | 3 | 271 | Cache hit |
-| 69 | 0x0C | 0x10 | 1 | 272 | — |
+| 69 | 0x0C | 0x10 | 1 | 272 | - |
 | 70 | 0x10 | 0x1C | 1 | 273 | BLT correct |
-| 71 | 0x1C | 0x20 | 1 | 274 | — |
-| 72 | 0x20 | 0x24 | 3 | 277 | — |
-| 73 | 0x24 | 0x28 | 1 | 278 | — |
-| 74 | 0x28 | 0x2C | 1 | 279 | — |
-| 75 | 0x2C | 0x30 | 1 | 280 | — |
+| 71 | 0x1C | 0x20 | 1 | 274 | - |
+| 72 | 0x20 | 0x24 | 3 | 277 | - |
+| 73 | 0x24 | 0x28 | 1 | 278 | - |
+| 74 | 0x28 | 0x2C | 1 | 279 | - |
+| 75 | 0x2C | 0x30 | 1 | 280 | - |
 | 76 | 0x30 | 0x08 | 1 | 281 | BNE correct |
 | 77 | 0x08 | 0x0C | 3 | 284 | Cache hit |
-| 78 | 0x0C | 0x10 | 1 | 285 | — |
+| 78 | 0x0C | 0x10 | 1 | 285 | - |
 | 79 | 0x10 | 0x14 | 1 | 286 | BLT correct |
-| 80 | 0x14 | 0x18 | 1 | 287 | — |
+| 80 | 0x14 | 0x18 | 1 | 287 | - |
 
-#### Run 11 — recorded steps 81–120
+#### Run 11: recorded steps 81–120
 
 <!-- table:trace-steps-11-81 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 81 | 0x18 | 0x20 | 2 | 289 | — |
-| 82 | 0x20 | 0x24 | 3 | 292 | — |
-| 83 | 0x24 | 0x28 | 1 | 293 | — |
-| 84 | 0x28 | 0x2C | 1 | 294 | — |
-| 85 | 0x2C | 0x30 | 1 | 295 | — |
+| 81 | 0x18 | 0x20 | 2 | 289 | - |
+| 82 | 0x20 | 0x24 | 3 | 292 | - |
+| 83 | 0x24 | 0x28 | 1 | 293 | - |
+| 84 | 0x28 | 0x2C | 1 | 294 | - |
+| 85 | 0x2C | 0x30 | 1 | 295 | - |
 | 86 | 0x30 | 0x08 | 1 | 296 | BNE correct |
 | 87 | 0x08 | 0x0C | 3 | 299 | Cache hit |
-| 88 | 0x0C | 0x10 | 1 | 300 | — |
+| 88 | 0x0C | 0x10 | 1 | 300 | - |
 | 89 | 0x10 | 0x1C | 1 | 301 | BLT correct |
-| 90 | 0x1C | 0x20 | 1 | 302 | — |
-| 91 | 0x20 | 0x24 | 3 | 305 | — |
-| 92 | 0x24 | 0x28 | 1 | 306 | — |
-| 93 | 0x28 | 0x2C | 1 | 307 | — |
-| 94 | 0x2C | 0x30 | 1 | 308 | — |
+| 90 | 0x1C | 0x20 | 1 | 302 | - |
+| 91 | 0x20 | 0x24 | 3 | 305 | - |
+| 92 | 0x24 | 0x28 | 1 | 306 | - |
+| 93 | 0x28 | 0x2C | 1 | 307 | - |
+| 94 | 0x2C | 0x30 | 1 | 308 | - |
 | 95 | 0x30 | 0x08 | 1 | 309 | BNE correct |
 | 96 | 0x08 | 0x0C | 3 | 312 | Cache hit |
-| 97 | 0x0C | 0x10 | 1 | 313 | — |
+| 97 | 0x0C | 0x10 | 1 | 313 | - |
 | 98 | 0x10 | 0x1C | 1 | 314 | BLT correct |
-| 99 | 0x1C | 0x20 | 1 | 315 | — |
-| 100 | 0x20 | 0x24 | 3 | 318 | — |
-| 101 | 0x24 | 0x28 | 1 | 319 | — |
-| 102 | 0x28 | 0x2C | 1 | 320 | — |
-| 103 | 0x2C | 0x30 | 1 | 321 | — |
+| 99 | 0x1C | 0x20 | 1 | 315 | - |
+| 100 | 0x20 | 0x24 | 3 | 318 | - |
+| 101 | 0x24 | 0x28 | 1 | 319 | - |
+| 102 | 0x28 | 0x2C | 1 | 320 | - |
+| 103 | 0x2C | 0x30 | 1 | 321 | - |
 | 104 | 0x30 | 0x08 | 1 | 322 | BNE correct |
 | 105 | 0x08 | 0x0C | 3 | 325 | Cache hit |
-| 106 | 0x0C | 0x10 | 1 | 326 | — |
+| 106 | 0x0C | 0x10 | 1 | 326 | - |
 | 107 | 0x10 | 0x14 | 16 | 342 | BLT wrong |
-| 108 | 0x14 | 0x18 | 1 | 343 | — |
-| 109 | 0x18 | 0x20 | 2 | 345 | — |
-| 110 | 0x20 | 0x24 | 3 | 348 | — |
-| 111 | 0x24 | 0x28 | 1 | 349 | — |
-| 112 | 0x28 | 0x2C | 1 | 350 | — |
-| 113 | 0x2C | 0x30 | 1 | 351 | — |
+| 108 | 0x14 | 0x18 | 1 | 343 | - |
+| 109 | 0x18 | 0x20 | 2 | 345 | - |
+| 110 | 0x20 | 0x24 | 3 | 348 | - |
+| 111 | 0x24 | 0x28 | 1 | 349 | - |
+| 112 | 0x28 | 0x2C | 1 | 350 | - |
+| 113 | 0x2C | 0x30 | 1 | 351 | - |
 | 114 | 0x30 | 0x08 | 1 | 352 | BNE correct |
 | 115 | 0x08 | 0x0C | 3 | 355 | Cache hit |
-| 116 | 0x0C | 0x10 | 1 | 356 | — |
+| 116 | 0x0C | 0x10 | 1 | 356 | - |
 | 117 | 0x10 | 0x1C | 16 | 372 | BLT wrong |
-| 118 | 0x1C | 0x20 | 1 | 373 | — |
-| 119 | 0x20 | 0x24 | 3 | 376 | — |
-| 120 | 0x24 | 0x28 | 1 | 377 | — |
+| 118 | 0x1C | 0x20 | 1 | 373 | - |
+| 119 | 0x20 | 0x24 | 3 | 376 | - |
+| 120 | 0x24 | 0x28 | 1 | 377 | - |
 
-#### Run 11 — recorded steps 121–151
+#### Run 11: recorded steps 121–151
 
 <!-- table:trace-steps-11-121 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 121 | 0x28 | 0x2C | 1 | 378 | — |
-| 122 | 0x2C | 0x30 | 1 | 379 | — |
+| 121 | 0x28 | 0x2C | 1 | 378 | - |
+| 122 | 0x2C | 0x30 | 1 | 379 | - |
 | 123 | 0x30 | 0x08 | 1 | 380 | BNE correct |
 | 124 | 0x08 | 0x0C | 3 | 383 | Cache hit |
-| 125 | 0x0C | 0x10 | 1 | 384 | — |
+| 125 | 0x0C | 0x10 | 1 | 384 | - |
 | 126 | 0x10 | 0x1C | 1 | 385 | BLT correct |
-| 127 | 0x1C | 0x20 | 1 | 386 | — |
-| 128 | 0x20 | 0x24 | 3 | 389 | — |
-| 129 | 0x24 | 0x28 | 1 | 390 | — |
-| 130 | 0x28 | 0x2C | 1 | 391 | — |
-| 131 | 0x2C | 0x30 | 1 | 392 | — |
+| 127 | 0x1C | 0x20 | 1 | 386 | - |
+| 128 | 0x20 | 0x24 | 3 | 389 | - |
+| 129 | 0x24 | 0x28 | 1 | 390 | - |
+| 130 | 0x28 | 0x2C | 1 | 391 | - |
+| 131 | 0x2C | 0x30 | 1 | 392 | - |
 | 132 | 0x30 | 0x08 | 1 | 393 | BNE correct |
 | 133 | 0x08 | 0x0C | 3 | 396 | Cache hit |
-| 134 | 0x0C | 0x10 | 1 | 397 | — |
+| 134 | 0x0C | 0x10 | 1 | 397 | - |
 | 135 | 0x10 | 0x1C | 16 | 413 | BLT wrong |
-| 136 | 0x1C | 0x20 | 1 | 414 | — |
-| 137 | 0x20 | 0x24 | 3 | 417 | — |
-| 138 | 0x24 | 0x28 | 1 | 418 | — |
-| 139 | 0x28 | 0x2C | 1 | 419 | — |
-| 140 | 0x2C | 0x30 | 1 | 420 | — |
+| 136 | 0x1C | 0x20 | 1 | 414 | - |
+| 137 | 0x20 | 0x24 | 3 | 417 | - |
+| 138 | 0x24 | 0x28 | 1 | 418 | - |
+| 139 | 0x28 | 0x2C | 1 | 419 | - |
+| 140 | 0x2C | 0x30 | 1 | 420 | - |
 | 141 | 0x30 | 0x08 | 1 | 421 | BNE correct |
 | 142 | 0x08 | 0x0C | 3 | 424 | Cache hit |
-| 143 | 0x0C | 0x10 | 1 | 425 | — |
+| 143 | 0x0C | 0x10 | 1 | 425 | - |
 | 144 | 0x10 | 0x14 | 16 | 441 | BLT wrong |
-| 145 | 0x14 | 0x18 | 1 | 442 | — |
-| 146 | 0x18 | 0x20 | 2 | 444 | — |
-| 147 | 0x20 | 0x24 | 3 | 447 | — |
-| 148 | 0x24 | 0x28 | 1 | 448 | — |
-| 149 | 0x28 | 0x2C | 1 | 449 | — |
-| 150 | 0x2C | 0x30 | 1 | 450 | — |
+| 145 | 0x14 | 0x18 | 1 | 442 | - |
+| 146 | 0x18 | 0x20 | 2 | 444 | - |
+| 147 | 0x20 | 0x24 | 3 | 447 | - |
+| 148 | 0x24 | 0x28 | 1 | 448 | - |
+| 149 | 0x28 | 0x2C | 1 | 449 | - |
+| 150 | 0x2C | 0x30 | 1 | 450 | - |
 | 151 | 0x30 | 0x34 | 1 | 451 | BNE correct |
 
-### C.4 Run 12 — RC2-50-R3
+### C.4 Run 12: RC2-50-R3
 
 **Real Case 2:** 154 steps, 397 cycles, 13 cache hits, 3 misses, 30/32 correct branches, and 171 stall cycles. Checkpoint images appear in Appendix A.2.
 
@@ -1642,182 +1642,182 @@ This appendix prints all 605 executed instruction steps and all 64 pixel iterati
 | 15 | 96 | 128 | HIT | Correct | 13 | 0 | 337 |
 | 16 | 92 | 124 | MISS | Correct | 13 | 47 | 397 |
 
-#### Run 12 — recorded steps 1–40
+#### Run 12: recorded steps 1–40
 
 <!-- table:trace-steps-12-1 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 1 | 0x00 | 0x04 | 1 | 1 | — |
-| 2 | 0x04 | 0x08 | 1 | 2 | — |
+| 1 | 0x00 | 0x04 | 1 | 1 | - |
+| 2 | 0x04 | 0x08 | 1 | 2 | - |
 | 3 | 0x08 | 0x0C | 3 | 5 | Cache hit |
-| 4 | 0x0C | 0x10 | 1 | 6 | — |
+| 4 | 0x0C | 0x10 | 1 | 6 | - |
 | 5 | 0x10 | 0x14 | 1 | 7 | BLT correct |
-| 6 | 0x14 | 0x18 | 1 | 8 | — |
-| 7 | 0x18 | 0x20 | 2 | 10 | — |
-| 8 | 0x20 | 0x24 | 3 | 13 | — |
-| 9 | 0x24 | 0x28 | 1 | 14 | — |
-| 10 | 0x28 | 0x2C | 1 | 15 | — |
-| 11 | 0x2C | 0x30 | 1 | 16 | — |
+| 6 | 0x14 | 0x18 | 1 | 8 | - |
+| 7 | 0x18 | 0x20 | 2 | 10 | - |
+| 8 | 0x20 | 0x24 | 3 | 13 | - |
+| 9 | 0x24 | 0x28 | 1 | 14 | - |
+| 10 | 0x28 | 0x2C | 1 | 15 | - |
+| 11 | 0x2C | 0x30 | 1 | 16 | - |
 | 12 | 0x30 | 0x08 | 1 | 17 | BNE correct |
 | 13 | 0x08 | 0x0C | 3 | 20 | Cache hit |
-| 14 | 0x0C | 0x10 | 1 | 21 | — |
+| 14 | 0x0C | 0x10 | 1 | 21 | - |
 | 15 | 0x10 | 0x14 | 16 | 37 | BLT wrong |
-| 16 | 0x14 | 0x18 | 1 | 38 | — |
-| 17 | 0x18 | 0x20 | 2 | 40 | — |
-| 18 | 0x20 | 0x24 | 3 | 43 | — |
-| 19 | 0x24 | 0x28 | 1 | 44 | — |
-| 20 | 0x28 | 0x2C | 1 | 45 | — |
-| 21 | 0x2C | 0x30 | 1 | 46 | — |
+| 16 | 0x14 | 0x18 | 1 | 38 | - |
+| 17 | 0x18 | 0x20 | 2 | 40 | - |
+| 18 | 0x20 | 0x24 | 3 | 43 | - |
+| 19 | 0x24 | 0x28 | 1 | 44 | - |
+| 20 | 0x28 | 0x2C | 1 | 45 | - |
+| 21 | 0x2C | 0x30 | 1 | 46 | - |
 | 22 | 0x30 | 0x08 | 1 | 47 | BNE correct |
 | 23 | 0x08 | 0x0C | 3 | 50 | Cache hit |
-| 24 | 0x0C | 0x10 | 1 | 51 | — |
+| 24 | 0x0C | 0x10 | 1 | 51 | - |
 | 25 | 0x10 | 0x14 | 1 | 52 | BLT correct |
-| 26 | 0x14 | 0x18 | 1 | 53 | — |
-| 27 | 0x18 | 0x20 | 2 | 55 | — |
-| 28 | 0x20 | 0x24 | 3 | 58 | — |
-| 29 | 0x24 | 0x28 | 1 | 59 | — |
-| 30 | 0x28 | 0x2C | 1 | 60 | — |
-| 31 | 0x2C | 0x30 | 1 | 61 | — |
+| 26 | 0x14 | 0x18 | 1 | 53 | - |
+| 27 | 0x18 | 0x20 | 2 | 55 | - |
+| 28 | 0x20 | 0x24 | 3 | 58 | - |
+| 29 | 0x24 | 0x28 | 1 | 59 | - |
+| 30 | 0x28 | 0x2C | 1 | 60 | - |
+| 31 | 0x2C | 0x30 | 1 | 61 | - |
 | 32 | 0x30 | 0x08 | 1 | 62 | BNE correct |
 | 33 | 0x08 | 0x0C | 50 | 112 | Cache miss |
-| 34 | 0x0C | 0x10 | 1 | 113 | — |
+| 34 | 0x0C | 0x10 | 1 | 113 | - |
 | 35 | 0x10 | 0x14 | 1 | 114 | BLT correct |
-| 36 | 0x14 | 0x18 | 1 | 115 | — |
-| 37 | 0x18 | 0x20 | 2 | 117 | — |
-| 38 | 0x20 | 0x24 | 3 | 120 | — |
-| 39 | 0x24 | 0x28 | 1 | 121 | — |
-| 40 | 0x28 | 0x2C | 1 | 122 | — |
+| 36 | 0x14 | 0x18 | 1 | 115 | - |
+| 37 | 0x18 | 0x20 | 2 | 117 | - |
+| 38 | 0x20 | 0x24 | 3 | 120 | - |
+| 39 | 0x24 | 0x28 | 1 | 121 | - |
+| 40 | 0x28 | 0x2C | 1 | 122 | - |
 
-#### Run 12 — recorded steps 41–80
+#### Run 12: recorded steps 41–80
 
 <!-- table:trace-steps-12-41 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 41 | 0x2C | 0x30 | 1 | 123 | — |
+| 41 | 0x2C | 0x30 | 1 | 123 | - |
 | 42 | 0x30 | 0x08 | 1 | 124 | BNE correct |
 | 43 | 0x08 | 0x0C | 3 | 127 | Cache hit |
-| 44 | 0x0C | 0x10 | 1 | 128 | — |
+| 44 | 0x0C | 0x10 | 1 | 128 | - |
 | 45 | 0x10 | 0x14 | 1 | 129 | BLT correct |
-| 46 | 0x14 | 0x18 | 1 | 130 | — |
-| 47 | 0x18 | 0x20 | 2 | 132 | — |
-| 48 | 0x20 | 0x24 | 3 | 135 | — |
-| 49 | 0x24 | 0x28 | 1 | 136 | — |
-| 50 | 0x28 | 0x2C | 1 | 137 | — |
-| 51 | 0x2C | 0x30 | 1 | 138 | — |
+| 46 | 0x14 | 0x18 | 1 | 130 | - |
+| 47 | 0x18 | 0x20 | 2 | 132 | - |
+| 48 | 0x20 | 0x24 | 3 | 135 | - |
+| 49 | 0x24 | 0x28 | 1 | 136 | - |
+| 50 | 0x28 | 0x2C | 1 | 137 | - |
+| 51 | 0x2C | 0x30 | 1 | 138 | - |
 | 52 | 0x30 | 0x08 | 1 | 139 | BNE correct |
 | 53 | 0x08 | 0x0C | 3 | 142 | Cache hit |
-| 54 | 0x0C | 0x10 | 1 | 143 | — |
+| 54 | 0x0C | 0x10 | 1 | 143 | - |
 | 55 | 0x10 | 0x14 | 1 | 144 | BLT correct |
-| 56 | 0x14 | 0x18 | 1 | 145 | — |
-| 57 | 0x18 | 0x20 | 2 | 147 | — |
-| 58 | 0x20 | 0x24 | 3 | 150 | — |
-| 59 | 0x24 | 0x28 | 1 | 151 | — |
-| 60 | 0x28 | 0x2C | 1 | 152 | — |
-| 61 | 0x2C | 0x30 | 1 | 153 | — |
+| 56 | 0x14 | 0x18 | 1 | 145 | - |
+| 57 | 0x18 | 0x20 | 2 | 147 | - |
+| 58 | 0x20 | 0x24 | 3 | 150 | - |
+| 59 | 0x24 | 0x28 | 1 | 151 | - |
+| 60 | 0x28 | 0x2C | 1 | 152 | - |
+| 61 | 0x2C | 0x30 | 1 | 153 | - |
 | 62 | 0x30 | 0x08 | 1 | 154 | BNE correct |
 | 63 | 0x08 | 0x0C | 3 | 157 | Cache hit |
-| 64 | 0x0C | 0x10 | 1 | 158 | — |
+| 64 | 0x0C | 0x10 | 1 | 158 | - |
 | 65 | 0x10 | 0x14 | 1 | 159 | BLT correct |
-| 66 | 0x14 | 0x18 | 1 | 160 | — |
-| 67 | 0x18 | 0x20 | 2 | 162 | — |
-| 68 | 0x20 | 0x24 | 3 | 165 | — |
-| 69 | 0x24 | 0x28 | 1 | 166 | — |
-| 70 | 0x28 | 0x2C | 1 | 167 | — |
-| 71 | 0x2C | 0x30 | 1 | 168 | — |
+| 66 | 0x14 | 0x18 | 1 | 160 | - |
+| 67 | 0x18 | 0x20 | 2 | 162 | - |
+| 68 | 0x20 | 0x24 | 3 | 165 | - |
+| 69 | 0x24 | 0x28 | 1 | 166 | - |
+| 70 | 0x28 | 0x2C | 1 | 167 | - |
+| 71 | 0x2C | 0x30 | 1 | 168 | - |
 | 72 | 0x30 | 0x08 | 1 | 169 | BNE correct |
 | 73 | 0x08 | 0x0C | 3 | 172 | Cache hit |
-| 74 | 0x0C | 0x10 | 1 | 173 | — |
+| 74 | 0x0C | 0x10 | 1 | 173 | - |
 | 75 | 0x10 | 0x14 | 1 | 174 | BLT correct |
-| 76 | 0x14 | 0x18 | 1 | 175 | — |
-| 77 | 0x18 | 0x20 | 2 | 177 | — |
-| 78 | 0x20 | 0x24 | 3 | 180 | — |
-| 79 | 0x24 | 0x28 | 1 | 181 | — |
-| 80 | 0x28 | 0x2C | 1 | 182 | — |
+| 76 | 0x14 | 0x18 | 1 | 175 | - |
+| 77 | 0x18 | 0x20 | 2 | 177 | - |
+| 78 | 0x20 | 0x24 | 3 | 180 | - |
+| 79 | 0x24 | 0x28 | 1 | 181 | - |
+| 80 | 0x28 | 0x2C | 1 | 182 | - |
 
-#### Run 12 — recorded steps 81–120
+#### Run 12: recorded steps 81–120
 
 <!-- table:trace-steps-12-81 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
-| 81 | 0x2C | 0x30 | 1 | 183 | — |
+| 81 | 0x2C | 0x30 | 1 | 183 | - |
 | 82 | 0x30 | 0x08 | 1 | 184 | BNE correct |
 | 83 | 0x08 | 0x0C | 50 | 234 | Cache miss |
-| 84 | 0x0C | 0x10 | 1 | 235 | — |
+| 84 | 0x0C | 0x10 | 1 | 235 | - |
 | 85 | 0x10 | 0x1C | 1 | 236 | BLT correct |
-| 86 | 0x1C | 0x20 | 1 | 237 | — |
-| 87 | 0x20 | 0x24 | 3 | 240 | — |
-| 88 | 0x24 | 0x28 | 1 | 241 | — |
-| 89 | 0x28 | 0x2C | 1 | 242 | — |
-| 90 | 0x2C | 0x30 | 1 | 243 | — |
+| 86 | 0x1C | 0x20 | 1 | 237 | - |
+| 87 | 0x20 | 0x24 | 3 | 240 | - |
+| 88 | 0x24 | 0x28 | 1 | 241 | - |
+| 89 | 0x28 | 0x2C | 1 | 242 | - |
+| 90 | 0x2C | 0x30 | 1 | 243 | - |
 | 91 | 0x30 | 0x08 | 1 | 244 | BNE correct |
 | 92 | 0x08 | 0x0C | 3 | 247 | Cache hit |
-| 93 | 0x0C | 0x10 | 1 | 248 | — |
+| 93 | 0x0C | 0x10 | 1 | 248 | - |
 | 94 | 0x10 | 0x1C | 1 | 249 | BLT correct |
-| 95 | 0x1C | 0x20 | 1 | 250 | — |
-| 96 | 0x20 | 0x24 | 3 | 253 | — |
-| 97 | 0x24 | 0x28 | 1 | 254 | — |
-| 98 | 0x28 | 0x2C | 1 | 255 | — |
-| 99 | 0x2C | 0x30 | 1 | 256 | — |
+| 95 | 0x1C | 0x20 | 1 | 250 | - |
+| 96 | 0x20 | 0x24 | 3 | 253 | - |
+| 97 | 0x24 | 0x28 | 1 | 254 | - |
+| 98 | 0x28 | 0x2C | 1 | 255 | - |
+| 99 | 0x2C | 0x30 | 1 | 256 | - |
 | 100 | 0x30 | 0x08 | 1 | 257 | BNE correct |
 | 101 | 0x08 | 0x0C | 3 | 260 | Cache hit |
-| 102 | 0x0C | 0x10 | 1 | 261 | — |
+| 102 | 0x0C | 0x10 | 1 | 261 | - |
 | 103 | 0x10 | 0x1C | 1 | 262 | BLT correct |
-| 104 | 0x1C | 0x20 | 1 | 263 | — |
-| 105 | 0x20 | 0x24 | 3 | 266 | — |
-| 106 | 0x24 | 0x28 | 1 | 267 | — |
-| 107 | 0x28 | 0x2C | 1 | 268 | — |
-| 108 | 0x2C | 0x30 | 1 | 269 | — |
+| 104 | 0x1C | 0x20 | 1 | 263 | - |
+| 105 | 0x20 | 0x24 | 3 | 266 | - |
+| 106 | 0x24 | 0x28 | 1 | 267 | - |
+| 107 | 0x28 | 0x2C | 1 | 268 | - |
+| 108 | 0x2C | 0x30 | 1 | 269 | - |
 | 109 | 0x30 | 0x08 | 1 | 270 | BNE correct |
 | 110 | 0x08 | 0x0C | 3 | 273 | Cache hit |
-| 111 | 0x0C | 0x10 | 1 | 274 | — |
+| 111 | 0x0C | 0x10 | 1 | 274 | - |
 | 112 | 0x10 | 0x1C | 1 | 275 | BLT correct |
-| 113 | 0x1C | 0x20 | 1 | 276 | — |
-| 114 | 0x20 | 0x24 | 3 | 279 | — |
-| 115 | 0x24 | 0x28 | 1 | 280 | — |
-| 116 | 0x28 | 0x2C | 1 | 281 | — |
-| 117 | 0x2C | 0x30 | 1 | 282 | — |
+| 113 | 0x1C | 0x20 | 1 | 276 | - |
+| 114 | 0x20 | 0x24 | 3 | 279 | - |
+| 115 | 0x24 | 0x28 | 1 | 280 | - |
+| 116 | 0x28 | 0x2C | 1 | 281 | - |
+| 117 | 0x2C | 0x30 | 1 | 282 | - |
 | 118 | 0x30 | 0x08 | 1 | 283 | BNE correct |
 | 119 | 0x08 | 0x0C | 3 | 286 | Cache hit |
-| 120 | 0x0C | 0x10 | 1 | 287 | — |
+| 120 | 0x0C | 0x10 | 1 | 287 | - |
 
-#### Run 12 — recorded steps 121–154
+#### Run 12: recorded steps 121–154
 
 <!-- table:trace-steps-12-121 -->
 | Step | Executed PC | Next PC | Cycles added | Running total | Event |
 |---|---|---|---|---|---|
 | 121 | 0x10 | 0x1C | 16 | 303 | BLT wrong |
-| 122 | 0x1C | 0x20 | 1 | 304 | — |
-| 123 | 0x20 | 0x24 | 3 | 307 | — |
-| 124 | 0x24 | 0x28 | 1 | 308 | — |
-| 125 | 0x28 | 0x2C | 1 | 309 | — |
-| 126 | 0x2C | 0x30 | 1 | 310 | — |
+| 122 | 0x1C | 0x20 | 1 | 304 | - |
+| 123 | 0x20 | 0x24 | 3 | 307 | - |
+| 124 | 0x24 | 0x28 | 1 | 308 | - |
+| 125 | 0x28 | 0x2C | 1 | 309 | - |
+| 126 | 0x2C | 0x30 | 1 | 310 | - |
 | 127 | 0x30 | 0x08 | 1 | 311 | BNE correct |
 | 128 | 0x08 | 0x0C | 3 | 314 | Cache hit |
-| 129 | 0x0C | 0x10 | 1 | 315 | — |
+| 129 | 0x0C | 0x10 | 1 | 315 | - |
 | 130 | 0x10 | 0x1C | 1 | 316 | BLT correct |
-| 131 | 0x1C | 0x20 | 1 | 317 | — |
-| 132 | 0x20 | 0x24 | 3 | 320 | — |
-| 133 | 0x24 | 0x28 | 1 | 321 | — |
-| 134 | 0x28 | 0x2C | 1 | 322 | — |
-| 135 | 0x2C | 0x30 | 1 | 323 | — |
+| 131 | 0x1C | 0x20 | 1 | 317 | - |
+| 132 | 0x20 | 0x24 | 3 | 320 | - |
+| 133 | 0x24 | 0x28 | 1 | 321 | - |
+| 134 | 0x28 | 0x2C | 1 | 322 | - |
+| 135 | 0x2C | 0x30 | 1 | 323 | - |
 | 136 | 0x30 | 0x08 | 1 | 324 | BNE correct |
 | 137 | 0x08 | 0x0C | 3 | 327 | Cache hit |
-| 138 | 0x0C | 0x10 | 1 | 328 | — |
+| 138 | 0x0C | 0x10 | 1 | 328 | - |
 | 139 | 0x10 | 0x1C | 1 | 329 | BLT correct |
-| 140 | 0x1C | 0x20 | 1 | 330 | — |
-| 141 | 0x20 | 0x24 | 3 | 333 | — |
-| 142 | 0x24 | 0x28 | 1 | 334 | — |
-| 143 | 0x28 | 0x2C | 1 | 335 | — |
-| 144 | 0x2C | 0x30 | 1 | 336 | — |
+| 140 | 0x1C | 0x20 | 1 | 330 | - |
+| 141 | 0x20 | 0x24 | 3 | 333 | - |
+| 142 | 0x24 | 0x28 | 1 | 334 | - |
+| 143 | 0x28 | 0x2C | 1 | 335 | - |
+| 144 | 0x2C | 0x30 | 1 | 336 | - |
 | 145 | 0x30 | 0x08 | 1 | 337 | BNE correct |
 | 146 | 0x08 | 0x0C | 50 | 387 | Cache miss |
-| 147 | 0x0C | 0x10 | 1 | 388 | — |
+| 147 | 0x0C | 0x10 | 1 | 388 | - |
 | 148 | 0x10 | 0x1C | 1 | 389 | BLT correct |
-| 149 | 0x1C | 0x20 | 1 | 390 | — |
-| 150 | 0x20 | 0x24 | 3 | 393 | — |
-| 151 | 0x24 | 0x28 | 1 | 394 | — |
-| 152 | 0x28 | 0x2C | 1 | 395 | — |
-| 153 | 0x2C | 0x30 | 1 | 396 | — |
+| 149 | 0x1C | 0x20 | 1 | 390 | - |
+| 150 | 0x20 | 0x24 | 3 | 393 | - |
+| 151 | 0x24 | 0x28 | 1 | 394 | - |
+| 152 | 0x28 | 0x2C | 1 | 395 | - |
+| 153 | 0x2C | 0x30 | 1 | 396 | - |
 | 154 | 0x30 | 0x34 | 1 | 397 | BNE correct |
 
 ## Appendix D: Individual optimization measurements
@@ -1826,7 +1826,7 @@ These tables contain all 800 recorded optimization executions: 40 repetitions fo
 
 Use the base cycles and branch counts in Section 3.1 to check each result: `cycles = base + 47 × misses + 15 × wrong`. Cache hits equal 16 minus misses. Correct branch predictions equal the program's conditional-branch count minus wrong. Stall cycles equal 47 × misses + 15 × wrong. Thus the displayed triplets and program definitions also determine the remaining final counters.
 
-### D.1 Best Case — 40 repetitions per program
+### D.1 Best Case: 40 repetitions per program
 
 <!-- table:measure-records-best -->
 | Repeat | Baseline | Branch-free | Unrolled | Loop-test | Combined |
@@ -1872,7 +1872,7 @@ Use the base cycles and branch counts in Section 3.1 to check each result: `cycl
 | 39 | 554 / 7 / 1 | 320 / 2 / 0 | 380 / 4 / 2 | 303 / 2 / 1 | 366 / 4 / 0 |
 | 40 | 349 / 2 / 3 | 320 / 2 / 0 | 333 / 3 / 2 | 523 / 7 / 0 | 272 / 2 / 0 |
 
-### D.2 Worst Case — 40 repetitions per program
+### D.2 Worst Case: 40 repetitions per program
 
 <!-- table:measure-records-worst -->
 | Repeat | Baseline | Branch-free | Unrolled | Loop-test | Combined |
@@ -1918,7 +1918,7 @@ Use the base cycles and branch counts in Section 3.1 to check each result: `cycl
 | 39 | 440 / 2 / 8 | 367 / 3 / 0 | 563 / 5 / 10 | 441 / 3 / 6 | 413 / 5 / 0 |
 | 40 | 455 / 2 / 9 | 320 / 2 / 0 | 456 / 4 / 6 | 499 / 2 / 13 | 272 / 2 / 0 |
 
-### D.3 Real Case 1 — 40 repetitions per program
+### D.3 Real Case 1: 40 repetitions per program
 
 <!-- table:measure-records-real1 -->
 | Repeat | Baseline | Branch-free | Unrolled | Loop-test | Combined |
@@ -1964,7 +1964,7 @@ Use the base cycles and branch counts in Section 3.1 to check each result: `cycl
 | 39 | 327 / 1 / 4 | 226 / 0 / 0 | 311 / 2 / 3 | 420 / 3 / 5 | 272 / 2 / 0 |
 | 40 | 389 / 2 / 5 | 414 / 4 / 0 | 311 / 2 / 3 | 375 / 3 / 2 | 366 / 4 / 0 |
 
-### D.4 Real Case 2 — 40 repetitions per program
+### D.4 Real Case 2: 40 repetitions per program
 
 <!-- table:measure-records-real2 -->
 | Repeat | Baseline | Branch-free | Unrolled | Loop-test | Combined |

@@ -60,18 +60,18 @@ def render_appendices():
     for index, run in enumerate(runs):
         n = run["run"]
         if index == 0:
-            lines.append("### A.1 Original final-state evidence — Runs 1–8")
+            lines.append("### A.1 Original final-state evidence: Runs 1–8")
         elif index == 8:
-            lines.extend(["### A.2 Complete checkpoint sequences — Runs 9–12",
+            lines.extend(["### A.2 Complete checkpoint sequences: Runs 9–12",
                           "Each six-image sequence belongs to one experiment. The setup capture follows the "
                           "two initialization instructions; the next PC is 0x08. The corresponding full "
                           "instruction sequences are in Appendix C."])
-        lines.append(f"#### Run {n} — {CASES[run['case']]}, {run['run_id']}")
+        lines.append(f"#### Run {n}: {CASES[run['case']]}, {run['run_id']}")
         labels = CHECKPOINTS if n >= 9 else [f"Final-state capture {i + 1}" for i in range(len(run["screenshots"]))]
         for source, label in zip(run["screenshots"], labels):
             require((ROOT / source).is_file(), f"Missing screenshot: {source}")
             figure += 1
-            caption = f"Figure A{figure} — Run {n}: {label.lower()}"
+            caption = f"Figure A{figure}: Run {n}, {label.lower()}"
             lines.extend([f"![{caption}.]({source})", f"**{caption}.** {run['run_id']}."])
     require(figure == 44, "Expected 44 run screenshots")
     lines.extend(["### A.3 Optimization sample screenshots",
@@ -82,8 +82,8 @@ def render_appendices():
         source = f"Optimizations/{key}_final_state.png"
         require((ROOT / source).is_file(), f"Missing screenshot: {source}")
         figure += 1
-        caption = f"Figure A{figure} — {label}: sample final state"
-        lines.extend([f"![{caption}.]({source})", f"**{caption}.** Individual execution, not an average."])
+        caption = f"Figure A{figure}: {label} sample final state"
+        lines.extend([f"![{caption}.]({source})", f"**{caption}.** One individual execution; the averages are in Appendix D."])
 
     lines.extend(["## Appendix B: Reconstructed pixel paths for Runs 1–8",
                   "These tables contain all 128 input/output pairs for Runs 1–8. They reconstruct the "
@@ -100,7 +100,7 @@ def render_appendices():
     basis_names = {"read from screenshot": "read", "case definition": "definition", "inferred from output": "inferred"}
     for run in runs[:8]:
         n = run["run"]
-        lines.append(f"### B.{n} Run {n} — {run['run_id']}")
+        lines.append(f"### B.{n} Run {n}: {run['run_id']}")
         rows, running = [], 2
         for i, (value, output, basis) in enumerate(zip(run["inputs"], run["outputs"], run["input_provenance"]), 1):
             cost = 13 if value < 128 else 15
@@ -139,7 +139,7 @@ def render_appendices():
             require(step["cyclesAdded"] == BASE[pc] + 47 * miss + 15 * wrong, f"Run {n}, step {i}: cycles")
             total += step["cyclesAdded"]
             require(step["runningCycles"] == total, f"Run {n}, step {i}: running total")
-            event = "—"
+            event = "-"
             if pc == "0x08":
                 pixels.append({"input": step["r3"], "cache": "MISS" if miss else "HIT", "base": 0, "delay": 0})
                 event = "Cache miss" if miss else "Cache hit"
@@ -158,7 +158,7 @@ def render_appendices():
         require(total == run["cycles"] and len(pixels) == 16, f"Run {n}: trace total")
         require([p["output"] for p in pixels] == run["outputs"], f"Run {n}: outputs differ")
         steps_count += len(steps)
-        lines.extend([f"### C.{index} Run {n} — {run['run_id']}",
+        lines.extend([f"### C.{index} Run {n}: {run['run_id']}",
                       f"**{CASES[run['case']]}:** {len(steps)} steps, {total} cycles, {run['hits']} cache hits, "
                       f"{run['misses']} misses, {run['correct']}/{run['branches']} correct branches, "
                       f"and {run['stalls']} stall cycles. Checkpoint images appear in Appendix A.2.",
@@ -168,7 +168,7 @@ def render_appendices():
         # Shorter tables keep the same columns and step numbers across page breaks.
         for start in range(0, len(step_rows), 40):
             end = min(start + 40, len(step_rows))
-            lines.extend([f"#### Run {n} — recorded steps {start + 1}–{end}",
+            lines.extend([f"#### Run {n}: recorded steps {start + 1}–{end}",
                           table(["Step", "Executed PC", "Next PC", "Cycles added", "Running total", "Event"],
                                 step_rows[start:end], f"trace-steps-{n}-{start + 1}")])
     require(steps_count == 605, f"Expected 605 instruction steps, found {steps_count}")
@@ -187,7 +187,7 @@ def render_appendices():
                   "definitions also determine the remaining final counters."])
     summary_rows, executions = [], 0
     for index, (case, label) in enumerate(CASES.items(), 1):
-        lines.append(f"### D.{index} {label} — 40 repetitions per program")
+        lines.append(f"### D.{index} {label}: 40 repetitions per program")
         rows = []
         for i in range(40):
             row = [i + 1]
