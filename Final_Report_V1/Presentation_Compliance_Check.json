@@ -1,0 +1,559 @@
+{
+  "presentation": "Project_Presentation.pptx",
+  "slides": 12,
+  "template_titles_and_order_preserved": true,
+  "template_slide_size_preserved": true,
+  "student_fields_blank": true,
+  "placeholder_prompts_removed": true,
+  "setup_best_worst_real_screenshots_present": true,
+  "embedded_pictures": 6,
+  "native_editable_data_tables": 1,
+  "benchmark_records_verified": 800,
+  "speaker_notes_on_every_slide": true,
+  "minimum_visible_text_font_pt": 14,
+  "off_slide_objects": 0,
+  "text_box_fit_checks": [
+    {
+      "slide": 257,
+      "shape": "Slide number",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 258,
+      "shape": "Slide number",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 259,
+      "shape": "Slide number",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 260,
+      "shape": "Slide number",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 261,
+      "shape": "Slide number",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 262,
+      "shape": "Slide number",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 263,
+      "shape": "Slide number",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 264,
+      "shape": "Slide number",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 265,
+      "shape": "Slide number",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 266,
+      "shape": "Slide number",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 256,
+      "shape": "Template title",
+      "lines": 1,
+      "font_pt": 48,
+      "within_box": true
+    },
+    {
+      "slide": 256,
+      "shape": "Course",
+      "lines": 1,
+      "font_pt": 28,
+      "within_box": true
+    },
+    {
+      "slide": 256,
+      "shape": "Project topic",
+      "lines": 1,
+      "font_pt": 20,
+      "within_box": true
+    },
+    {
+      "slide": 256,
+      "shape": "Blank student fields",
+      "lines": 3,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 257,
+      "shape": "Overview label",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 257,
+      "shape": "Overview",
+      "lines": 2,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 257,
+      "shape": "Objectives label",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 257,
+      "shape": "Objectives",
+      "lines": 3,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 257,
+      "shape": "Dark input: p < 128 heading",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 257,
+      "shape": "Dark input: p < 128 result",
+      "lines": 1,
+      "font_pt": 20,
+      "within_box": true
+    },
+    {
+      "slide": 257,
+      "shape": "Bright input: p \u2265 128 heading",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 257,
+      "shape": "Bright input: p \u2265 128 result",
+      "lines": 1,
+      "font_pt": 20,
+      "within_box": true
+    },
+    {
+      "slide": 257,
+      "shape": "Application",
+      "lines": 2,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 258,
+      "shape": "Simulator name",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 258,
+      "shape": "Configuration",
+      "lines": 7,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 258,
+      "shape": "Setup screenshot caption",
+      "lines": 2,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 259,
+      "shape": "1. Best Case label",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 259,
+      "shape": "1. Best Case detail",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 259,
+      "shape": "2. Worst Case label",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 259,
+      "shape": "2. Worst Case detail",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 259,
+      "shape": "3. Real-World Case label",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 259,
+      "shape": "3. Real-World Case detail",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 259,
+      "shape": "4. Edge Case label",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 259,
+      "shape": "4. Edge Case detail",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 259,
+      "shape": "Repetition method",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 260,
+      "shape": "Scenario",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 260,
+      "shape": "Conditions",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 260,
+      "shape": "Results",
+      "lines": 4,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 260,
+      "shape": "Key insight",
+      "lines": 2,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 260,
+      "shape": "Screenshot caption",
+      "lines": 2,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 261,
+      "shape": "Scenario",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 261,
+      "shape": "Conditions",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 261,
+      "shape": "Results",
+      "lines": 4,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 261,
+      "shape": "Key insight",
+      "lines": 2,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 261,
+      "shape": "Screenshot caption",
+      "lines": 2,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 262,
+      "shape": "E3: indoor / Real Case 1",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 262,
+      "shape": "E3: indoor / Real Case 1 input",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 262,
+      "shape": "E3: indoor / Real Case 1 counts",
+      "lines": 2,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 262,
+      "shape": "E4: sunset / Real Case 2",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 262,
+      "shape": "E4: sunset / Real Case 2 input",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 262,
+      "shape": "E4: sunset / Real Case 2 counts",
+      "lines": 2,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 262,
+      "shape": "Data source and comparison",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 263,
+      "shape": "1. Cache misses usually dominate",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 263,
+      "shape": "1. Cache misses usually dominate explanation",
+      "lines": 3,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 263,
+      "shape": "2. Accuracy needs a denominator",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 263,
+      "shape": "2. Accuracy needs a denominator explanation",
+      "lines": 2,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 263,
+      "shape": "3. Combining changes helps Worst",
+      "lines": 1,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 263,
+      "shape": "3. Combining changes helps Worst explanation",
+      "lines": 2,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 263,
+      "shape": "Chart source",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 264,
+      "shape": "Table units",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 264,
+      "shape": "Metric meanings",
+      "lines": 3,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 265,
+      "shape": "Speed vs. Accuracy label",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 265,
+      "shape": "Speed vs. Accuracy data",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 265,
+      "shape": "Size vs. Performance label",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 265,
+      "shape": "Size vs. Performance data",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 265,
+      "shape": "Latency vs. Throughput label",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 265,
+      "shape": "Latency vs. Throughput data",
+      "lines": 1,
+      "font_pt": 14,
+      "within_box": true
+    },
+    {
+      "slide": 265,
+      "shape": "Trade-off conclusion",
+      "lines": 2,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 266,
+      "shape": "Conclusions label",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 266,
+      "shape": "Conclusions",
+      "lines": 3,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 266,
+      "shape": "Recommendations label",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 266,
+      "shape": "Recommendations",
+      "lines": 3,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 266,
+      "shape": "Application label",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 266,
+      "shape": "Application and limits",
+      "lines": 4,
+      "font_pt": 16,
+      "within_box": true
+    },
+    {
+      "slide": 267,
+      "shape": "Template closing title",
+      "lines": 1,
+      "font_pt": 44,
+      "within_box": true
+    },
+    {
+      "slide": 267,
+      "shape": "Thanks",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    },
+    {
+      "slide": 267,
+      "shape": "Course closing",
+      "lines": 1,
+      "font_pt": 18,
+      "within_box": true
+    }
+  ],
+  "edge_case_status": "Calculated threshold and endpoint checks, explicitly not measured runs.",
+  "external_relationships": [],
+  "preview_method": "Programmatic layout previews, not a PowerPoint-native render."
+}

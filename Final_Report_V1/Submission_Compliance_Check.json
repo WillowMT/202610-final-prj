@@ -1,0 +1,22 @@
+{
+  "document": "Project_Submission_Report.docx",
+  "template_unchanged": true,
+  "documented_experiments": 9,
+  "charts": 3,
+  "font_pt": 12,
+  "line_spacing": 1.5,
+  "template_page_geometry_preserved": true,
+  "student_fields_blank": true,
+  "instructor_and_submission_date_blank": true,
+  "embedded_images": 24,
+  "external_relationships": 0,
+  "instruction_steps": 605,
+  "benchmark_records": 800,
+  "analysis_planned_pages": 4,
+  "recommendations_planned_pages": 2,
+  "rendered_pagination_checked": false,
+  "pending": [
+    "Student name and ID intentionally blank; instructor and date not supplied.",
+    "Physical page counts require visual confirmation in the destination Word renderer."
+  ]
+}
