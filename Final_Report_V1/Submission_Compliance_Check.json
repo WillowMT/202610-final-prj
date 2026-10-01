@@ -6,8 +6,10 @@
   "font_pt": 12,
   "line_spacing": 1.5,
   "template_page_geometry_preserved": true,
-  "student_fields_blank": true,
-  "instructor_and_submission_date_blank": true,
+  "student_names_filled": true,
+  "student_ids_filled": true,
+  "instructor_filled": true,
+  "submission_date_blank": true,
   "embedded_images": 24,
   "external_relationships": 0,
   "instruction_steps": 605,
@@ -16,7 +18,7 @@
   "recommendations_planned_pages": 2,
   "rendered_pagination_checked": false,
   "pending": [
-    "Student name and ID intentionally blank; instructor and date not supplied.",
+    "Submission date not supplied; left blank.",
     "Physical page counts require visual confirmation in the destination Word renderer."
   ]
 }

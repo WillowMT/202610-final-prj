@@ -282,8 +282,8 @@ def build():
     textbox(s,'Template title','Computer Organization Project',.5,1.2,9,.88,48,True,'FFFFFF',True)
     textbox(s,'Course','BSC/ITE 104',.5,2.1,9,.5,28,False,'FFFFFF',True)
     textbox(s,'Project topic','CPU instruction execution: image brightness',.5,2.73,9,.4,20,False,'FFFFFF',True)
-    textbox(s,'Blank student fields','Student Name:\nStudent ID:\nSubmission Date:',2,3.5,6,1.2,14,color='FFFFFF')
-    notes(s,'Introduce the project as a teaching-simulator study of image brightness processing. Student name, ID and submission date are intentionally blank and must be entered before presenting. Explain that the presentation follows the supplied twelve-slide template. Separate recorded simulator results from workload estimates throughout.')
+    textbox(s,'Student fields','Student Name: Khin Thant Zin / Wai Yan Min Thu\nStudent ID: 2512220004 / 2512220006\nSubmission Date:',2,3.5,6,1.2,14,color='FFFFFF')
+    notes(s,'Introduce the project as a teaching-simulator study of image brightness processing. The cover lists both team members with their student IDs; the submission date is still blank and should be filled before presenting. Explain that the presentation follows the supplied twelve-slide template. Separate recorded simulator results from workload estimates throughout.')
 
     s=prs.slides[1]
     textbox(s,'Overview label','Project overview',.55,1.15,4.65,.35,18,True)
@@ -420,8 +420,9 @@ def verify(path, titles):
                         if r.font.size is not None: assert r.font.size.pt>=14
         assert slide.notes_slide.notes_text_frame and len(slide.notes_slide.notes_text_frame.text)>100
     cover='\n'.join(s.text for s in prs.slides[0].shapes if s.has_text_frame)
-    for label in ['Student Name:', 'Student ID:', 'Submission Date:']:
-        assert re.search(re.escape(label)+r'\s*(?:\n|$)',cover)
+    assert 'Khin Thant Zin' in cover and 'Wai Yan Min Thu' in cover
+    assert '2512220004' in cover and '2512220006' in cover
+    assert re.search(r'Submission Date:\s*(?:\n|$)', cover)
     for i in [2,4,5,6]:
         assert any(shape.shape_type==13 for shape in prs.slides[i].shapes), f'Missing screenshot on slide {i+1}'
     assert 'Calculated checks' in '\n'.join(s.text for s in prs.slides[3].shapes if s.has_text_frame)
@@ -440,7 +441,7 @@ def verify(path, titles):
                 external += [r.get('Target') for r in etree.fromstring(z.read(name)) if r.get('TargetMode')=='External']
         assert not external, external
     report={'presentation':path.name,'slides':12,'template_titles_and_order_preserved':True,
-            'template_slide_size_preserved':True,'student_fields_blank':True,'placeholder_prompts_removed':True,
+            'template_slide_size_preserved':True,'student_names_and_ids_filled':True,'submission_date_blank':True,'placeholder_prompts_removed':True,
             'setup_best_worst_real_screenshots_present':True,'embedded_pictures':picture_count,
             'native_editable_data_tables':1,'benchmark_records_verified':800,'speaker_notes_on_every_slide':True,
             'minimum_visible_text_font_pt':14,'off_slide_objects':0,'text_box_fit_checks':TEXT_CHECKS,
@@ -448,7 +449,7 @@ def verify(path, titles):
             'external_relationships':external,'preview_method':'Programmatic layout previews, not a PowerPoint-native render.'}
     (ROOT/'Presentation_Compliance_Check.json').write_text(json.dumps(report,indent=2)+'\n')
     print('PASS: 12 template slides; required sections, screenshots, calculated edge cases, trade-offs and recommendations; '
-          'all 800 benchmark records and the editable table verified; student fields blank; no external dependencies.')
+          'all 800 benchmark records and the editable table verified; student names and IDs filled; submission date blank; no external dependencies.')
 
 
 if __name__=='__main__':

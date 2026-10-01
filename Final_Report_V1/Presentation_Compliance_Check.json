@@ -3,7 +3,8 @@
   "slides": 12,
   "template_titles_and_order_preserved": true,
   "template_slide_size_preserved": true,
-  "student_fields_blank": true,
+  "student_names_and_ids_filled": true,
+  "submission_date_blank": true,
   "placeholder_prompts_removed": true,
   "setup_best_worst_real_screenshots_present": true,
   "embedded_pictures": 6,
@@ -106,7 +107,7 @@
     },
     {
       "slide": 256,
-      "shape": "Blank student fields",
+      "shape": "Student fields",
       "lines": 3,
       "font_pt": 14,
       "within_box": true

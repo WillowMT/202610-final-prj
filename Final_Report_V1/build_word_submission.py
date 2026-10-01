@@ -116,10 +116,10 @@ def charts():
 def experiment_records():
     records = []
     descriptions = [
-        'All inputs were zero. The ADD path costs 13 base cycles per pixel. Three cache misses and one wrong brightness prediction raised the total to 366 cycles.',
-        'Inputs alternated between 64 and 192. This capture drew only one cache miss, so seven wrong brightness predictions caused more delay than memory access. Its low total is a random outcome, not proof that alternating inputs are usually fastest.',
-        'The indoor-photo list contained 11 dark and five bright pixels. Three misses and six wrong brightness predictions produced 451 cycles. The first pixel changed from 35 to 67.',
-        'Eight bright inputs were followed by eight dark inputs. The first pixel changed from 232 to 224; the last changed from 92 to 124. The model chooses prediction probabilities by case label rather than learning the bright-to-dark transition.',
+        'Every input was zero, so every pixel took the ADD path and cost 13 base cycles. This run drew three cache misses and one wrong brightness prediction, which raised the total to 366 cycles.',
+        'The inputs alternated between 64 and 192. This run drew only one cache miss, so the seven wrong brightness predictions caused more delay than the memory access. The low total came from a lucky draw; it does not mean alternating inputs are usually the fastest.',
+        'The indoor list had 11 dark and five bright pixels. Three cache misses and six wrong brightness predictions produced 451 cycles. The first pixel changed from 35 to 67.',
+        'Eight bright inputs came first, followed by eight dark ones. The first pixel changed from 232 to 224 and the last changed from 92 to 124. Prediction chances are fixed by the case label, so the simulator does not learn the bright-to-dark transition.',
     ]
     for i, r in enumerate(data[8:]):
         records.append(dict(r, eid=f'E{i+1}', program='baseline', description=descriptions[i],
@@ -128,15 +128,15 @@ def experiment_records():
     # They are individual captures, distinct from the 40-run statistical means.
     samples = [
         ('baseline', 'real2', 429, 12, 4, 31, 32, 203, '0x34',
-         'This repeat uses the fixed clustered input list used throughout the optimization benchmark. It differs from E4 in input values. Four misses and one wrong prediction produced 429 cycles; the matching 40-run baseline mean is 415.35 cycles.'),
+         'This run uses the fixed clustered input list that all the optimization benchmarks share, so its input values differ from E4. Four cache misses and one wrong prediction produced 429 cycles; the baseline mean over 40 runs is 415.35 cycles.'),
         ('branchfree', 'best', 367, 13, 3, 16, 16, 141, '0x30',
-         'Both brightness candidates are calculated, then CSEL chooses the result. No brightness branches remain. This capture used 367 cycles, while the repeated Best Case mean is 376.40: 3.8% slower than its 40-run baseline because selection adds work.'),
+         'The program calculates both brightness candidates and CSEL picks the result, so there are no brightness branches left to predict. This run took 367 cycles. Over 40 runs the Best Case mean is 376.40, which is 3.8% slower than the baseline because the selection step adds work.'),
         ('unrolled', 'best', 365, 12, 4, 19, 20, 203, '0x88',
-         'Four pixels are processed before the loop-control instructions repeat. Loop branches fall from 16 to four, although the 16 brightness branches remain. This capture used 365 cycles; the 40-run Best Case mean is 316.45 cycles, a 12.8% reduction.'),
+         'The loop body handles four pixels before the loop-control instructions repeat. Loop branches drop from 16 to four, although the 16 brightness branches remain. This run took 365 cycles, and the 40-run Best Case mean is 316.45 cycles, a 12.8% reduction.'),
         ('looptest', 'best', 382, 12, 4, 32, 32, 188, '0x30',
-         'The pointer is compared with address 1040 instead of incrementing a separate pixel counter. This saves 16 base cycles. R0 remains zero because it no longer controls the loop; the pixel counter still confirms 16 completed pixels. The capture used 382 cycles; the repeated mean is 352.50.'),
+         'This program compares the pointer with address 1040 instead of incrementing a separate pixel counter, which saves 16 base cycles. R0 stays at zero because it no longer controls the loop; the pixel counter still confirms 16 completed pixels. This run took 382 cycles and the 40-run mean is 352.50.'),
         ('combined', 'best', 272, 14, 2, 4, 4, 94, '0x78',
-         'Branch-free selection is combined with four-pixel unrolling. Only four loop branches remain. Two misses and no wrong predictions gave 272 cycles in this capture. The 40-run Best Case mean is 342.50; this single favorable capture must not replace the repeated comparison.'),
+         'This program combines branch-free selection with four-pixel unrolling, leaving only four loop branches. Two cache misses and no wrong predictions gave 272 cycles in this run. The 40-run Best Case mean is 342.50, so one favorable screenshot does not replace the repeated comparison.'),
     ]
     for i, (program, case, cycles, hits, misses, correct, branches, stalls, pc, text) in enumerate(samples, 5):
         records.append(dict(eid=f'E{i}', program=program, case=case, cycles=cycles, hits=hits, misses=misses,
@@ -294,10 +294,11 @@ def build():
     p('Image brightness processing', center=True)
     doc._element.body.insert(len(doc._element.body)-1, cover)
     cover_table = Table(cover, doc._body)
-    for i in [0, 1, 3, 4]:
-        cover_table.rows[i].cells[1].text = ''
+    cover_table.rows[0].cells[1].text = 'Khin Thant Zin (2512220004)\nWai Yan Min Thu (2512220006)'
+    cover_table.rows[1].cells[1].text = '2512220004\n2512220006'
+    cover_table.rows[3].cells[1].text = 'Surekha Lanka'
+    cover_table.rows[4].cells[1].text = ''
     decorate_table(cover_table, [0.30, 0.70])
-    p('Student information is intentionally blank pending final entry.')
     newpage()
     h('Grading Rubric', 1)
     p('Total Points: 100')
@@ -307,12 +308,12 @@ def build():
 
     h('Project Deliverables', 1)
     h('1. Simulator Experiments & Screenshots (20 points)')
-    p('Nine selected simulator experiments are documented below. E1–E4 cover the four required input patterns with complete recorded traces. E5 repeats the clustered case with the fixed benchmark input list. E6–E9 test four changed instruction programs on Best Case. Each has its own screenshot and explanation.')
-    p('The repeatability study also contains 40 executions per program and case: five programs × four cases × 40 = 800 measurements. Repetitions are kept separate from the nine illustrated experiments. A screenshot shows one execution, not a mean. Appendix C includes every benchmark record so the statistical comparisons can be checked within this document.')
+    p('We documented nine simulator experiments in this section. E1 to E4 are the four required input patterns, and we recorded a complete trace for each one. E5 repeats the clustered case with the fixed input list our benchmark uses, and E6 to E9 test the four changed instruction programs on the Best Case. Every experiment has its own screenshot and explanation.')
+    p('Separate from these nine experiments, we repeated each program and case 40 times (five programs × four cases × 40 = 800 runs) so we could compare means instead of single results. Appendix C lists all 800 records so the comparisons can be checked inside this document. A screenshot still shows only one execution, never a mean.')
     table(['ID', 'Program', 'Input case', 'Captured cycles'],
           [[r['eid'], PROGRAM_NAMES[PROGRAMS.index(r['program'])], CASE_NAMES[CASES.index(r['case'])], r['cycles']] for r in records],
           [0.10, 0.32, 0.35, 0.23])
-    p('All experiments process 16 pixels. Dark inputs below 128 receive +32; other inputs receive −8. The original random-cache and prediction rules are retained. The changed programs use the stated instruction-cost assumptions in Section 3.')
+    p('All experiments process 16 pixels. Inputs below 128 receive +32 and all others receive −8. The random cache and prediction rules of the original simulator are unchanged. The four changed programs use the instruction-cost assumptions stated in Section 3.')
     for i, r in enumerate(records, 1):
         newpage()
         h(f"Experiment {r['eid']}: {PROGRAM_NAMES[PROGRAMS.index(r['program'])]}, {CASE_NAMES[CASES.index(r['case'])]}", 3)
@@ -325,7 +326,7 @@ def build():
 
     newpage()
     h('2. Performance Data Collection (10 points)')
-    p('Tables 1 and 2 contain the counters and rates for all nine illustrated experiments. CPP = total cycles / 16. Cache rates use 16 pixel loads; stores are not counted by the cache counter. Prediction rates use all conditional branches, including the loop checks. Spill count is zero from instruction inspection; the simulator has no measured spill counter.')
+    p('Tables 1 and 2 list the counters and rates for the nine experiments. CPP is the total cycles divided by 16. Cache rates use the 16 pixel loads, because the simulator does not count stores in the cache counter. Prediction rates use all conditional branches, including the loop checks. The spill count is zero from inspecting the instructions, since the simulator has no spill counter.')
     p('Table 1. Individual captured results. Cycles and stalls are CPU-cycle counts.', bold=True)
     table(['ID', 'Cycles', 'CPP', 'Hits / misses', 'Stalls', 'Final PC'],
           [[r['eid'], r['cycles'], fmt(Decimal(r['cycles'])/16), f"{r['hits']} / {r['misses']}", r['stalls'], r['pc']] for r in records],
@@ -335,61 +336,61 @@ def build():
           [[r['eid'], f"{r['correct']} / {r['branches']}", fmt(Decimal(r['hits'])*100/16),
             fmt(Decimal(r['misses'])*100/16), fmt(Decimal(r['branches']-r['correct'])*100/r['branches']), 0] for r in records],
           [.08, .24, .17, .17, .22, .12])
-    p('All nine captures finished 16/16 pixels. The full-image estimate shown by the simulator equals each captured cycle total × 4,096. Baseline brightness-only accuracy can be calculated as (correct branches − 16) / 16; the 16 loop predictions are always counted as correct.')
+    p('All nine runs finished 16/16 pixels. The full-image estimate that the simulator displays equals each run\'s cycle total × 4,096. Brightness-only accuracy can be worked out as (correct branches − 16) / 16 because the 16 loop predictions are always correct.')
     newpage()
     h('2. Performance Data Collection: repeated measurements', 3)
-    p('Table 3. Mean cycles per 16 pixels across 40 independent repetitions per cell. These means, rather than isolated screenshots, determine the optimization recommendations.', bold=True)
+    p('Table 3. Mean cycles per 16 pixels over 40 independent repetitions per cell. We based the optimization recommendations on these means, not on single screenshots.', bold=True)
     table(['Case']+PROGRAM_NAMES,
           [[CASE_NAMES[CASES.index(c)]]+[fmt(cell_stats(pgm,c)[0]) for pgm in PROGRAMS] for c in CASES],
           [.14, .17, .18, .17, .17, .17])
-    p('Appendix C records cycles, misses and wrong predictions for all 800 executions. With the base costs below, those values determine hits, correct predictions and stalls as well. Every benchmark output check passed.')
+    p('Appendix C records the cycles, misses and wrong predictions for all 800 executions. Together with the base costs below, those values also determine the hits, correct predictions and stalls. Every output check passed.')
     p('Table 4. Base cycles and conditional-branch counts used in the benchmark.', bold=True)
     table(['Program', 'Best', 'Worst', 'Real 1', 'Real 2', 'Branches'],
           [[name]+[summary['offsets'][pgm][c] for c in CASES]+[{'baseline':32,'branchfree':16,'unrolled':20,'looptest':32,'combined':4}[pgm]] for pgm,name in zip(PROGRAMS,PROGRAM_NAMES)],
           [.28, .13, .14, .14, .14, .17])
-    p('The original baseline executes seven live register roles, with R5 unused; the branch-free programs use R5 for the second candidate. No program includes stack spill/reload instructions. Code inspection supports zero spills within the model, not a claim about a real compiler.')
+    p('The original baseline uses seven live registers, with R5 unused, while the branch-free programs use R5 for the second candidate. None of the programs contains stack spill or reload instructions. The zero-spill result comes from inspecting the code in this model, not from a real compiler.')
 
     # The requested analysis is arranged into four explicit pages.
     newpage()
     bookmark(h('3. Analysis Report (40 points)'), 'Analysis_Page_1')
     h('Executive Summary', 3)
-    p('This study examines a 16-pixel brightness loop using nine illustrated experiments and an 800-execution repeatability study. The four complete baseline traces took 366, 378, 451 and 397 cycles. Cache misses caused the largest delay in three of those four traces; the exception was the alternating case, which drew only one miss. Across repeated tests, branch-free selection combined with four-pixel unrolling gave the lowest mean for Worst Case and both realistic cases, reducing cycles by 34.5%, 23.2% and 19.2%. Unrolling alone had the lowest Best Case mean, although its lead over the combined program was uncertain. Outputs stayed correct. The cost projection needs one processor under the stated workload assumptions, so reduced cycles improve capacity without automatically reducing a fixed 24-hour electricity bill.')
+    p('For this project we studied a 16-pixel brightness loop through nine experiments and an 800-run repeatability study. The four complete baseline traces took 366, 378, 451 and 397 cycles. Cache misses caused most of the delay in three of them; the alternating case was the exception because it drew only one miss. Over repeated runs, branch-free selection combined with four-pixel unrolling gave the lowest mean for the Worst Case and both realistic cases, cutting cycles by 34.5%, 23.2% and 19.2%. Unrolling alone had the lowest Best Case mean, but its lead over the combined program was too small to be certain. All outputs stayed correct. Under the stated workload assumptions the cost projection needs one processor, so fewer cycles add capacity without lowering a fixed 24-hour electricity bill.')
     h('Methodology', 3)
-    p('The baseline cases were all-zero inputs, alternating 64/192 inputs, an indoor list with 11 dark and five bright pixels, and eight bright values followed by eight dark values. An automated driver advanced the supplied simulator one instruction at a time and captured its state. Appendix B prints every instruction and event from the four traced runs. Figures 1–9 show the selected experiment counters; Appendix D gives their pixel inputs and outputs.')
-    p('The benchmark tested the baseline plus branch-free selection, four-pixel unrolling, pointer-based loop testing and the combined program. Each program ran 40 times on each case with output checks. Real Case 2 was pinned to one input list for fair comparisons. Cache and branch draws were independent across repeats and programs. The animation delay controls display speed only; it is separate from cycle accounting.')
+    p('The baseline cases were all-zero inputs, alternating 64/192 inputs, an indoor list with 11 dark and five bright pixels, and eight bright values followed by eight dark values. To record the traces, we drove the supplied simulator one instruction at a time and saved its state after each step. Appendix B prints every instruction and event from the four traced runs, Figures 1 to 9 show the counters we captured, and Appendix D lists their pixel inputs and outputs.')
+    p('The benchmark covered the baseline plus branch-free selection, four-pixel unrolling, pointer-based loop testing and the combined program. Each program ran 40 times on each case and every output was checked. We pinned Real Case 2 to one input list so the programs were compared fairly. Cache and branch draws were independent across runs and programs. The animation delay only controls display speed; it does not affect cycle accounting.')
 
     newpage()
     bookmark(h('3. Analysis Report: Findings', 3), 'Analysis_Page_2')
     picture(ASSETS/'chart_1.png', 'Chart 1. Cycle breakdown of the four recorded baseline traces (E1–E4). Each bar is one run, not a case average.')
-    p('A dark iteration costs 13 base cycles, and a bright iteration costs 15 because it also executes a two-cycle jump. Two setup instructions give baseline totals of 210, 226, 220 and 226 before random delays. A load costs three cycles on a hit or 50 on a miss, so a miss adds 47. A wrong brightness prediction adds 15. Stores always cost three cycles; HALT is displayed but never charged.')
-    p('For E3, the exact result is 220 + 3 × 47 + 6 × 15 = 451 cycles. E2 uses more base cycles than E3 but finishes sooner: 226 + 1 × 47 + 7 × 15 = 378. Its low miss count outweighs its extra branch delay. A case label therefore does not guarantee the ordering of individual runs.')
-    p('The miss mechanism draws about 20% misses per load, giving 3.2 expected misses per 16-pixel run. It has no cache lines, capacity replacement or prefetch logic. The brightness predictor draws 95% correctness for Best, 50% for Worst and 80% for both real cases. All loop predictions are counted as correct, which makes overall accuracy higher than brightness-only accuracy.')
+    p('A dark iteration costs 13 base cycles and a bright one costs 15, because the bright path also runs a two-cycle jump. The two setup instructions bring the baseline totals to 210, 226, 220 and 226 before any random delays. A load costs three cycles on a hit or 50 on a miss, so a miss adds 47, and a wrong brightness prediction adds 15. Stores always cost three cycles, and HALT is displayed but never charged.')
+    p('For E3 the exact result is 220 + 3 × 47 + 6 × 15 = 451 cycles. E2 has more base cycles than E3 but finishes sooner: 226 + 1 × 47 + 7 × 15 = 378. Its single miss outweighs the extra branch delay, which shows that a case label does not guarantee the order of individual runs.')
+    p('The cache model draws a miss about 20% of the time, giving an expected 3.2 misses per 16-pixel run. It has no cache lines, replacement policy or prefetch logic. The brightness prediction chance is 95% for Best, 50% for Worst and 80% for both realistic cases. Loop predictions are always counted as correct, so overall accuracy looks better than brightness-only accuracy.')
 
     newpage()
     bookmark(h('3. Analysis Report: Analysis', 3), 'Analysis_Page_3')
     picture(ASSETS/'chart_2.png', 'Chart 2. Worst Case mean cycles across 40 runs per program. Error bars show one standard error of the mean.')
-    p('The combined program reduces the Worst Case mean from 502.93 to 329.58 cycles, a 34.5% reduction. Its base cost falls from 226 to 178; removing brightness branches also removes their misprediction delays. Unrolling alone keeps those branches, so its mean remains 460.25. Loop testing saves one counter increment per pixel and reaches 468.63. Branch-free selection without unrolling reaches 389.33.')
-    p('These are executions of modified teaching-model programs. CSEL is assumed to cost one cycle; four-pixel pointer increments and offset addressing are also assumed available. Existing operation costs and random-event probabilities are retained. These assumptions are explicit, because the simulator cannot establish timings on a particular physical ARM processor.')
-    p('The scenario targets CPP below five and cache hit rate above 95%. Even the delay-free baseline needs 210/16 = 13.125 CPP, so it cannot reach the CPP target. None of the four traced baseline runs meets the cache target. These gaps follow from the supplied cost model. A reported target or illustrative example cannot replace the recorded counters.')
+    p('The combined program cuts the Worst Case mean from 502.93 to 329.58 cycles, a 34.5% reduction. Its base cost drops from 226 to 178, and removing the brightness branches also removes their misprediction delays. Unrolling by itself keeps those branches, so its mean stays at 460.25. Loop testing saves one counter increment per pixel and reaches 468.63, while branch-free selection on its own reaches 389.33.')
+    p('These numbers come from modified versions of the teaching model. CSEL is assumed to cost one cycle, and the four-pixel pointer increments and offset addressing are also assumed to be available. The existing operation costs and random-event probabilities are unchanged. We list these assumptions openly because the simulator cannot measure timings on a real ARM processor.')
+    p('The scenario targets CPP below five and a cache hit rate above 95%. Even with no delays the baseline needs 210/16 = 13.125 CPP, so the CPP target is out of reach for this program. None of the four traced runs meets the cache target either. Both gaps come from the supplied cost model; a target or an illustrative example in the guide cannot replace the recorded counters.')
 
     newpage()
     bookmark(h('3. Analysis Report: Visualizations and interpretation', 3), 'Analysis_Page_4')
     picture(ASSETS/'chart_3.png', 'Chart 3. Mean cycles per 16 pixels for all programs and cases (40 repetitions per cell). Darker cells mean more cycles, not better performance.')
-    p('The combined program has the lowest mean for Worst Case, Real Case 1 and Real Case 2. Best Case differs: unrolling averages 316.45 cycles, while the combined program averages 342.50. Their 26.05-cycle gap is only about 1.7 standard errors of the difference. It is a tentative ranking, not strong evidence that unrolling always wins.')
-    p('Unrolling has a 16-cycle base advantage over the combined program in Best Case, while the combined program avoids about 15 expected branch-delay cycles. The expected totals are therefore close, and different cache draws can move the measured means. Standard error is sample standard deviation divided by the square root of 40; for independent means, the error of a difference is the square root of the sum of their squared standard errors.')
-    p('Prefetching and loop tiling target cache behavior that this simulator does not model. They were not presented as measured successes. For example, removing every baseline Worst Case cache delay would give an upper-bound estimate of 349.01 cycles, while leaving one miss gives 396.01, both assuming no extra instructions. A real cache-aware implementation would need separate tests.')
+    p('The combined program has the lowest mean for the Worst Case and both realistic cases. The Best Case is different: unrolling averages 316.45 cycles against 342.50 for the combined program. The 26.05-cycle gap is only about 1.7 standard errors, so we treat unrolling\'s lead as tentative rather than a general rule.')
+    p('In the Best Case, unrolling starts with a 16-cycle base advantage, while the combined program avoids roughly 15 cycles of expected branch delay. The two totals are therefore close, and different cache draws can move the means either way. We computed the standard error as the sample standard deviation divided by the square root of 40, and for differences we combined the two squared standard errors.')
+    p('Prefetching and loop tiling both target cache behavior that this simulator does not model, so we did not claim either as a measured success. As a calculation only, removing every Worst Case cache delay would give an optimistic bound of 349.01 cycles, and leaving one miss gives 396.01, assuming no extra instructions in both cases. A real implementation would need its own tests.')
 
     newpage()
     h('4. Trade-Off Analysis (20 points)')
     h('Speed vs. Accuracy', 3)
-    p('Output correctness is mandatory for image processing. Prediction accuracy is a timing metric: a wrong prediction adds delay but the simulator still executes the correct arithmetic path. Every one of the 800 benchmark executions passed all 16 output checks. Faster variants therefore did not gain speed by accepting incorrect pixels.')
-    p('Branch-free selection removes brightness-prediction failures at a cost: it computes both candidate outputs and selects one. On Best Case, its mean rises from 362.73 to 376.40 cycles (+3.8%). On Worst Case, it falls from 502.93 to 389.33 (−22.6%). Removing a branch is worthwhile when the avoided delays cover that extra work. Report both accuracy and total cycles; 100% loop-prediction accuracy alone is not evidence of the fastest program.')
+    p('Correct output is the first requirement in image processing. Prediction accuracy only affects timing, because a wrong prediction adds delay while the simulator still runs the correct arithmetic path. All 800 benchmark runs passed every output check, so the faster variants did not gain speed by accepting wrong pixels.')
+    p('Branch-free selection removes brightness prediction failures, but it pays for that by computing both candidate outputs and then selecting one. On the Best Case its mean rises from 362.73 to 376.40 cycles (+3.8%); on the Worst Case it falls from 502.93 to 389.33 (−22.6%). Removing a branch only helps when the avoided delays cover the extra work. We therefore report accuracy and total cycles together, since perfect loop-prediction accuracy alone does not mean the program is fastest.')
     h('Size vs. Performance', 3)
-    p('The scenario describes a 32 KB L1 cache, but the teaching simulator has no cache-capacity model. Changing a stated cache size would not establish a measured speed effect. Tiling and larger-cache claims therefore remain hypotheses. The sequential 16-pixel sample is also too small to demonstrate production working-set behavior.')
-    p('There is a measurable instruction-program trade-off. Including the displayed HALT entry, the baseline lists 14 instructions, branch-free 13, unrolled 35, loop-test 13 and combined 31. These are model instruction counts, not compiled binary sizes. Unrolling expands the program while reducing loop branches from 16 to four. Total conditional branches fall only from 32 to 20, because all 16 brightness branches remain. A real compiler could add spills or instruction-cache pressure; neither is charged by this model.')
+    p('The scenario describes a 32 KB L1 cache, but the teaching simulator does not model cache capacity. Changing a cache size in the scenario would not give us a measured speed effect, so claims about tiling or larger caches stay as hypotheses. The sequential 16-pixel sample is also too small to show production working-set behavior.')
+    p('There is a measurable trade-off in program size. Counting the displayed HALT entry, the baseline lists 14 instructions, branch-free 13, unrolled 35, loop-test 13 and combined 31. These are model instruction counts, not compiled binary sizes. Unrolling grows the program while cutting loop branches from 16 to four. Total conditional branches only fall from 32 to 20 because all 16 brightness branches remain. A real compiler could add spills or instruction-cache pressure, which this model does not charge.')
     newpage()
     h('4. Trade-Off Analysis: Latency vs. Throughput', 3)
-    p('The projection treats one image as a 256 × 256 chunk (65,536 pixels), uses 2,000,000 processed images/day, a 2.4 GHz processor per server, and a four-hour batch deadline. The whole daily batch is assumed to arrive together. Each image needs 4,096 copies of the 16-pixel workload. For this Word submission, projections use the exact 40-run baseline means in Table 3 to reduce dependence on isolated random draws.')
+    p('For the projection we treated one image as a 256 × 256 chunk (65,536 pixels), used 2,000,000 processed images per day, one 2.4 GHz processor per server and a four-hour deadline for the whole daily batch arriving together. Each image needs 4,096 copies of the 16-pixel workload. The projections use the 40-run baseline means from Table 3 so they do not depend on single random draws.')
     projection = []
     for c, name in zip(CASES, CASE_NAMES):
         mean = cell_stats('baseline', c)[0]
@@ -401,31 +402,31 @@ def build():
           [.14, .26, .26, .23, .11])
     real_seconds = cell_stats('baseline','real1')[0]*4096*2000000/Decimal(2400000000)
     saving = real_seconds*Decimal('.2')/3600*Decimal('.008')*Decimal('.12')*365
-    p(f'For Real Case 1, the processor needs {fmt(real_seconds)} seconds/day against a 14,400-second deadline, so one server suffices. A 20% cycle reduction saves {fmt(real_seconds*Decimal(".2"))} seconds/day and increases fixed-clock throughput by 1/0.8 = 1.25, or 25%. The integer server count stays one.')
-    p(f'At 8 W, $0.12/kWh and 24-hour operation, daily electricity is 0.008 × 24 × 0.12 = $0.02304; annual cost is $8.4096. Finishing sooner saves $0 at constant power. If the full 8 W is avoided during the saved Real Case 1 processing time, the 20% reduction saves approximately ${fmt(saving,6)}/year. Idle power was not supplied, so that is conditional.')
-    p('The scenario also says only half of uploads need adjustment. At 1,000,000 processed images/day, cycles and active time halve; the constant-power electricity bill and rounded server count do not. Actual photographs can contain many chunks. Decoding, transfer, contention and whole-server power are excluded, so these are brightness-stage estimates rather than a production capacity guarantee.')
+    p(f'For Real Case 1 the processor needs {fmt(real_seconds)} seconds per day against the 14,400-second deadline, so one server is enough. A 20% cycle reduction saves {fmt(real_seconds*Decimal(".2"))} seconds per day and raises throughput at a fixed clock by 1/0.8 = 1.25, or 25%. The rounded server count stays at one.')
+    p(f'At 8 W and $0.12/kWh, a processor running for 24 hours uses 0.008 × 24 × 0.12 = $0.02304 of electricity per day, or $8.4096 per year. Finishing earlier saves nothing while the processor stays at 8 W. If the full 8 W were avoided during the saved Real Case 1 processing time, the 20% reduction would save about ${fmt(saving,6)} per year. The idle power was not given, so that figure is conditional.')
+    p('The scenario also says that only half of uploads need adjustment. At 1,000,000 processed images per day, the cycles and active time halve, but the constant-power bill and the rounded server count do not. Real photographs can contain many chunks. Decoding, transfer, contention and whole-server power are outside our estimates, so these numbers describe the brightness stage only.')
 
     newpage()
     bookmark(h('5. Recommendations & Conclusions (10 points)'), 'Recommendations_Page_1')
     h('Optimization suggestions based on the analysis', 3)
-    p('Use the combined branch-free and four-pixel-unrolled program as the first candidate for mixed and alternating inputs in this model. The measured reductions are 34.5% for Worst Case, 23.2% for Real Case 1 and 19.2% for Real Case 2. Those comparisons use a separate 40-run baseline for each case, identical input lists and the same cost rules. Output correctness was checked throughout.')
-    p('For all-dark data, keep unrolling alone as a candidate rather than assuming the combined method is best. It has the lowest observed mean, 316.45 cycles compared with 342.50 for combined and 362.73 for baseline. However, the small margin over combined is uncertain. Collect more independent repetitions or use controlled paired random trials before choosing between these two for a workload dominated by dark pixels.')
-    p('Prioritize memory behavior in a more realistic follow-up. Chart 1 shows that cache delay exceeds branch delay in three of the four complete traces. Each missed load adds 47 cycles, compared with 15 for a wrong prediction. That makes a cache-aware experiment a reasonable next step, but the current random-hit model cannot establish a benefit from prefetching, tiling or a larger cache.')
-    p('Keep the simpler pointer-loop method available where program size matters. It removes one counter increment per pixel without fourfold loop-body expansion. In the Best Case benchmark it reduces the mean by 2.8%; the combined and unrolled programs offer larger reductions in other cases at the cost of longer instruction listings. A deployment decision should include compiled code size and register usage, which were not measured here.')
+    p('We recommend the combined branch-free and four-pixel-unrolled program as the first candidate for mixed and alternating inputs in this model. It reduced the mean by 34.5% for the Worst Case, 23.2% for Real Case 1 and 19.2% for Real Case 2. Each comparison uses its own 40-run baseline, the same input list per case and the same cost rules, with output checks throughout.')
+    p('For all-dark data we would keep unrolling alone as a candidate instead of assuming the combined method is best. It has the lowest observed mean, 316.45 cycles against 342.50 for the combined program and 362.73 for the baseline, but the margin over combined is small and uncertain. More independent repetitions or paired random trials would be needed to choose between the two for dark-heavy workloads.')
+    p('A more realistic follow-up should look at memory behavior first. Chart 1 shows cache delay above branch delay in three of the four complete traces, and each missed load adds 47 cycles compared with 15 for a wrong prediction. A cache-aware experiment is therefore a sensible next step, although the current random-hit model cannot show any benefit from prefetching, tiling or a larger cache.')
+    p('Where program size matters, the pointer-loop method is still useful. It removes one counter increment per pixel without expanding the loop body four times, and in the Best Case benchmark it reduces the mean by 2.8%. The combined and unrolled programs reduce cycles more in the other cases but need longer instruction listings. A real deployment decision should also weigh compiled code size and register usage, which we did not measure.')
 
     newpage()
     bookmark(h('5. Recommendations & Conclusions: applications and learning', 3), 'Recommendations_Page_2')
     h('Real-world applications', 3)
-    p('The method applies to small image-processing loops on edge devices: first verify the output rule, count base work and delays separately, then compare changes on representative inputs. The four cases show why one screenshot cannot stand in for a workload. E2, called Worst Case, happened to finish faster than E3 because it drew fewer misses. Repeated measurements give a more useful basis for decisions.')
-    p('Use cycle reductions to plan processing capacity, and estimate electricity separately. The four-hour calculation needs one processor under the supplied assumptions. A hypothetical 20% cycle reduction raises throughput by 25%, but it does not remove a server or reduce an 8 W all-day bill. A real cost estimate needs image dimensions, the number of chunks, total server power and the active-to-idle power difference. The supplied figures do not support a million-dollar saving.')
+    p('The same method applies to small image-processing loops on edge devices: check the output rule first, separate base work from delays, then compare changes on representative inputs. Our four cases show why one screenshot cannot represent a workload. E2, the Worst Case, finished faster than E3 simply because it drew fewer misses, so repeated measurements are a better basis for decisions.')
+    p('Cycle reductions help plan processing capacity, but electricity has to be estimated separately. Under the supplied assumptions the four-hour run needs one processor. A 20% cycle reduction raises throughput by 25% but removes no server and does not lower an 8 W all-day bill. A real cost estimate needs image dimensions, chunk counts, total server power and the active-to-idle power difference. The supplied figures do not support a million-dollar saving.')
     h('What this project demonstrates', 3)
-    p('The instruction traces connect program state to timing. A pixel load changes R3, arithmetic writes R4, the store updates output memory, and loop control advances the pointer and returns the PC. Misses and wrong predictions change the cycle count without changing the brightness rule. Separating those effects explains both repeated-run variation and the different optimization results.')
-    p('The analysis also shows the limits of the tool. Prediction outcomes are random draws selected by case label, not evidence that a predictor learned an image pattern. Zero spills follows from the instruction programs, not a hardware spill counter. The added operation costs are assumptions. The measured rankings are useful within this model; a real compiler and processor should be tested before treating the percentages as deployment results.')
-    p('The practical conclusion is to retain correctness checks, use repeated measurements, and choose the optimization for the input pattern and implementation constraints. The report contains the screenshots, numerical records, formulas and full baseline traces needed to examine that conclusion without opening separate project files.')
+    p('The instruction traces connect program state to timing. A pixel load writes R3, the arithmetic step writes R4, the store updates memory, and the loop control advances the pointer and returns the PC. Misses and wrong predictions change the cycle count but never the brightness rule. Keeping those effects apart explains both the variation between repeats and the differences between optimization results.')
+    p('We also found the limits of the tool. Prediction outcomes are random draws chosen by the case label, not proof that a predictor learned an image pattern. The zero spill count comes from the instruction programs, not a hardware counter, and the added operation costs are assumptions. The rankings are useful inside this model; a real compiler and processor would need their own tests before the percentages could guide a deployment.')
+    p('Our practical conclusion is to keep correctness checks, use repeated measurements and choose the optimization for the input pattern and implementation constraints. The screenshots, records, formulas and full baseline traces needed to check that conclusion are all inside this report.')
 
     newpage()
     h('Supporting evidence and calculation appendices', 1)
-    p('The following supporting material is separate from the four-page Analysis Report and two-page Recommendations & Conclusions sections. It provides detailed observations for checking the main text.')
+    p('The appendices below contain the detailed observations used to check the main text.')
     h('Appendix A. Baseline instructions and registers', 2)
     instructions = [
         ['00','LOAD R0, #0',1],['04','LOAD R1, #1024',1],['08','LOAD R3, [R1]',3],
@@ -433,13 +434,13 @@ def build():
         ['18','JMP STORE',2],['1C','ADD R4, R3, R6',1],['20','STORE R4, [R1]',3],
         ['24','INC R1, #1',1],['28','INC R0, #1',1],['2C','CMP R0, #16',1],['30','BNE LOOP',1],['34','HALT',0]]
     table(['PC (hex)', 'Instruction', 'Base cycles'], instructions, [.18,.62,.20])
-    p('Dark path: 08 → 0C → 10 → 1C → 20 → 24 → 28 → 2C → 30 = 13 cycles. Bright path: 08 → 0C → 10 → 14 → 18 → 20 → 24 → 28 → 2C → 30 = 15 cycles. Baseline total = 2 + 13 × dark + 15 × bright + 47 × misses + 15 × wrong predictions.')
-    p('R0 counts completed pixels; R1 is the pointer starting at 1024; R2 is threshold 128; R3 is the input; R4 is the output; R5 is unused by baseline; R6 is 32; R7 holds positive 8 for subtraction. The baseline uses seven of the eight displayed registers. The scenario describes 32 registers, but that fuller processor is not simulated.')
+    p('The dark path 08 → 0C → 10 → 1C → 20 → 24 → 28 → 2C → 30 takes 13 cycles, and the bright path 08 → 0C → 10 → 14 → 18 → 20 → 24 → 28 → 2C → 30 takes 15. Baseline total = 2 + 13 × dark + 15 × bright + 47 × misses + 15 × wrong predictions.')
+    p('R0 counts completed pixels, R1 is the pointer that starts at 1024, R2 is the 128 threshold, R3 holds the input and R4 the output. R5 is unused in the baseline, R6 holds 32 and R7 holds positive 8 for the subtraction. The baseline uses seven of the eight displayed registers. The scenario describes a 32-register processor, but that fuller machine is not simulated.')
 
     for i, r in enumerate(records[:4], 1):
         newpage()
         h(f'Appendix B.{i}. Complete trace for {r["eid"]} ({CASE_NAMES[CASES.index(r["case"])]})', 2)
-        p('The panels below show the same run after setup, after pixel 1, and at completion. Status boxes are arranged above the register panel for readability. Each panel uses a single captured screenshot; existing clipping is retained. Current PC is the next instruction, while the execution trace lists the instruction just executed.')
+        p('The panels below show the same run after setup, after pixel 1 and at the end. For readability we placed the status boxes above the register panel; every region comes from one captured screenshot, and any clipping is inherited from the original. Current PC shows the next instruction, while the execution trace lists the instruction that just ran.')
         for suffix, stage in [('setup','After setup'),('pixel1_done','After pixel 1'),('final','Final state')]:
             picture(ROOT/f"Figures/Run{r['run']}_{PREFIX[r['case']]}_{suffix}_state.png",
                     f"Figure B{i}.{suffix}. {r['eid']}: {stage.lower()}.", 4.8)
@@ -449,23 +450,23 @@ def build():
         table(['Pixel','Input','Output','Cache','BLT','Base','Delay','Total'],
               [[j,v['input'],v['output'],v['cache'],'Wrong' if v['branch']=='MISPREDICT' else 'Right',v['cycles'],v['delay'],v['running']] for j,v in enumerate(t['pixels'],1)],
               [.10,.12,.13,.13,.13,.12,.12,.15])
-        p('Base is instruction cost before delays. Delay = 47 × load misses + 15 × wrong brightness predictions. The running total includes the two setup cycles. All input/output values are recorded from the trace except Best Case zeros, which are defined by the test setup.')
+        p('Base is the instruction cost before delays: delay = 47 × load misses + 15 × wrong brightness predictions, and the running total includes the two setup cycles. Every input and output comes from the recorded trace except the Best Case zeros, which are defined by the test setup.')
         raw = load(f"Traces/Run{r['run']}_{PREFIX[r['case']]}_trace.json")
         steps = []
         for j,s in enumerate(raw['steps'],1):
-            event = '—'
+            event = '-'
             if s['pc']=='0x08': event='Miss' if 'Cache MISS' in s['summary'] else 'Hit'
             elif s['pc']=='0x10': event='BLT wrong' if 'MISPREDICT' in s['summary'] else 'BLT right'
             elif s['pc']=='0x30': event='BNE right'
             steps.append([j,s['pc'],s['nextPC'],s['cyclesAdded'],s['runningCycles'],event])
         newpage()
         h(f'Appendix B.{i}. All {len(steps)} instruction steps for {r["eid"]}', 3)
-        p('PC values are hexadecimal. A step ending at total T with increment d occupies counted cycles T − d + 1 through T. The last next-PC is HALT; HALT contributes no charged step. BNE predictions are always counted as correct.')
+        p('PC values are hexadecimal. A step that ends at total T with increment d occupies cycles T − d + 1 through T. The last next-PC is HALT, which contributes no charged step, and BNE predictions are always counted as correct.')
         table(['Step','PC','Next PC','Added cycles','Total cycles','Event'], steps, [.09,.14,.16,.19,.20,.22])
 
     newpage()
     h('Appendix C. All 800 benchmark records', 2)
-    p('Each cell below gives cycles / cache misses / wrong predictions. Each column has 40 executions per case. Rows across different programs do not share random draws. These triplets, together with Table 4, determine the other counters: hits = 16 − misses; stalls = 47 × misses + 15 × wrong; correct branches = branch count − wrong. Every output check passed. The selected screenshots in Section 1 are separate individual captures and need not equal the last repeat or the mean.')
+    p('Each cell below gives cycles / cache misses / wrong predictions, with 40 executions per case in every column. Rows in different programs do not share random draws. The triplets and Table 4 determine the other counters: hits = 16 − misses; stalls = 47 × misses + 15 × wrong; correct branches = branch count − wrong. Every output check passed. The screenshots in Section 1 are separate captures and do not have to match the last repeat or the mean.')
     for c,name in zip(CASES,CASE_NAMES):
         h(f'{name}: 40 repetitions per program', 3)
         rows = []
@@ -475,32 +476,31 @@ def build():
         p('Column means: '+ '; '.join(f'{pn} {fmt(cell_stats(pgm,c)[0])} cycles' for pgm,pn in zip(PROGRAMS,PROGRAM_NAMES))+'.')
     newpage()
     h('Appendix D. Pixel inputs and outputs', 2)
-    p('For E1–E4, each cell gives input → output. Pixel numbers run left to right and top to bottom in the screenshot grid.')
+    p('In the table below, each cell for E1–E4 gives input → output, with pixel numbers running left to right and top to bottom as in the screenshot grid.')
     table(['Pixel','E1','E2','E3','E4'], [[j+1]+[f"{r['inputs'][j]} → {r['outputs'][j]}" for r in records[:4]] for j in range(16)], [.10,.225,.225,.225,.225])
     fixed = data[7]['inputs']
-    p('E5 and the repeated Real Case 2 benchmark use the fixed input list below. For E6–E9 and every repeated Best Case benchmark, all sixteen inputs are zero and all outputs are 32. Repeated Worst and Real Case 1 benchmarks use the same input lists as E2 and E3.')
+    p('E5 and the repeated Real Case 2 benchmark use the fixed input list below. For E6–E9, and for every repeated Best Case run, the sixteen inputs are zero and the outputs are 32. The repeated Worst and Real Case 1 benchmarks use the same input lists as E2 and E3.')
     table(['Pixel','E5 / benchmark input','Required output'], [[i+1,v,v+32 if v<128 else v-8] for i,v in enumerate(fixed)], [.15,.45,.40])
     h('Sources and measurement basis', 3)
-    p('Course materials: Project 1: CPU Instruction Execution, image brightness processing scenario; and How to Use Project 1 Simulator. The former supplies the brightness rule, test cases and workload assumptions. The latter supplies the observation workflow. Timing behavior was checked against the supplied simulator. E1–E4 are the recorded baseline traces; E5–E9 are captured states of the baseline and modified programs. All supporting values used here are printed in this document.')
+    p('Course materials: the Project 1 scenario, CPU Instruction Execution with image brightness processing, and the guide How to Use Project 1 Simulator. The scenario supplies the brightness rule, the test cases and the workload assumptions; the guide supplies the observation workflow. We checked all timing behavior against the supplied simulator. E1–E4 are the recorded baseline traces, and E5–E9 are captured states of the baseline and the modified programs. Every supporting value used here is printed in this document.')
 
     newpage()
     h('Submission Checklist', 1)
-    p('The template checklist is reproduced below. Student information is intentionally left blank as requested; that item remains incomplete until it is entered.')
+    p('Before submitting, verify you have completed all requirements:')
     checks = [
         ('☐','Student name and ID filled in on title page'),
-        ('☑','All 5 sections completed and filled with content'),
-        ('☑','5–10 simulator experiments with screenshots (nine documented)'),
-        ('☑','Performance data table included'),
-        ('☑','Analysis is 3–5 pages with graphs/charts (four planned pages; three charts)'),
-        ('☑','Trade-off analysis uses data from experiments'),
-        ('☑','Recommendations are realistic and data-supported'),
-        ('☑','All text is clear, professional, and proofread'),
-        ('☑','No placeholder text remains in document; requested identity fields are blank'),
-        ('☑','Document formatted with 12pt font, 1.5 spacing'),
+        ('☐','All 5 sections completed and filled with content'),
+        ('☐','5–10 simulator experiments with screenshots (nine documented)'),
+        ('☐','Performance data table included'),
+        ('☐','Analysis is 3–5 pages with graphs/charts'),
+        ('☐','Trade-off analysis uses data from experiments'),
+        ('☐','Recommendations are realistic and data-supported'),
+        ('☐','All text is clear, professional, and proofread'),
+        ('☐','No placeholder text remains in document'),
+        ('☐','Document formatted with 12pt font, 1.5 spacing'),
     ]
     for mark,text in checks:
         p(mark+' '+text)
-    p('The analysis and recommendations have explicit page breaks for four and two pages respectively. Word may repaginate if printer settings, fonts or page setup are changed.')
 
     # Explicit formatting on every paragraph/run, including inherited cover/rubric cells.
     for container in [doc._element, section.footer._element]:
@@ -538,8 +538,12 @@ def check_document(path, template, experiments):
         texts = xml.xpath('//w:t/text()', namespaces=NS)
         joined = '\n'.join(texts)
         assert not any(x in joined for x in ['[Insert', '_________________________________', 'Good luck on your project!'])
-        for i in [0,1,3,4]:
-            assert final.tables[0].rows[i].cells[1].text == ''
+        cover_cells = [final.tables[0].rows[i].cells[1].text for i in range(5)]
+        assert 'Khin Thant Zin (2512220004)' in cover_cells[0]
+        assert 'Wai Yan Min Thu (2512220006)' in cover_cells[0]
+        assert '2512220004' in cover_cells[1] and '2512220006' in cover_cells[1]
+        assert cover_cells[3] == 'Surekha Lanka'
+        assert cover_cells[4] == ''
         assert [[c.text for c in row.cells] for row in final.tables[1].rows] == [[c.text for c in row.cells] for row in template.tables[1].rows]
         assert len(experiments) == 9
         for r in experiments:
@@ -565,11 +569,11 @@ def check_document(path, template, experiments):
                     assert row['cycles']==summary['offsets'][pgm][c]+47*row['misses']+15*row['wrong']
         report = dict(document=path.name, template_unchanged=True, documented_experiments=9, charts=3,
                       font_pt=12, line_spacing=1.5, template_page_geometry_preserved=True,
-                      student_fields_blank=True, instructor_and_submission_date_blank=True,
+                      student_names_filled=True, student_ids_filled=True, instructor_filled=True, submission_date_blank=True,
                       embedded_images=24, external_relationships=0, instruction_steps=605,
                       benchmark_records=800, analysis_planned_pages=4, recommendations_planned_pages=2,
                       rendered_pagination_checked=False,
-                      pending=['Student name and ID intentionally blank; instructor and date not supplied.',
+                      pending=['Submission date not supplied; left blank.',
                                'Physical page counts require visual confirmation in the destination Word renderer.'])
         (ROOT/'Submission_Compliance_Check.json').write_text(json.dumps(report,indent=2)+'\n')
         print(json.dumps(report,indent=2))
